@@ -1,19 +1,5 @@
 # cultura-y-ocio
 
-## Project setup
+## [En desarrollo]
 ```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+Proyecto que tiene como finalidad encontrar los eventos que hay en Málaga.
