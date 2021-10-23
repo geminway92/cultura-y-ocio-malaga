@@ -1,0 +1,28 @@
+@import '../../node_modules/@fortawesome/fontawesome-free/css/all.css';
+@import url('https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@400;500;600&display=swap');
+
+:root{
+    --colorPrimary: #B128C3;
+    --colorSecundary: #A4A3A1;
+
+}
+
+body{
+    margin: 0;
+    font-family: 'Abhaya Libre', serif;
+}
+
+h1{
+    font-size: 1.3em;
+    font-weight: 500;
+}
+
+span{
+    color: var(--colorPrimary);
+}
+
+a{
+    color: black;
+    text-decoration: none;
+    font-weight: 600;
+}

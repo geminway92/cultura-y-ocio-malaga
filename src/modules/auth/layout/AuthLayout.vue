@@ -1,0 +1,74 @@
+<template>
+  <div class="container-layout">
+    <div class="container-intro">
+      <div class="logo-malaga-event">
+        <h1> <span>Málaga</span> Event</h1>
+      </div>
+      <h1>Bienvenido a <span>Málaga</span> Event</h1>
+      <h2>{{textIntro}}</h2>
+    </div>
+  </div>
+  <router-view @changeTextIntro="changeTextIntro"/>
+</template>
+
+<script>
+export default {
+  name:'authlayout',
+  data(){
+    return{
+      textIntro: ''
+    }
+  },
+
+  methods:{
+    changeTextIntro(text){
+      this.textIntro = text
+    }
+  }
+
+  
+
+}
+</script>
+
+<style scoped> 
+
+h2{
+  font-size: 1em;
+  font-weight: 500;
+  opacity: .4;
+}
+
+.container-layout{
+  height: 220px;
+
+}
+
+.container-intro{
+  background-color: #F2F9F4;
+  width: 85%;
+  height: 200px;
+  margin:  1em auto;
+  padding-top: 1.2em;
+  border-radius: 1em;
+
+}
+
+.logo-malaga-event{
+  background-color: black;
+  width: 70px;
+  height: 70px;
+  border-radius: 100%;
+  margin: auto;
+  display: flex;
+}
+
+.logo-malaga-event h1 {
+  width: min-content;
+  height: min-content;
+  margin: auto;
+  font-size: 1.2em;
+  font-weight: 600;
+  color: #ffffff;
+}
+</style>
