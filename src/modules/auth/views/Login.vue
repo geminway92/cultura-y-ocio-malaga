@@ -29,10 +29,11 @@
 <script>
 export default {
   name: 'login',
-  emits: ['changeTextIntro'],
+  emits: ['changeTextIntro','changeTitleIntro'],
   data(){
     return{
-      textIntro: 'Inicia sesión para ver tus eventos o entra en anónimo si solo deseas ver lo que hay'
+      textIntro: 'Inicia sesión para ver tus eventos o entra en anónimo si solo deseas ver lo que hay',
+      titleIntro: 'Bienvenido a '  
     }
 
   },
@@ -45,6 +46,7 @@ export default {
 
   created(){
     this.$emit('changeTextIntro', this.textIntro)
+    this.$emit('changeTitleIntro', this.titleIntro)
   }
   
 
@@ -68,12 +70,6 @@ input{
   border: none;
   margin: 1.1em auto 2em;
   padding-left: 1.3em;
-}
-
-input:-webkit-autofill,
-input:-webkit-autofill:hover, 
-input:-webkit-autofill:focus {
-  -webkit-box-shadow: 0 0 0px 1000px #F3F3F4 inset;  /*Para cambiar el fondo en chrome cuando tienes autocompletado*/
 }
 
 .container-login{

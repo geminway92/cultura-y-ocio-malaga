@@ -4,11 +4,11 @@
       <div class="logo-malaga-event">
         <h1> <span>Málaga</span> Event</h1>
       </div>
-      <h1>Bienvenido a <span>Málaga</span> Event</h1>
+      <h1>{{titleIntro}}<span>Málaga</span> Event</h1>
       <h2>{{textIntro}}</h2>
     </div>
   </div>
-  <router-view @changeTextIntro="changeTextIntro"/>
+  <router-view @changeTextIntro="changeTextIntro" @changeTitleIntro="changeTitleIntro"/>
 </template>
 
 <script>
@@ -16,13 +16,18 @@ export default {
   name:'authlayout',
   data(){
     return{
-      textIntro: ''
+      textIntro: '',
+      titleIntro: ''
     }
   },
 
   methods:{
     changeTextIntro(text){
       this.textIntro = text
+    },
+    
+    changeTitleIntro(title){
+      this.titleIntro = title
     }
   }
 

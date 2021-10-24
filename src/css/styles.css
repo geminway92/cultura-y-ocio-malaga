@@ -26,3 +26,9 @@ a{
     text-decoration: none;
     font-weight: 600;
 }
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0px 1000px #F3F3F4 inset;  /*Para cambiar el fondo en chrome cuando tienes autocompletado*/
+}
