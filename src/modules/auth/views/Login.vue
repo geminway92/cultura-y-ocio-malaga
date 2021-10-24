@@ -87,8 +87,7 @@ input{
   margin:  auto;
 }
 
-.routerlink-password,
-.routerlink-register {
+.routerlink-password {
   font-size: 1em;
   width: 170px;
   margin: auto;
@@ -128,7 +127,8 @@ input{
 
 .routerlink-register{
   width: 200px;
-  margin-top: 2em;
+  margin: 2em auto;
+  font-size: 1em;
 }
 
 .link{
