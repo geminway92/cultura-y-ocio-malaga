@@ -9,9 +9,11 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.4",
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
+    "axios": "^0.23.0",
     "core-js": "^3.6.5",
     "font-awesome": "^4.7.0",
     "fontawesome-5-icons-list": "^1.0.1",
+    "sweetalert2": "^11.1.9",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0"

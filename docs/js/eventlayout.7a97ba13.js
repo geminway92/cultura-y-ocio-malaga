@@ -1,0 +1,2 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["eventlayout"],{d527:function(n,e,t){"use strict";t.r(e);var o=t("7a23");function a(n,e,t,a,u,c){return Object(o["p"])(),Object(o["d"])("h1",null,"soy el layout")}var u={name:"eventlayout"},c=t("6b0d"),r=t.n(c);const d=r()(u,[["render",a]]);e["default"]=d}}]);
+//# sourceMappingURL=eventlayout.7a97ba13.js.map

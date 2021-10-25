@@ -1,16 +1,31 @@
 <template>
   <div class="register">
     <div class="container-form">
-      <form autocomplete="off">
+      <form @submit.prevent="onSubmit()" autocomplete="off">
         <div class="container-input">
           <h1>Nombre</h1>
-          <input type="text" placeholder="Escribe su nombre">
+          <input 
+            type="text" 
+            placeholder="Escribe su nombre" 
+            v-model.trim="userForm.name"
+            required
+          >
           <h1>E-mail</h1>
-          <input type="email" placeholder="Escribe  su email">
+          <input 
+            type="email" 
+            placeholder="Escribe su email" 
+            v-model.trim="userForm.email" 
+            required
+          >
           <h1>Contraseña</h1>
-          <input type="password" placeholder="Escriba la contraseña">
+          <input 
+            type="password" 
+            placeholder="Escriba la contraseña" 
+            v-model.trim="userForm.password" 
+            required
+          >
         </div>
-        <button class="button-register">Crear Cuenta</button>
+        <button type="submit" class="button-register">Crear Cuenta</button>
       </form>
     </div>
     <h2 class="routerlink-login">¿Tienes cuenta? <router-link class="link" :to="{name: 'login'}"><span>Inicia Sesión</span></router-link></h2>
@@ -18,20 +33,82 @@
 </template>
 
 <script>
+import {mapActions} from 'vuex'
+import Swal from 'sweetalert2'
+
 export default {
   name: 'register',
   emits:['changeTextIntro','changeTitleIntro'],
   data(){
     return{
       textIntro: 'Crea una cuenta con nosotros y disfruta de todos nuestros emocionantes eventos',
-      titleIntro: 'Regístrate en '
+      titleIntro: 'Regístrate en ',
+      userForm: {
+        name: '',
+        email: '',
+        password: '',
+        photo: 'https://res.cloudinary.com/ddn278n2q/image/upload/v1635156375/PhotoByDefault/ecx55iufi8mxk7imvpcd.jpg'
+      }
     }
   },
+
+  methods:{
+    ...mapActions('auth', ['createUser']),
+
+    onSubmit(){
+      this.registerUser(this.userForm)
+
+    },
+
+    async registerUser(user){
+      const resp = await this.createUser(user)
+
+      /*Cambiar el texto de la resp.message */
+      if(resp.message === 'EMAIL_EXISTS'){
+        resp.message = 'La dirección de correo eléctronico ya está en uso'
+
+      } else if(resp.message === 'OPERATION_NOT_ALLOWED'){
+        this.message = 'El inicio de sesión con contraseña está desactivado para este proyecto'
+      
+      } else if(resp.message === 'TOO_MANY_ATTEMPTS_TRY_LATER'){
+        resp.message = 'Hemos bloqueado todas las solicitudes de este dispositivo debido a una actividad inusual. Vuelve a intentarlo más tarde'
+      
+      } else if(resp.message === 'INVALID_EMAIL'){
+        resp.message = 'El correo eléctronico no es correcto'
+      }
+
+      if(resp.ok)Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: 'Registrado correctamente',
+        showConfirmButton: false,
+        timer: 1500
+      })
+      else Swal.fire({
+        icon: 'error',
+        title: resp.message,
+        confirmButtonColor: '#B128C3',
+      })
+
+      this.resetUserForm()
+      this.$router.push({name: 'eventlayout'})
+    },
+
+    resetUserForm(){
+      
+      this.userForm = {
+        name: '',
+        email: '',
+        password: '',
+        photo: 'https://res.cloudinary.com/ddn278n2q/image/upload/v1635156375/PhotoByDefault/ecx55iufi8mxk7imvpcd.jpg'
+      }
+    }
+  },
+
 
   mounted(){
     this.$emit('changeTextIntro', this.textIntro)
     this.$emit('changeTitleIntro', this.titleIntro)
-
   } 
   
 }
@@ -86,14 +163,13 @@ h1{
   height: 35px;
   border-radius: 15px;
   border:none;
-  border-top: 4px solid #821D90;
   margin: 1.3em auto .9em;
   font-size: .9em;
   cursor: pointer;
 }
 
 .button-register:active{
-  border-top: var(--colorPrimary);
+  box-shadow: -3px 4px 3px hsla(0, 0%, 0%, 0.25) inset, 2px -2px 3px rgba(0,0,0, 0.25) inset;
 }
 
 .routerlink-login{

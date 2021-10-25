@@ -1,47 +1,81 @@
 <template>
   <div class="container-login">
     <div class="container-form">
-      <form @submit.prevent="">
+      <form @submit.prevent="loginUser()">
         <div class="container-email">
           <h1>E-mail</h1>
-          <input type="email">
+          <input type="email" placeholder="Escribe su email" v-model="userForm.email">
         </div>
         <div class="container-password">
           <h1>Contraseña</h1>
-          <input type="password">
+          <input type="password" placeholder="Escribe la contraseña" v-model="userForm.password">
         </div>
         <router-link 
           class="routerlink-password" 
           :to="{name: 'forgetpassword'}">
-          
             Olvidé la contraseña
           </router-link>
+        <button class="button-login">Iniciar Sesión</button>
+      </form>
         <button class="button-anonymous">
             <i class="fas fa-mask"></i>
            Anónimo</button>
-        <button class="button-login">Iniciar Sesión</button>
-      </form>
     </div>
     <h2 class="routerlink-register">¿No tienes cuenta? <router-link class="link" :to="{name: 'register'}">Regístrate</router-link></h2>
   </div>
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+import Swal from 'sweetalert2'
+
 export default {
   name: 'login',
   emits: ['changeTextIntro','changeTitleIntro'],
   data(){
     return{
       textIntro: 'Inicia sesión para ver tus eventos o entra en anónimo si solo deseas ver lo que hay',
-      titleIntro: 'Bienvenido a '  
+      titleIntro: 'Bienvenido a ',
+      userForm: {
+        email: '',
+        password: ''
+      }
     }
 
   },
   
   methods:{
-    goRouteLink(route){
-      this.$router.push({name: 'forgetpassword'})
+    ...mapActions('auth',['signInUser']),
+
+    async loginUser(){
+      const resp = await this.signInUser(this.userForm)
+      console.log(resp)
+      
+      if(resp.message === 'INVALID_PASSWORD'){
+        resp.message = 'Contraseña Incorrecta'
+      
+      } else if(resp.message === 'TOO_MANY_ATTEMPTS_TRY_LATER : Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later.'){
+        resp.message = 'El acceso a esta cuenta se ha desactivado temporalmente debido a muchos intentos fallidos de inicio de sesión. Puede restablecerlo inmediatamente restableciendo su contraseña o puede volver a intentarlo más tarde.'
+      
+      }else if(resp.message === 'EMAIL_NOT_FOUND'){
+        resp.message = 'Email no registrado'
+      
+      }else if(resp.message === 'MISSING_PASSWORD'){
+        resp.message = 'Rellene la contraseña'
+      }
+
+      if(!resp.ok)Swal.fire({
+        icon: 'error',
+        title: resp.message,
+        confirmButtonColor: '#B128C3',
+      })
+
+      console.log(resp)
     }
+
+
+
+
   },
 
   created(){
@@ -93,7 +127,6 @@ input{
   margin: auto;
 }
 
-.button-anonymous,
 .button-login {
   background-color: var(--colorPrimary);
   color: #ffffff;
@@ -101,28 +134,31 @@ input{
   height: 35px;
   border-radius: 15px;
   border:none;
-  border-top: 4px solid #821D90;
   margin: 1em auto;
   font-size: .9em;
   cursor: pointer;
 }
 
 .button-anonymous{
+  color: #ffffff;
+  width: 170px;
+  height: 35px;
+  border-radius: 15px;
+  border:none;
+  margin: 1em auto;
+  font-size: .9em;
+  cursor: pointer;
   background: var(--colorSecundary);
-  border-top: 4px solid #71706E;
-
+  box-shadow: 2px 0px 1px #c4c4c4;
 }
 
-.button-anonymous:active{
-  border-top: var(--colorSecundary);
-}
+.button-anonymous:active,
+.button-login:active {
+  box-shadow: -3px 4px 3px hsla(0, 0%, 0%, 0.25) inset, 2px -2px 3px rgba(0,0,0, 0.25) inset;
+} 
 
 .button-anonymous i {
   margin-right: .5em;
-}
-
-.button-login:active{
-  border-top: var(--colorPrimary);
 }
 
 .routerlink-register{

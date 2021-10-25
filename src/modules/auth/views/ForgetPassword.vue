@@ -71,14 +71,13 @@ input{
   height: 35px;
   border-radius: 15px;
   border:none;
-  border-top: 4px solid #821D90;
   margin: 1em auto;
   font-size: .9em;
   cursor: pointer;
 }
 
 .button-forget-password:active{
-  border-top: var(--colorPrimary);
+  box-shadow: -3px 4px 3px hsla(0, 0%, 0%, 0.25) inset, 2px -2px 3px rgba(0,0,0, 0.25) inset;
 }
 
 .routerlink-register{
