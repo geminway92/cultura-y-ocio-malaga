@@ -1,9 +1,13 @@
 <template>
   <div class="container-forget-password">
     <div class="container-form">
-      <form @submit.prevent="" autocomplete="off">
+      <form @submit.prevent="forgetPassword" autocomplete="off">
         <h1 class="title-email">E-mail</h1>
-        <input type="email" placeholder="Escriba su email">
+        <input 
+          type="email" 
+          placeholder="Escriba su email"
+          v-model="email"
+        >
         <button class="button-forget-password">Solicitar Contraseña</button>
       </form>
     </div>
@@ -12,6 +16,9 @@
 </template>
 
 <script>
+import {mapActions} from 'vuex'
+import Swal from 'sweetalert2'
+
 export default {
   name: 'forgetpassword',
   emits: ['changeTextIntro','changeTitleIntro'],
@@ -19,6 +26,49 @@ export default {
     return{
       textIntro: 'No se preocupe, recibirá un correo y podrá restablecer su contraseña',
       titleIntro: 'A un paso de ',
+      email: '',
+    }
+  },
+
+  methods:{
+    ...mapActions('auth',['changePassword']),
+
+    async forgetPassword(){
+      const resp = await this.changePassword(this.email)
+
+      if(resp.message === 'INVALID_EMAIL'){
+        resp.message = 'La dirección de correo electrónico no existe.'
+      
+      }else if(resp.message === 'MISSING_EMAIL'){
+        resp.message = 'No has escrito ningún email'
+      
+      }else if(resp.message === 'EMAIL_NOT_FOUND'){
+        resp.message = 'No hay ningún registro de usuario correspondiente a este identificador. El usuario puede haber sido eliminado.'
+      
+      }else if(resp.message === 'RESET_PASSWORD_EXCEED_LIMIT') {
+        resp.message = 'Se ha excedido las peticiones de resetear contraseña, inténtelo más tarde'
+      } else if(resp.message === 'QUOTA_EXCEEDED : Email quota exceeded'){
+        resp.message = 'Has excedido la cuota de peticiones'
+      }
+
+      if(!resp.ok)Swal.fire({
+        icon: 'error',
+        title: resp.message,
+        confirmButtonColor: '#B128C3',
+        
+      }) 
+      else Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: 'Solicitud enviada',
+        showConfirmButton: false,
+        timer: 1500
+      })
+      
+      if(resp.ok){
+        this.email = ''
+        this.$router.push({name: 'login'})
+      }
     }
   },
 

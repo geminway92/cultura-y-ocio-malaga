@@ -15,9 +15,9 @@
           :to="{name: 'forgetpassword'}">
             Olvidé la contraseña
           </router-link>
-        <button class="button-login">Iniciar Sesión</button>
+        <button class="button-login" type="submit">Iniciar Sesión</button>
       </form>
-        <button class="button-anonymous">
+        <button class="button-anonymous" @click="loginAnonimous">
             <i class="fas fa-mask"></i>
            Anónimo</button>
     </div>
@@ -45,7 +45,7 @@ export default {
   },
   
   methods:{
-    ...mapActions('auth',['signInUser']),
+    ...mapActions('auth',['signInUser','checkAuth','userAnonimous']),
 
     async loginUser(){
       const resp = await this.signInUser(this.userForm)
@@ -69,11 +69,17 @@ export default {
         title: resp.message,
         confirmButtonColor: '#B128C3',
       })
+      else {
+        this.$router.push({name: 'eventlayout'})
+      }
 
-      console.log(resp)
+    },
+
+    async loginAnonimous(){
+      await this.userAnonimous()
+  
+      return this.$router.push({name: 'eventlayout'})
     }
-
-
 
 
   },
