@@ -47,7 +47,7 @@ export default {
         name: '',
         email: '',
         password: '',
-        photo: 'https://res.cloudinary.com/ddn278n2q/image/upload/v1635156375/PhotoByDefault/ecx55iufi8mxk7imvpcd.jpg'
+        photo: 'https://res.cloudinary.com/ddn278n2q/image/upload/v1635241873/PhotoByDefault/ecx55iufi8mxk7imvpcd.jpg'
       }
     }
   },

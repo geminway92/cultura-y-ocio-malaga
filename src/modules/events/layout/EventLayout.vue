@@ -1,13 +1,112 @@
 <template>
-  <h1>soy el layout</h1>
+  <div class="eventlayout">
+
+    <!-- Header -->
+    <div class="container-header">
+      <div class="container-search">
+        <i class="fas fa-search"></i>
+      </div>
+      <img v-if="user.profilePicture" :src="user.profilePicture" alt="">
+      <img v-else src="" alt="">
+      <div class="container-logout">
+        <i class="fas fa-sign-out-alt"></i>
+      </div>
+    </div>
+
+    <!-- Slider -->
+    <div class="container-slider">
+      <CurrentEvent :currentMonth="currentMonth" />
+    </div>
+    
+    <!-- Popular Event -->
+    <PopularEvent />
+    
+    <div class="container-bar">
+      <BarBotton />
+    </div>    
+
+    
+  </div>
 </template>
 
 <script>
+import {mapState} from 'vuex'
+import {defineAsyncComponent} from 'vue'
+
 export default {
-    name: 'eventlayout'
+  name: 'eventlayout',
+  components: {
+    CurrentEvent: defineAsyncComponent( () => import('../components/CurrentEvent.vue')),
+    PopularEvent: defineAsyncComponent( () => import('../components/PopularEvent.vue')),
+    BarBotton: defineAsyncComponent( () => import('../components/BarBotton.vue')),
+
+  },
+
+  data(){
+    return{
+      currentMonth: 'Octubre',
+    }
+  },
+
+  computed:{
+    ...mapState('auth',['user'])
+  }
 }
 </script>
 
-<style>
+<style scoped>
 
+i{
+  font-size: 1.3em;
+}
+
+.eventlayout{
+  width: 100vw;
+  height: 100vh;
+}
+
+.container-header{
+  width: 100vw;
+  display: flex;
+  /* position: fixed; */
+  top: 0;
+  justify-content: space-between;
+  padding: .5em 0;
+  z-index: 3;
+}
+
+.container-header img{
+  width: 40px;
+  border-radius: 100%;
+}
+
+.container-search,
+.container-logout {
+  background-color: #F3F3F4;
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.container-search {
+  margin-left: .5em;
+}
+
+.container-logout {
+  margin-right: .5em;
+}
+
+.container-slider{
+  position: relative;
+  /* top: 3.2em; */
+}
+
+.container-bar{
+  /* position: fixed; */
+  width: 100%;
+  bottom: 0;
+}
 </style>
