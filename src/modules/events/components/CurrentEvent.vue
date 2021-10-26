@@ -88,7 +88,7 @@ export default {
 .container-arrow-slider{
   display: flex;
   gap: 1em;
-  margin-top: .5em;
+  margin: .5em 1em;
 }
 
 .container-arrow--left,
