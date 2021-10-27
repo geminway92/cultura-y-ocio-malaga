@@ -54,17 +54,46 @@ import { mapActions } from 'vuex';
 </template>
 
 <script>
-import {mapState} from 'vuex'
+import {mapActions, mapState} from 'vuex'
+import getDayMonthYear from "../helpers/getMonthYear";
 
 export default {
-    props:{
-        currentMonth:{
-            type: String
-        }
+  data(){
+    return{
+      currentMonth: null,
+    }
+  },
+
+  methods:{
+    ...mapActions('event',['getEvents']),
+
+    CurrentEvents(){
+      this.getEvents()
     },
 
-    computed:{
-    ...mapState('auth',['user'])
+    month(){
+      const {month} = getDayMonthYear(this.currentMonth)
+      this.currentMonth = month
+    },
+    
+    getCurrentMonth(monthNumber){
+      const resp = monthNumber.filter( e => e === this.month.length )
+      console.log('obteniendo mes letra', resp)
+    }
+
+    
+
+    
+
+  },
+
+  computed:{
+  ...mapState('auth',['user'])
+  },
+
+  created(){
+    this.CurrentEvents()
+    this.month()
   }
 
 }

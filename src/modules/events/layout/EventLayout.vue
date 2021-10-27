@@ -15,7 +15,7 @@
 
     <!-- Slider -->
     <div class="container-slider">
-      <CurrentEvent :currentMonth="currentMonth" />
+      <CurrentEvent />
     </div>
     
     <!-- Popular Event -->
@@ -42,19 +42,14 @@ export default {
 
   },
 
-  data(){
-    return{
-      currentMonth: 'Octubre',
-    }
-  },
-
   methods:{
     ...mapActions('auth',['logout']),
 
     onLogout(){
       this.logout()
       this.$router.push({name: 'login'})
-    }
+    },
+
   },
 
   computed:{
