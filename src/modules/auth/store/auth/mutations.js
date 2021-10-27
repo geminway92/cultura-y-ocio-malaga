@@ -15,7 +15,7 @@ export const loginUser = ( state, { user, idToken, refreshToken }) => {
 }
 
 
-export const logout = (state) => {
+export const logoutMutation = (state) => {
     /*No se debe poner el objeto user en null, sino dará problema el profilePicture al no tener ningñun valor */
     state.user = {
         name: '',

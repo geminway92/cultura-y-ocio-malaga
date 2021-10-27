@@ -109,7 +109,7 @@ i{
 }
 
 .container-bar{
-  /* position: fixed; */
+  position: fixed;
   width: 100%;
   bottom: 0;
 }

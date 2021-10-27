@@ -8,5 +8,7 @@ export const getEvents = async ({commit}) => {
     console.log(records)
 
     commit('getAllEvents', records)
+
+    return records
     
 }

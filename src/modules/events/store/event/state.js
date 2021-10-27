@@ -1,4 +1,4 @@
 
 export default () => ({
-    events: null
+    // events: null
 })

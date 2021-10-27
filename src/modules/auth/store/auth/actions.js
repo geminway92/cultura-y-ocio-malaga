@@ -104,5 +104,5 @@ export const userAnonimous = async ({commit}) =>{
 
 export const logout = async ({commit}) => {
 
-    commit('logout')
+    commit('logoutMutation')
 }
