@@ -49,7 +49,6 @@ export default {
 
     async loginUser(){
       const resp = await this.signInUser(this.userForm)
-      console.log(resp)
       
       if(resp.message === 'INVALID_PASSWORD'){
         resp.message = 'Contraseña Incorrecta'

@@ -101,3 +101,8 @@ export const userAnonimous = async ({commit}) =>{
         return {ok: false, message: error.response}        
     }
 }
+
+export const logout = async ({commit}) => {
+
+    commit('logout')
+}

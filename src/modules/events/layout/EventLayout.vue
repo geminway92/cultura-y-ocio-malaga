@@ -9,7 +9,7 @@
       <img v-if="user.profilePicture" :src="user.profilePicture" alt="">
       <img v-else src="" alt="">
       <div class="container-logout">
-        <i class="fas fa-sign-out-alt"></i>
+        <i @click="onLogout" class="fas fa-sign-out-alt"></i>
       </div>
     </div>
 
@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import {mapState} from 'vuex'
+import {mapActions, mapState} from 'vuex'
 import {defineAsyncComponent} from 'vue'
 
 export default {
@@ -45,6 +45,15 @@ export default {
   data(){
     return{
       currentMonth: 'Octubre',
+    }
+  },
+
+  methods:{
+    ...mapActions('auth',['logout']),
+
+    onLogout(){
+      this.logout()
+      this.$router.push({name: 'login'})
     }
   },
 
