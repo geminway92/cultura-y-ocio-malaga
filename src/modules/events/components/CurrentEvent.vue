@@ -84,7 +84,7 @@
                   <div class="container-count-people">
                       <h4>+25</h4>
                   </div>
-                  <button>Ver Evento</button>
+                  <button @click="getEventInterested(item._id)">Ver Evento</button>
               </div>
             </div>
           </div>
@@ -108,6 +108,13 @@ export default {
       currentMonth: null,
       eventsCurrent: '',
       Categoria: null,
+    }
+  },
+  
+  props:{
+    openModalIsTrue:{
+      type: Boolean,
+      default: false
     }
   },
 
@@ -146,7 +153,6 @@ export default {
       } )
 
       this.width = this.width + this.resetWidth
-      console.log(this.width)
       if(this.width < this.resetWidth){
         return this.width = this.resetWidth
       } 
@@ -159,18 +165,25 @@ export default {
         left: this.width - this.resetWidth,
         behavior: 'smooth'
       } )
-      console.log(this.width)
       if(this.width < this.resetWidth){
         return this.width = this.resetWidth
       } 
-    }
+    },
 
+    getEventInterested(payload){
+      const eventId = payload
+      const filterId = this.events.filter(event => event._id === eventId )
+      this.$emit('openModal', filterId)
+
+      console.log('getInterested', filterId)
+    }
 
 
   },
 
   computed:{
     ...mapState('auth',['user']),
+    ...mapState('event',['events'])
   },
 
 

@@ -1,5 +1,7 @@
 <template>
   <div class="eventlayout">
+    <!-- Modal de event -->
+      <EventModal @openModal="openModal"  v-if="openModalIsTrue" :eventForModal="eventForModal"/>
 
     <!-- Header -->
     <div class="container-header">
@@ -15,7 +17,7 @@
 
     <!-- Slider -->
     <div class="container-slider">
-      <CurrentEvent />
+      <CurrentEvent @openModal="openModal"/>
     </div>
     
     <!-- Popular Event -->
@@ -39,7 +41,14 @@ export default {
     CurrentEvent: defineAsyncComponent( () => import('../components/CurrentEvent.vue')),
     PopularEvent: defineAsyncComponent( () => import('../components/PopularEvent.vue')),
     BarBotton: defineAsyncComponent( () => import('../components/BarBotton.vue')),
+    EventModal: defineAsyncComponent( () => import('../components/EventModal.vue')),
+  },
 
+  data(){
+    return{
+      openModalIsTrue: false,
+      eventForModal: null
+    }
   },
 
   methods:{
@@ -49,6 +58,15 @@ export default {
       this.logout()
       this.$router.push({name: 'login'})
     },
+
+    openModal(event){
+      this.openModalIsTrue = !this.openModalIsTrue
+      console.log(this.openModalIsTrue)
+
+      this.eventForModal = event
+      console.log(this.eventForModal)
+
+    }
 
   },
 
