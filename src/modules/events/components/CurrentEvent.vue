@@ -3,10 +3,10 @@
       <div class="container-next-event--header">
         <h1>Próximos Eventos en <span>{{currentMonth}}</span></h1>
         <div class="container-arrow-slider">
-          <div @click="moveSliderLeft()" class="container-arrow--left">
+          <div @click="moveSliderLeft()" class="container-arrow--left" :class="arrowLeftActive ? 'arrow-purple' : 'arrow-grey'">
             <i class="fas fa-arrow-left"></i>
           </div>
-          <div @click="moveSliderRight(n)" class="container-arrow--right">
+          <div @click="moveSliderRight(n)" class="container-arrow--right" :class="arrowRightActive ? 'arrow-purple' : 'arrow-grey'">
             <i class="fas fa-arrow-right"></i>
           </div>
         </div>
@@ -108,6 +108,10 @@ export default {
       currentMonth: null,
       eventsCurrent: '',
       Categoria: null,
+      arrowLeftActive: false,
+      arrowRightActive: true,
+      filterEvents: null,
+      totalClickRight: 0,
     }
   },
   
@@ -138,36 +142,62 @@ export default {
       }
 
       const date = `${year}-${monthNumber}`  /*Crea una constante para mandarla al filter en el formato adecuado  */
-      const filterEvents = events.filter(e => e.F_INICIO.includes(date))  /*Filtra todos los eventos del mes actual */
+      this.filterEvents = events.filter(e => e.F_INICIO.includes(date))  /*Filtra todos los eventos del mes actual */
 
-      this.eventsCurrent = filterEvents  
+      this.eventsCurrent = this.filterEvents  
       console.log(date)
-      console.log('es la respuesta', filterEvents)
+      console.log('es la respuesta', this.filterEvents)
     },
 
     moveSliderRight(){
+      
+      
+      
+      if(this.totalClickRight < this.filterEvents.length -1){ /*-1 porque al empezar en 0 el length no contabiliza bien */
+        this.totalClickRight++
+        this.arrowLeftActive = true
+        console.log(this.totalClickRight)
 
-      this.slider.scrollTo({
-        left: this.width * 1,
-        behavior: 'smooth'
-      } )
+        if(this.totalClickRight === this.filterEvents.length -1){
+          this.arrowRightActive = false
+        }
+        this.slider.scrollTo({
+          left: this.width * 1,
+          behavior: 'smooth'
+        })
 
-      this.width = this.width + this.resetWidth
-      if(this.width < this.resetWidth){
-        return this.width = this.resetWidth
-      } 
+        this.width = this.width + this.resetWidth
+        if(this.width < this.resetWidth){
+          return this.width = this.resetWidth
+        }
+
+      } else return
+      
     },
 
     moveSliderLeft(){
-      this.width = this.width - this.resetWidth  /*Resta para moverse a la izquierda */
+      if(this.totalClickRight > 0 ){
+        this.arrowLeftActive = true
+        this.arrowRightActive = true
+        this.totalClickRight--
+        this.width = this.width - this.resetWidth  /*Resta para moverse a la izquierda */
+        
 
-      this.slider.scrollTo({
-        left: this.width - this.resetWidth,
-        behavior: 'smooth'
-      } )
-      if(this.width < this.resetWidth){
-        return this.width = this.resetWidth
-      } 
+        console.log(this.totalClickRight)
+        if(this.totalClickRight <= 1){
+          this.arrowLeftActive = false
+        }
+
+        this.slider.scrollTo({
+          left: this.width - this.resetWidth,
+          behavior: 'smooth'
+        } )
+        if(this.width < this.resetWidth){
+          return this.width = this.resetWidth
+        } 
+
+      } else return
+      
     },
 
     getEventInterested(payload){
@@ -235,13 +265,13 @@ export default {
   flex-direction: column;
 }
 
-.container-arrow--left{
+.arrow-grey{
   border: 2px solid var(--colorSecundary);
   color: var(--colorSecundary);
   cursor: pointer;
 }
 
-.container-arrow--right{
+.arrow-purple{
   color: var(--colorPrimary);
   border: 2px solid var(--colorPrimary);
   cursor: pointer;

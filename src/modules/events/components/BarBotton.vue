@@ -35,8 +35,9 @@ i{
 .container-bar{
     display: flex;
     height: 70px;
-    margin: auto;
+    /* margin: auto; */
     justify-content: space-between;
+    z-index: 1;
 }
 
 
