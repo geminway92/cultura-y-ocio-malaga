@@ -127,7 +127,7 @@ export default {
      getCurrentMonth(events){
       let {monthNumber, year} = getDayMonthYear() /*Extrae el año y número de mes actual */
       if(monthNumber < 10 ){
-        monthNumber = `05`   /*`0${month}`  colocar eso cuando acabe las pruebas*/
+        monthNumber = `01`   /*`0${month}`  colocar eso cuando acabe las pruebas*/
       }
 
       const date = `${year}-${monthNumber}`  /*Crea una constante para mandarla al filter en el formato adecuado  */
@@ -153,11 +153,12 @@ export default {
     },
 
     moveSliderLeft(){
+      this.width = this.width - this.resetWidth  /*Resta para moverse a la izquierda */
+
       this.slider.scrollTo({
-        left: -this.width * 1,
+        left: this.width - this.resetWidth,
         behavior: 'smooth'
       } )
-      this.width = this.width - this.width
       console.log(this.width)
       if(this.width < this.resetWidth){
         return this.width = this.resetWidth

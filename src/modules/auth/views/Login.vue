@@ -57,7 +57,7 @@ export default {
         resp.message = 'El acceso a esta cuenta se ha desactivado temporalmente debido a muchos intentos fallidos de inicio de sesión. Puede restablecerlo inmediatamente restableciendo su contraseña o puede volver a intentarlo más tarde.'
       
       }else if(resp.message === 'EMAIL_NOT_FOUND'){
-        resp.message = 'Email no registrado'
+        resp.message = ''
       
       }else if(resp.message === 'MISSING_PASSWORD'){
         resp.message = 'Rellene la contraseña'
