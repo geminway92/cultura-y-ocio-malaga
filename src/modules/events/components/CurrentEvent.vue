@@ -14,11 +14,71 @@
       <div class="container-slider"  ref="slider">
           <div v-for="item in eventsCurrent" :key="item"  class="container-card slide">
             <div class="container-img">
-              <img src="../../../assets/images/1.jpg" alt="">
+              <img 
+                v-if="item.CATEGORIA == 'Música'" 
+                src="../../../assets/images/categoria-music.jpg" 
+                alt="música">
+              
+              <img 
+                v-else-if="item.CATEGORIA == 'Congresos, conferencias y festivales'" 
+                src="../../../assets/images/categoria-congresos.jpg" 
+                alt="congresos"
+                class="img-categorias">
+              
+              <img 
+                v-else-if="item.CATEGORIA == 'Cursos y talleres'" 
+                src="../../../assets/images/categoria-cursos.jpg" 
+                alt="img-categorias"
+                class="img-categorias">
+              
+              <img 
+                v-else-if="item.CATEGORIA == 'Premios y concursos'" 
+                src="../../../assets/images/categoria-premios.jpg" 
+                alt="img-categorias"
+                class="img-categorias">
+
+              <img 
+                v-else-if="item.CATEGORIA == 'Espectaculos'" 
+                src="../../../assets/images/categoria-espectaculos.jpg" 
+                alt="img-categorias"
+                class="img-categorias">
+              
+              <img 
+                v-else-if="item.CATEGORIA == 'Deportes'" 
+                src="../../../assets/images/categoria-deportes.jpg" 
+                alt="img-categorias"
+                class="img-categorias">
+              <img 
+                v-else-if="item.CATEGORIA == 'Otros eventos'" 
+                src="../../../assets/images/categoria-otros-eventos.jpg" 
+                alt="img-categorias"
+                class="img-categorias">
+              
+              <img 
+                v-else-if="item.CATEGORIA == 'Colectivo'" 
+                src="../../../assets/images/categoria-colectivo.jpg" 
+                alt="img-categorias"
+                class="img-categorias">
+
+              <img 
+                v-else-if="item.CATEGORIA == 'Ferias, Exposiciones y Museos'" 
+                src="../../../assets/images/categoria-congresos.jpg" 
+                alt="img-categorias"
+                class="img-categorias">
+
+              <img 
+                v-else-if="item.CATEGORIA == 'TemasWeb' ||'Hechos de vida'" 
+                src="../../../assets/images/categoria-temaweb.jpg" 
+                alt="img-categorias"
+                class="img-categorias">
+
+              <img v-else src="../../../assets/images/categoria-sin-nombre.png" alt="">
             </div>
             <div class="container-flex">
-              <h5 class="subtitle-date">{{item.F_INICIO}}</h5>
-              <h2>{{item.NOMBRE}}</h2>
+              <div class="container-h">
+                <h5 class="subtitle-date">{{item.F_INICIO}}</h5>
+                <h2>{{item.NOMBRE.toUpperCase()}}</h2>
+              </div>
               <div class="container-total-people">
                   <img :src="user.profilePicture" alt="">
                   <div class="container-count-people">
@@ -46,7 +106,8 @@ export default {
       width: null,
       resetWidth: null,
       currentMonth: null,
-      eventsCurrent: ''
+      eventsCurrent: '',
+      Categoria: null,
     }
   },
 
@@ -197,14 +258,15 @@ export default {
 .container-img img {
   border-radius: 15px;
   width: 110px;
+  height: 130px;
 }
 
 
 .container-card h2 {
-  font-size: 1em;
-  margin: 0;
-  margin-left: .5em;
+  width: 200px;
+  font-size: .9em;
   text-align: start;
+  margin-left: .5em;
 }
 
 .container-flex{
@@ -213,6 +275,8 @@ export default {
   width: 400px;
   background-color: #ffe60015;
   text-align: start;
+  justify-content: space-between;
+  
 }
 
 .subtitle-date{
@@ -231,13 +295,13 @@ export default {
 .container-total-people{
   display: flex;
   width: min-content;
-  margin-top: .8em;
+  margin-bottom: .5em;
 }
 
 .container-total-people img{
   width: 30px;
-    height: 30px;
-    border-radius: 100%;
+  height: 30px;
+  border-radius: 100%;
 }
 
 
@@ -276,5 +340,10 @@ export default {
   width: 100%;
   width: 400px;
   background-color: #ffe60015;
+}
+
+.img-categorias{
+  height: 120px;
+  object-fit: cover;
 }
 </style>
