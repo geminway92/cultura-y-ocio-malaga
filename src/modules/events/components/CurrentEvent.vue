@@ -1,35 +1,38 @@
 <template>
   <div class="container-next-event">
       <div class="container-next-event--header">
-      <h1>Próximos Eventos en <span>{{currentMonth}}</span></h1>
-      <div class="container-arrow-slider">
-        <div @click="moveSliderLeft()" class="container-arrow--left">
-          <i class="fas fa-arrow-left"></i>
+        <h1>Próximos Eventos en <span>{{currentMonth}}</span></h1>
+        <div class="container-arrow-slider">
+          <div @click="moveSliderLeft()" class="container-arrow--left">
+            <i class="fas fa-arrow-left"></i>
+          </div>
+          <div @click="moveSliderRight(n)" class="container-arrow--right">
+            <i class="fas fa-arrow-right"></i>
+          </div>
         </div>
-        <div @click="moveSliderRight(n)" class="container-arrow--right">
-          <i class="fas fa-arrow-right"></i>
-        </div>
-      </div>
       </div>
       <div class="container-slider"  ref="slider">
-        <div v-for="item in eventsCurrent" :key="item"  class="container-card slide">
-          <div class="container-img">
-            <img src="../../../assets/images/1.jpg" alt="">
-          </div>
-          <div class="container-flex">
-            <h5 class="subtitle-date">{{item.F_INICIO}}</h5>
-            <h2>{{item.NOMBRE}}</h2>
-            <div class="container-total-people">
-                <img :src="user.profilePicture" alt="">
-                <div class="container-count-people">
-                    <h4>+25</h4>
-                </div>
-                <button>Ver Evento</button>
+          <div v-for="item in eventsCurrent" :key="item"  class="container-card slide">
+            <div class="container-img">
+              <img src="../../../assets/images/1.jpg" alt="">
+            </div>
+            <div class="container-flex">
+              <h5 class="subtitle-date">{{item.F_INICIO}}</h5>
+              <h2>{{item.NOMBRE}}</h2>
+              <div class="container-total-people">
+                  <img :src="user.profilePicture" alt="">
+                  <div class="container-count-people">
+                      <h4>+25</h4>
+                  </div>
+                  <button>Ver Evento</button>
+              </div>
             </div>
           </div>
+        <div v-if="eventsCurrent.length <= 0"  class="container-no-events">
+          <h1>No hay eventos</h1>
         </div>
-      </div>
     </div>
+  </div>
 </template>
 
 <script>
@@ -180,7 +183,6 @@ export default {
 
 .container-card {
   display: flex;
-  background-color: red;
   width: 250px;
   height: min-content;
   gap: .2em;
@@ -264,5 +266,15 @@ export default {
     font-weight: lighter;
     margin: auto;
     padding: .5em;
+}
+
+.container-no-events{
+  font-size: 1em;
+  margin: 0;
+  margin-left: .5em;
+  text-align: center;
+  width: 100%;
+  width: 400px;
+  background-color: #ffe60015;
 }
 </style>
