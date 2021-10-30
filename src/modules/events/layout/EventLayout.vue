@@ -21,9 +21,7 @@
     </div>
     
     <!-- Popular Event -->
-    <div class="container-slider-2">
-      <PopularEvent />
-    </div>
+    <PopularEvent />
     
     <div class="container-bar">
       <BarBotton />
@@ -87,9 +85,6 @@ i{
 .eventlayout{
   width: 100vw;
   height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
 }
 
 .container-header{
@@ -128,12 +123,12 @@ i{
 
 .container-slider{
   position: relative;
-  bottom: 1em;
+  /* top: 3.2em; */
 }
 
 .container-bar{
-  /* position: sticky; */
+  position: fixed;
   width: 100%;
-  height: min-content;
+  bottom: 0;
 }
 </style>
