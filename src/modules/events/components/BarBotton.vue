@@ -1,7 +1,7 @@
 <template>
   <div class="bar-botton">
       <div class="container-bar">
-        <button>Descubra</button>
+        <button @click="this.$emit('openModalCreateEvent')">Crear evento</button>
         <i class="far fa-calendar-alt"></i>
         <i class="fas fa-bell"></i>
         <i class="fas fa-user"></i>
@@ -11,6 +11,12 @@
 
 <script>
 export default {
+  props:{
+    showCreateModal:{
+      type: Boolean,
+      default: false
+    }
+  }
 
 }
 </script>
@@ -35,8 +41,9 @@ i{
 .container-bar{
     display: flex;
     height: 70px;
-    margin: auto;
+    /* margin: auto; */
     justify-content: space-between;
+    z-index: 1;
 }
 
 

@@ -2,6 +2,14 @@
   <div class="eventlayout">
     <!-- Modal de event -->
       <EventModal @openModal="openModal"  v-if="openModalIsTrue" :eventForModal="eventForModal"/>
+    
+    <!-- Modal Create event -->
+      <CreateEventModal 
+        v-if="showCreateModal" 
+        @openModalCreateEvent="openModalCreateEvent" 
+        :showCreateModal="showCreateModal"
+        @createNewEvent="createNewEvent"
+      />
 
     <!-- Header -->
     <div class="container-header">
@@ -17,14 +25,20 @@
 
     <!-- Slider -->
     <div class="container-slider">
-      <CurrentEvent @openModal="openModal"/>
+      <CurrentEvent 
+        @openModal="openModal"/>
     </div>
     
     <!-- Popular Event -->
-    <PopularEvent />
+    <div class="container-slider-2">
+      <PopularEvent />
+    </div>
     
     <div class="container-bar">
-      <BarBotton />
+      <BarBotton 
+        @openModalCreateEvent="openModalCreateEvent" 
+        :showCreateModal="showCreateModal"
+      />
     </div>    
 
     
@@ -34,6 +48,7 @@
 <script>
 import {mapActions, mapState} from 'vuex'
 import {defineAsyncComponent} from 'vue'
+import Swal from 'sweetalert2'
 
 export default {
   name: 'eventlayout',
@@ -42,17 +57,21 @@ export default {
     PopularEvent: defineAsyncComponent( () => import('../components/PopularEvent.vue')),
     BarBotton: defineAsyncComponent( () => import('../components/BarBotton.vue')),
     EventModal: defineAsyncComponent( () => import('../components/EventModal.vue')),
+    CreateEventModal: defineAsyncComponent( () => import('../components/CreateEventModal.vue'))
   },
 
   data(){
     return{
       openModalIsTrue: false,
-      eventForModal: null
+      eventForModal: null,
+      showCreateModal: false,
+      newEvent: '',
     }
   },
 
   methods:{
     ...mapActions('auth',['logout']),
+    ...mapActions('event',['loadEvent']),
 
     onLogout(){
       this.logout()
@@ -66,13 +85,40 @@ export default {
       this.eventForModal = event
       console.log(this.eventForModal)
 
-    }
+    },
 
+    openModalCreateEvent(){
+      this.showCreateModal = !this.showCreateModal
+      console.log(this.showCreateModal)
+    },
+
+    async createNewEvent(events){
+      this.newEvent = events
+      const {ok, message} = await this.$store.dispatch('event/createEvent', this.newEvent)
+
+      if(ok )Swal.fire({
+        icon: 'success',
+        title: message,
+        confirmButtonColor: '#B128C3',
+      })
+      else Swal.fire({
+        icon: 'error',
+        title: message,
+        confirmButtonColor: '#B128C3',
+      })
+    },
+
+
+
+  },
+  created(){
+    this.loadEvent()
   },
 
   computed:{
     ...mapState('auth',['user'])
   }
+
 }
 </script>
 
@@ -85,6 +131,9 @@ i{
 .eventlayout{
   width: 100vw;
   height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .container-header{
@@ -123,12 +172,12 @@ i{
 
 .container-slider{
   position: relative;
-  /* top: 3.2em; */
+  bottom: 1em;
 }
 
 .container-bar{
-  position: fixed;
+  /* position: sticky; */
   width: 100%;
-  bottom: 0;
+  height: min-content;
 }
 </style>

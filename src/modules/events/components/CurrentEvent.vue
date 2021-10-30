@@ -3,94 +3,36 @@
       <div class="container-next-event--header">
         <h1>Próximos Eventos en <span>{{currentMonth}}</span></h1>
         <div class="container-arrow-slider">
-          <div @click="moveSliderLeft()" class="container-arrow--left">
+          <div @click="moveSliderLeft()" class="container-arrow--left" :class="arrowLeftActive ? 'arrow-purple' : 'arrow-grey'">
             <i class="fas fa-arrow-left"></i>
           </div>
-          <div @click="moveSliderRight(n)" class="container-arrow--right">
+          <div @click="moveSliderRight()" class="container-arrow--right" :class="arrowRightActive ? 'arrow-purple' : 'arrow-grey'">
             <i class="fas fa-arrow-right"></i>
           </div>
         </div>
       </div>
       <div class="container-slider"  ref="slider">
-          <div v-for="item in eventsCurrent" :key="item"  class="container-card slide">
+          <div  class="container-card slide">
             <div class="container-img">
-              <img 
-                v-if="item.CATEGORIA == 'Música'" 
-                src="../../../assets/images/categoria-music.jpg" 
-                alt="música">
-              
-              <img 
-                v-else-if="item.CATEGORIA == 'Congresos, conferencias y festivales'" 
-                src="../../../assets/images/categoria-congresos.jpg" 
-                alt="congresos"
-                class="img-categorias">
-              
-              <img 
-                v-else-if="item.CATEGORIA == 'Cursos y talleres'" 
-                src="../../../assets/images/categoria-cursos.jpg" 
-                alt="img-categorias"
-                class="img-categorias">
-              
-              <img 
-                v-else-if="item.CATEGORIA == 'Premios y concursos'" 
-                src="../../../assets/images/categoria-premios.jpg" 
-                alt="img-categorias"
-                class="img-categorias">
-
-              <img 
-                v-else-if="item.CATEGORIA == 'Espectaculos'" 
-                src="../../../assets/images/categoria-espectaculos.jpg" 
-                alt="img-categorias"
-                class="img-categorias">
-              
-              <img 
-                v-else-if="item.CATEGORIA == 'Deportes'" 
-                src="../../../assets/images/categoria-deportes.jpg" 
-                alt="img-categorias"
-                class="img-categorias">
-              <img 
-                v-else-if="item.CATEGORIA == 'Otros eventos'" 
-                src="../../../assets/images/categoria-otros-eventos.jpg" 
-                alt="img-categorias"
-                class="img-categorias">
-              
-              <img 
-                v-else-if="item.CATEGORIA == 'Colectivo'" 
-                src="../../../assets/images/categoria-colectivo.jpg" 
-                alt="img-categorias"
-                class="img-categorias">
-
-              <img 
-                v-else-if="item.CATEGORIA == 'Ferias, Exposiciones y Museos'" 
-                src="../../../assets/images/categoria-congresos.jpg" 
-                alt="img-categorias"
-                class="img-categorias">
-
-              <img 
-                v-else-if="item.CATEGORIA == 'TemasWeb' ||'Hechos de vida'" 
-                src="../../../assets/images/categoria-temaweb.jpg" 
-                alt="img-categorias"
-                class="img-categorias">
-
-              <img v-else src="../../../assets/images/categoria-sin-nombre.png" alt="">
+              <img src="../../../assets/images/categoria-sin-nombre.png" alt="">
             </div>
             <div class="container-flex">
               <div class="container-h">
-                <h5 class="subtitle-date">{{item.F_INICIO}}</h5>
-                <h2>{{item.NOMBRE.toUpperCase()}}</h2>
+                <h5 class="subtitle-date">Fecha</h5>
+                <h2>nombre</h2>
               </div>
               <div class="container-total-people">
                   <img :src="user.profilePicture" alt="">
                   <div class="container-count-people">
                       <h4>+25</h4>
                   </div>
-                  <button @click="getEventInterested(item._id)">Ver Evento</button>
+                  <button @click="getEventInterested()">Ver Evento</button>
               </div>
             </div>
           </div>
-        <div v-if="eventsCurrent.length <= 0"  class="container-no-events">
+        <!-- <div v-if="this.events.length <= 0"  class="container-no-events">
           <h1>No hay eventos</h1>
-        </div>
+        </div> -->
     </div>
   </div>
 </template>
@@ -108,6 +50,10 @@ export default {
       currentMonth: null,
       eventsCurrent: '',
       Categoria: null,
+      arrowLeftActive: false,
+      arrowRightActive: true,
+      filterEvents: null,
+      totalClickRight: 0,
     }
   },
   
@@ -119,55 +65,66 @@ export default {
   },
 
   methods:{
-    ...mapActions('event',['getEvents']),
+    ...mapActions('event',['createEvent']),
 
-    async getEventInApi(){
-      const resp = await this.getEvents()
-      this.getCurrentMonth(resp)
-    },
 
     month(){
       const {month} = getDayMonthYear(this.currentMonth)
       this.currentMonth = month
     },
-    
-     getCurrentMonth(events){
-      let {monthNumber, year} = getDayMonthYear() /*Extrae el año y número de mes actual */
-      if(monthNumber < 10 ){
-        monthNumber = `01`   /*`0${month}`  colocar eso cuando acabe las pruebas*/
-      }
 
-      const date = `${year}-${monthNumber}`  /*Crea una constante para mandarla al filter en el formato adecuado  */
-      const filterEvents = events.filter(e => e.F_INICIO.includes(date))  /*Filtra todos los eventos del mes actual */
+    filterMonth(events){
+      console.log(events)
 
-      this.eventsCurrent = filterEvents  
-      console.log(date)
-      console.log('es la respuesta', filterEvents)
     },
 
-    moveSliderRight(){
+    // moveSliderRight(){
+      
+    //   if(this.totalClickRight < this.events.length -1){ /*-1 porque al empezar en 0 el length no contabiliza bien */
+    //     this.totalClickRight++
+    //     this.arrowLeftActive = true
+    //     console.log(this.totalClickRight)
 
-      this.slider.scrollTo({
-        left: this.width * 1,
-        behavior: 'smooth'
-      } )
+    //     if(this.totalClickRight === this.events.length -1){
+    //       this.arrowRightActive = false
+    //     }
+    //     this.slider.scrollTo({
+    //       left: this.width * 1,
+    //       behavior: 'smooth'
+    //     })
 
-      this.width = this.width + this.resetWidth
-      if(this.width < this.resetWidth){
-        return this.width = this.resetWidth
-      } 
-    },
+    //     this.width = this.width + this.resetWidth
+    //     if(this.width < this.resetWidth){
+    //       return this.width = this.resetWidth
+    //     }
+
+    //   } else return
+      
+    // },
 
     moveSliderLeft(){
-      this.width = this.width - this.resetWidth  /*Resta para moverse a la izquierda */
+      if(this.totalClickRight > 0 ){
+        this.arrowLeftActive = true
+        this.arrowRightActive = true
+        this.totalClickRight--
+        this.width = this.width - this.resetWidth  /*Resta para moverse a la izquierda */
+        
 
-      this.slider.scrollTo({
-        left: this.width - this.resetWidth,
-        behavior: 'smooth'
-      } )
-      if(this.width < this.resetWidth){
-        return this.width = this.resetWidth
-      } 
+        console.log(this.totalClickRight)
+        if(this.totalClickRight <= 1){
+          this.arrowLeftActive = false
+        }
+
+        this.slider.scrollTo({
+          left: this.width - this.resetWidth,
+          behavior: 'smooth'
+        } )
+        if(this.width < this.resetWidth){
+          return this.width = this.resetWidth
+        } 
+
+      } else return
+      
     },
 
     getEventInterested(payload){
@@ -188,7 +145,6 @@ export default {
 
 
   created(){
-    this.getEventInApi()
     this.month()
   },
   
@@ -235,13 +191,13 @@ export default {
   flex-direction: column;
 }
 
-.container-arrow--left{
+.arrow-grey{
   border: 2px solid var(--colorSecundary);
   color: var(--colorSecundary);
   cursor: pointer;
 }
 
-.container-arrow--right{
+.arrow-purple{
   color: var(--colorPrimary);
   border: 2px solid var(--colorPrimary);
   cursor: pointer;
