@@ -27,13 +27,11 @@ export default {
         openModalIsTrue:{
             type: Boolean,
             default: false
-        }
-    },
-    props:{
-        eventForModal:{
+        },
+        getEventInterested:{
             type: Object
         }
-    }
+    },
     
 
 }

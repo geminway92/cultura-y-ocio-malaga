@@ -26,7 +26,9 @@
     <!-- Slider -->
     <div class="container-slider">
       <CurrentEvent 
-        @openModal="openModal"/>
+        @openModal="openModal"
+        :filterMonthEvent="filterMonthEvent"
+        :monthLetter="monthLetter"/>
     </div>
     
     <!-- Popular Event -->
@@ -48,6 +50,7 @@
 <script>
 import {mapActions, mapState} from 'vuex'
 import {defineAsyncComponent} from 'vue'
+import getDayMonthYear from "../helpers/getMonthYear";
 import Swal from 'sweetalert2'
 
 export default {
@@ -66,12 +69,15 @@ export default {
       eventForModal: null,
       showCreateModal: false,
       newEvent: '',
+      filterMonthEvent: '',
+      currentMonth: null,
+      monthLetter: null
     }
   },
 
   methods:{
     ...mapActions('auth',['logout']),
-    ...mapActions('event',['loadEvent']),
+    ...mapActions('event',['loadEventAction']),
 
     onLogout(){
       this.logout()
@@ -108,15 +114,41 @@ export default {
       })
     },
 
+     month(){
+      const {monthCurrent, year, month} = getDayMonthYear()
+      this.monthLetter = month
+      
+      this.currentMonth = `${year}-${monthCurrent}`
+      console.log(this.currentMonth)
+    },
+
+    async loadEvents(){
+      const resp = await this.loadEventAction()
+  
+      const eventArray = Object.values(resp) /*Los paso a array para eliminar el idToken que crea firebase */
+
+      const newObject = Object.assign(eventArray) /*Paso a objeto de nuevo */
+    
+
+      console.log('ha llegado de la accion', newObject)
+
+      this.filterMonthEvent = newObject.filter(e => e.date.includes(this.currentMonth))
+
+      console.log(this.filterMonthEvent, 'filtermonth')
+
+    },
+
 
 
   },
-  created(){
-    this.loadEvent()
+  created(){    
+    this.loadEvents()
+    this.month()
   },
 
   computed:{
-    ...mapState('auth',['user'])
+    ...mapState('auth',['user']),
+
   }
 
 }

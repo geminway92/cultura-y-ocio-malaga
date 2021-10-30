@@ -1,7 +1,7 @@
 <template>
   <div class="container-next-event">
       <div class="container-next-event--header">
-        <h1>Próximos Eventos en <span>{{currentMonth}}</span></h1>
+        <h1>Próximos Eventos en <span>{{monthLetter}}</span></h1>
         <div class="container-arrow-slider">
           <div @click="moveSliderLeft()" class="container-arrow--left" :class="arrowLeftActive ? 'arrow-purple' : 'arrow-grey'">
             <i class="fas fa-arrow-left"></i>
@@ -12,14 +12,14 @@
         </div>
       </div>
       <div class="container-slider"  ref="slider">
-          <div  class="container-card slide">
+          <div v-for="event in filterMonthEvent" :key="event" class="container-card slide">
             <div class="container-img">
               <img src="../../../assets/images/categoria-sin-nombre.png" alt="">
             </div>
             <div class="container-flex">
               <div class="container-h">
-                <h5 class="subtitle-date">Fecha</h5>
-                <h2>nombre</h2>
+                <h5 class="subtitle-date">{{event.date}}</h5>
+                <h2>{{event.name}}</h2>
               </div>
               <div class="container-total-people">
                   <img :src="user.profilePicture" alt="">
@@ -38,8 +38,7 @@
 </template>
 
 <script>
-import {mapActions, mapState} from 'vuex'
-import getDayMonthYear from "../helpers/getMonthYear";
+import { mapState} from 'vuex'
 
 export default {
   data(){
@@ -47,7 +46,6 @@ export default {
       slider: null,
       width: null,
       resetWidth: null,
-      currentMonth: null,
       eventsCurrent: '',
       Categoria: null,
       arrowLeftActive: false,
@@ -61,46 +59,44 @@ export default {
     openModalIsTrue:{
       type: Boolean,
       default: false
+    },
+    filterMonthEvent:{
+      type: Array
+
+    },
+
+    monthLetter:{
+      type: String
     }
   },
 
   methods:{
-    ...mapActions('event',['createEvent']),
 
+    
 
-    month(){
-      const {month} = getDayMonthYear(this.currentMonth)
-      this.currentMonth = month
-    },
-
-    filterMonth(events){
-      console.log(events)
-
-    },
-
-    // moveSliderRight(){
+    moveSliderRight(){
       
-    //   if(this.totalClickRight < this.events.length -1){ /*-1 porque al empezar en 0 el length no contabiliza bien */
-    //     this.totalClickRight++
-    //     this.arrowLeftActive = true
-    //     console.log(this.totalClickRight)
+      if(this.totalClickRight < this.filterMonthEvent.length -1){ /*-1 porque al empezar en 0 el length no contabiliza bien */
+        this.totalClickRight++
+        this.arrowLeftActive = true
+        console.log(this.totalClickRight)
 
-    //     if(this.totalClickRight === this.events.length -1){
-    //       this.arrowRightActive = false
-    //     }
-    //     this.slider.scrollTo({
-    //       left: this.width * 1,
-    //       behavior: 'smooth'
-    //     })
+        if(this.totalClickRight === this.filterMonthEvent.length -1){
+          this.arrowRightActive = false
+        }
+        this.slider.scrollTo({
+          left: this.width * 1,
+          behavior: 'smooth'
+        })
 
-    //     this.width = this.width + this.resetWidth
-    //     if(this.width < this.resetWidth){
-    //       return this.width = this.resetWidth
-    //     }
+        this.width = this.width + this.resetWidth
+        if(this.width < this.resetWidth){
+          return this.width = this.resetWidth
+        }
 
-    //   } else return
+      } else return
       
-    // },
+    },
 
     moveSliderLeft(){
       if(this.totalClickRight > 0 ){
@@ -127,15 +123,6 @@ export default {
       
     },
 
-    getEventInterested(payload){
-      const eventId = payload
-      const filterId = this.events.filter(event => event._id === eventId )
-      this.$emit('openModal', filterId)
-
-      console.log('getInterested', filterId)
-    }
-
-
   },
 
   computed:{
@@ -143,10 +130,6 @@ export default {
     ...mapState('event',['events'])
   },
 
-
-  created(){
-    this.month()
-  },
   
   mounted(){
     this.slider = this.$refs.slider

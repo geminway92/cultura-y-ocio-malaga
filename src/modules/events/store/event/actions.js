@@ -19,11 +19,13 @@ export const createEvent = async ({commit}, events) => {
     
 }
 
-export const loadEvent = async ({commit}) => {
+export const loadEventAction = async ({commit}) => {
     try{
         const {data} = await eventApi.get('/events.json')
-        console.log(data)
+
         commit('loadEventMutation', data)
+
+        return data
 
     }catch{
         console.log(error.message)
