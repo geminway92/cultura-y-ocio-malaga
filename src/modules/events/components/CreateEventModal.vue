@@ -1,26 +1,31 @@
 <template>
     <div @click.self="this.$emit('openModalCreateEvent')" class="container-modal">
         <div class="modal">
-            <h1>Nombre</h1>
             <form class="form" @submit.prevent="onSubmit(this.newEvent)">
+                <h1>Crear evento</h1>
                 <input 
                     type="text" 
-                    placeholder="Feria de málaga"
-                    v-model="this.newEvent.name">
+                    placeholder="Nombre del evento"
+                    v-model="this.newEvent.name"
+                >
                 
-                <h1>Horario</h1>
                 <input 
                     type="text" 
-                    placeholder="Todo el día"
-                    v-model="this.newEvent.schedule">
+                    placeholder="Horario"
+                    v-model="this.newEvent.schedule"
+                >
                 
-                <h1>Fecha</h1>
                 <input 
                     type="date" 
                     min="2021"
-                    v-model="this.newEvent.date">
+                    v-model="this.newEvent.date"
+                >
                 
-                <h1>Descripción</h1>
+                <input 
+                    type="file"
+                    @change="onSelectedImage" 
+                >
+
                 <textarea 
                     cols="30" 
                     rows="10" 
@@ -35,6 +40,8 @@
 </template>
 
 <script>
+import uploadImage from '../helpers/updatePhoto'
+
 export default {
     data(){
         return{
@@ -44,6 +51,8 @@ export default {
                 schedule: '',
                 date: '',
                 description: '', 
+                id: '',
+                photo: '',
             }
         }
     },
@@ -56,7 +65,13 @@ export default {
   },
 
   methods:{
-    onSubmit(){
+     async onSubmit(){
+        const date = new Date()   /*Fecha actual */
+        const id = date.getTime() /*se usa para crear una id única */
+
+        this.newEvent.id = id
+        this.newEvent.photo = this.file /*Pasamos el valor de la url */
+
         this.$emit('createNewEvent',this.newEvent) /*Envia los datos del form a otro método  que dispara la acción */
         this.$emit('openModalCreateEvent')   /*Cierra modal */
         
@@ -67,8 +82,27 @@ export default {
                 schedule: '',
                 date: '',
                 description: '', 
+                id: '',
+                photo: '',
             }
-    }
+    },
+
+    async onSelectedImage( event ) {
+      const file = event.target.files[0]    /*Localiza la foto selecionada */
+      if( !file ) {
+        this.file = null
+        return
+      } 
+
+      this.file = file          /*Cambiamos el valor de file de la data con la foto selecionada */
+
+      const picture = await uploadImage(this.file)  /*Petición para subir el archivo a cloudinary */
+
+        this.file = picture  /*Cambiamos el valor de file por el url que nos ha devuelto en el paso anterior */
+
+    },
+
+
   }
   
   
@@ -93,6 +127,11 @@ textarea{
     border-radius: 15px;
     border: none;
     background-color: rgba(161, 153, 153, 0.178);
+}
+
+textarea:focus{
+    outline: none;
+    border-bottom: 2px solid var(--colorPrimary);
 }
 
 button{
@@ -146,10 +185,16 @@ button{
 .form input{
     width: 70%;
     margin: auto;
-    border-radius: 15px;
+    margin-bottom: 1.5em;
+    /* border-radius: 15px; */
     border: none;
-    background-color: rgba(161, 153, 153, 0.178);
+    border-bottom: 2px solid rgba(161, 153, 153, 0.178);
     padding: .5em 1em;
+}
+
+.form input:focus{
+    outline: none;
+    border-bottom: 2px solid var(--colorPrimary);
 }
 
 </style>

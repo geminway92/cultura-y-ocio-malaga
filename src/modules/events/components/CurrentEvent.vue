@@ -11,15 +11,17 @@
           </div>
         </div>
       </div>
-      <div class="container-slider"  ref="slider">
-          <div v-for="event in filterMonthEvent" :key="event" class="container-card slide">
+      <div v-if="this.updateEvent" class="container-slider"  ref="slider">
+          <div v-for="event in updateEvent" :key="event" class="container-card slide">
             <div class="container-img">
-              <img src="../../../assets/images/categoria-sin-nombre.png" alt="">
+              <img v-if="event.photo" :src="event.photo" alt="">
+              <img v-else src="../../../assets/images/categoria-sin-nombre.png" alt="">
             </div>
             <div class="container-flex">
               <div class="container-h">
                 <h5 class="subtitle-date">{{event.date}}</h5>
                 <h2>{{event.name}}</h2>
+                <p>{{event.description.substring(0,35) + '...'}}</p>
               </div>
               <div class="container-total-people">
                   <img :src="user.profilePicture" alt="">
@@ -30,9 +32,9 @@
               </div>
             </div>
           </div>
-        <!-- <div v-if="this.events.length <= 0"  class="container-no-events">
+        <div v-if="this.updateEvent <= 0"  class="container-no-events">
           <h1>No hay eventos</h1>
-        </div> -->
+        </div>
     </div>
   </div>
 </template>
@@ -76,12 +78,11 @@ export default {
 
     moveSliderRight(){
       
-      if(this.totalClickRight < this.filterMonthEvent.length -1){ /*-1 porque al empezar en 0 el length no contabiliza bien */
+      if(this.totalClickRight < this.updateEvent.length -1){ /*-1 porque al empezar en 0 el length no contabiliza bien */
         this.totalClickRight++
         this.arrowLeftActive = true
-        console.log(this.totalClickRight)
 
-        if(this.totalClickRight === this.filterMonthEvent.length -1){
+        if(this.totalClickRight === this.updateEvent.length -1){
           this.arrowRightActive = false
         }
         this.slider.scrollTo({
@@ -99,14 +100,13 @@ export default {
     },
 
     moveSliderLeft(){
+
       if(this.totalClickRight > 0 ){
-        this.arrowLeftActive = true
+        this.arrowLeftActive = true  
         this.arrowRightActive = true
         this.totalClickRight--
         this.width = this.width - this.resetWidth  /*Resta para moverse a la izquierda */
         
-
-        console.log(this.totalClickRight)
         if(this.totalClickRight <= 1){
           this.arrowLeftActive = false
         }
@@ -127,7 +127,12 @@ export default {
 
   computed:{
     ...mapState('auth',['user']),
-    ...mapState('event',['events'])
+    ...mapState('event',['events']),
+
+    updateEvent(){
+    
+      return this.filterMonthEvent /*Para que actualice el filtro de eventos por mes si se registra uno */
+    }
   },
 
   
@@ -142,6 +147,11 @@ export default {
 </script>
 
 <style scoped>
+
+p{
+  margin: 1em;
+  width: 280px;
+}
 
 .container-next-event--header{
   display: flex;

@@ -68,10 +68,10 @@ export default {
       openModalIsTrue: false,
       eventForModal: null,
       showCreateModal: false,
-      newEvent: '',
-      filterMonthEvent: '',
+      filterMonthEvent: [],
       currentMonth: null,
-      monthLetter: null
+      monthLetter: null,
+      newEvent: null,
     }
   },
 
@@ -112,6 +112,8 @@ export default {
         title: message,
         confirmButtonColor: '#B128C3',
       })
+
+      this.loadEvents()
     },
 
      month(){
@@ -123,20 +125,20 @@ export default {
     },
 
     async loadEvents(){
-      const resp = await this.loadEventAction()
-  
-      const eventArray = Object.values(resp) /*Los paso a array para eliminar el idToken que crea firebase */
+      await this.loadEventAction()
 
-      const newObject = Object.assign(eventArray) /*Paso a objeto de nuevo */
-    
-
-      console.log('ha llegado de la accion', newObject)
-
-      this.filterMonthEvent = newObject.filter(e => e.date.includes(this.currentMonth))
-
-      console.log(this.filterMonthEvent, 'filtermonth')
+      this.filterForCurrentMonth()
 
     },
+
+    filterForCurrentMonth(){
+      if( null === this.events ) return /*Al estilo yoda así por error no se cambia de valor */
+      const eventArray = Object.values(this.events) /*Los paso array para eliminar el idToken que crea firebase */
+
+      this.filterMonthEvent = eventArray.filter(e => e.date.includes(this.currentMonth))
+
+      console.log(this.filterMonthEvent, 'filtermonth')
+    }
 
 
 
@@ -148,6 +150,7 @@ export default {
 
   computed:{
     ...mapState('auth',['user']),
+    ...mapState('event',['events'])
 
   }
 

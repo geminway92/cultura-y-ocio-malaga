@@ -5,7 +5,7 @@ export const createEvent = async ({commit}, events) => {
 
     try{
         const {data} = await eventApi.post(`events.json`, events)
-        console.log(data)
+        console.log(data,'es la data')
         
         commit('createEventMutation',events)
 
@@ -13,6 +13,7 @@ export const createEvent = async ({commit}, events) => {
 
 
     }catch(error){
+
         return {ok: false, message: error.message}
     }
 
@@ -25,7 +26,6 @@ export const loadEventAction = async ({commit}) => {
 
         commit('loadEventMutation', data)
 
-        return data
 
     }catch{
         console.log(error.message)
