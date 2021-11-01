@@ -1,21 +1,15 @@
 <template>
     <div @click.self="this.$emit('openModal')" class="container-modal">
         <div class="modal">
-            <h1> {{eventForModal[0].NOMBRE}}</h1>
-            <div class="container-description">
+                <h1>{{this.eventForModal.name}}</h1>
+                <div class="container-description">
+                    <img v-if="this.eventForModal.photo" :src="this.eventForModal.photo" alt="">
+                    <img v-else src="../../../assets/images/categoria-sin-nombre.jpg" alt="">
+                        <h5 class="description-item"><span>Fecha: </span>{{this.eventForModal.date}}</h5>
+                        <h5 class="description-item"><span>Horario: </span>{{this.eventForModal.schedule}}</h5>
+                    <p class="description-item">{{this.eventForModal.description}}</p>
 
-                <h5 class="description-item"><span>Categorias: </span>{{eventForModal[0].CATEGORIA}}</h5>
-                <h5 class="description-item"><span>Destinados: </span>{{eventForModal[0].DESTINATARIOS_DESCRIPCION}}</h5>
-                <h5 class="description-item"><span>Fecha inicio: </span>{{eventForModal[0].F_INICIO}}</h5>
-                <h5 class="description-item"><span>Fecha fin: </span>{{eventForModal[0].F_FIN}}</h5>
-                <h5 class="description-item"><span>Horario: </span>{{eventForModal[0].HORARIO}}</h5>
-                <h5 class="description-item"><span>Email: </span>{{eventForModal[0].E_MAIL}}</h5>
-                <h5 class="description-item"><span>Dirección Web </span>{{eventForModal[0].DIRECCION_WEB}}</h5>
-                <h5 class="description-item"><span>Teléfono: </span>{{eventForModal[0].TELEFONO}}</h5>
-                <h5 class="description-item"><span>Evento: </span>{{eventForModal[0].EVENTO}}</h5>
-            </div>
-                <p>{{eventForModal[0].DESCRIPCION}}</p>
-
+                </div>
         </div>
 
     </div>
@@ -28,9 +22,10 @@ export default {
             type: Boolean,
             default: false
         },
-        getEventInterested:{
+        eventForModal:{
             type: Object
-        }
+        },
+        
     },
     
 
@@ -39,10 +34,18 @@ export default {
 
 <style scoped>
 
+img{
+    width: 150px;
+    border-radius: 15px;
+}
+
 p{
     margin: 1em;
     text-align: start;
+    font-size: .9em;
+    font-weight: 500;
 }
+
 
 .container-modal{
     background-color: rgba(116, 111, 111, 0.295);
@@ -78,10 +81,11 @@ p{
 .container-description{
     width: 90%;
     margin: auto;
-    text-align: start;
 }
 
 .description-item{
     margin: 0.5em 0;
+    text-align: start;
 }
+
 </style>

@@ -15,7 +15,7 @@
           <div v-for="event in updateEvent" :key="event" class="container-card slide">
             <div class="container-img">
               <img v-if="event.photo" :src="event.photo" alt="">
-              <img v-else src="../../../assets/images/categoria-sin-nombre.png" alt="">
+              <img v-else src="../../../assets/images/categoria-sin-nombre.jpg" alt="">
             </div>
             <div class="container-flex">
               <div class="container-h">
@@ -28,7 +28,7 @@
                   <div class="container-count-people">
                       <h4>+25</h4>
                   </div>
-                  <button @click="getEventInterested()">Ver Evento</button>
+                  <button @click="getEventInterested(event)">Ver</button>
               </div>
             </div>
           </div>
@@ -107,7 +107,7 @@ export default {
         this.totalClickRight--
         this.width = this.width - this.resetWidth  /*Resta para moverse a la izquierda */
         
-        if(this.totalClickRight <= 1){
+        if(this.totalClickRight < 1){
           this.arrowLeftActive = false
         }
 
@@ -123,16 +123,31 @@ export default {
       
     },
 
+    checkTotalEvent(){
+      (this.updateEvent.length <= 1)
+        ? this.arrowRightActive = false
+        : this.arrowRightActive = true 
+    },
+
+    getEventInterested(event){
+      this.$emit('openModal',event)
+    }
+
   },
+  
 
   computed:{
     ...mapState('auth',['user']),
     ...mapState('event',['events']),
 
     updateEvent(){
-    
+      if(this.filterMonthEvent.length <= 1) this.arrowRightActive = false  /*Comprobar longitud para bloquear o activar botón */
+      else this.arrowRightActive = true
+
+      console.log(this.filterMonthEvent.length)
       return this.filterMonthEvent /*Para que actualice el filtro de eventos por mes si se registra uno */
-    }
+    },
+
   },
 
   
@@ -140,6 +155,8 @@ export default {
     this.slider = this.$refs.slider
     this.width = this.slider.offsetWidth
     this.resetWidth = this.slider.offsetWidth
+
+    this.checkTotalEvent()
   }
   
 
