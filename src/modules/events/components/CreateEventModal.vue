@@ -11,7 +11,7 @@
                 >
                 
                 <input 
-                    type="text" 
+                    type="time" 
                     placeholder="Horario"
                     v-model="this.newEvent.schedule"
                     required

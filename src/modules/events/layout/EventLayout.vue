@@ -33,7 +33,7 @@
     
     <!-- Popular Event -->
     <div class="container-slider-2">
-      <PopularEvent />
+      <PopularEvent :filterPopularEvent="filterPopularEvent" />
     </div>
     
     <div class="container-bar">
@@ -72,6 +72,7 @@ export default {
       currentMonth: null,
       monthLetter: null,
       newEvent: null,
+      filterPopularEvent: [],
     }
   },
 
@@ -138,6 +139,18 @@ export default {
       this.filterMonthEvent = eventArray.filter(e => e.date.includes(this.currentMonth))
 
       console.log(this.filterMonthEvent, 'filtermonth')
+      this.filterForPopularEvent(this.filterMonthEvent)
+    },
+
+    filterForPopularEvent(event){
+      const mapJoined = this.filterMonthEvent.map(e => e.joined ) /*Mapeamos todos los inscritos */
+      mapJoined.sort((a,b) => b- a) /*Ordanamos los inscritos de mayor a menor */
+      const [pos1, ...other] = mapJoined /*destructuramos el primero que nos interesa por ser el más grande */
+
+      console.log(mapJoined)
+      this.filterPopularEvent = event.filter(e => e.joined === pos1) /*Filtramos el que coincide con el mayor de todos */
+      console.log(this.filterPopularEvent, 'popularvent')
+      
     }
 
 

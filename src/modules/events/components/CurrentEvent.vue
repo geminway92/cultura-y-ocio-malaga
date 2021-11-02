@@ -380,7 +380,7 @@ p{
 }
 
 .button-show{
-  background: var(--colorSecundary);
+  background-color: var(--colorSecundary);
 }
 
 .container-no-events{
@@ -389,14 +389,10 @@ p{
   margin-left: .5em;
   text-align: center;
   width: 100%;
-  width: 400px;
   background-color: #ffe60015;
 }
 
-.img-categorias{
-  height: 120px;
-  object-fit: cover;
-}
+
 
 
 </style>

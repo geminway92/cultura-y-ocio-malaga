@@ -1,25 +1,29 @@
 <template>
   <div class="container-popular-event">
       <h1 class="title">Eventos Populares</h1>
-      <div class="container-card">
+      <div v-if="filterPopularEvent.length === 1" class="container-card">
           <div class="container-img">
-            <img src="../../../assets/images/4.jpg" alt="">
+            <img :src="filterPopularEvent[0].photo" alt="">
           </div>
           <div class="container-content">
-            <h4>Oc 12.2021</h4>
-            <h2>Car Freak Meetup</h2>
-            <p>El mayor evento en Dhaka, únete para ver la emoción del nuevo tipo de coche</p>
-            <div class="container-total-people">
-                <img :src="user.profilePicture" alt="">
-                <div class="container-count-people">
-                    <h4>+25</h4>
+                <h4>{{filterPopularEvent[0].date}}</h4>
+                <h2>{{filterPopularEvent[0].name}}</h2>
+                <p>{{filterPopularEvent[0].description.substring(0,27) + '...'}}</p>
+                <div class="container-total-people">
+                    <div class="container-count-people">
+                        <h4>+{{filterPopularEvent[0].joined}}</h4>
+                        <h4>Inscritos</h4>
+                    </div>
+                    <div class="container-buttons">
+                        <button class="button-show">Ver</button>
+                        <button class="button-join">Unir</button>
+                    </div>
                 </div>
-                <button class="button-join">Unir</button>
-                <button class="button-look">Ver</button>
-            </div>
+                </div>
           </div>
-      </div>
-      
+            <div v-if="this.filterPopularEvent.length === 0 " class="container-no-events">
+            <h1>No hay eventos</h1>
+      </div> 
   </div>
 </template>
 
@@ -27,9 +31,9 @@
 import {mapState} from 'vuex'
 
 export default {
-    data(){
-        return{
-
+    props:{
+        filterPopularEvent:{
+            type: Array
         }
     },
 
@@ -60,7 +64,7 @@ export default {
 }
 
 .container-img{
-    width: 270px;
+    width: 250px;
 }
 
 .container-img img{
@@ -70,36 +74,36 @@ export default {
 
 .container-content{
     width: 100%;
-    height: 95px;
+    height: 100%;
     text-align: start;
+    background-color: violet;
 }
 
 .container-content h4{
-    margin: .5em .5em;
     color: var(--colorSecundary);
+    margin-left: .3em;
 }
 
 .container-content h2{
-    font-size: 1.2em;
+    font-size: 1em;
     position: relative;
     bottom: .5em;
     width: 150px;
-    margin-left: .5em;
+    margin-left: .3em;
 }
 
 .container-content p{
-    margin: 0;
     position: relative;
     bottom: 1.2em;
     font-size: .9em;
-    margin: .5em;
+    margin-left: .3em;
 }
 
 .container-total-people{
     display: flex;
     width: min-content;
-    position: relative;
-    bottom: 1.3em;
+    background-color: violet;
+    justify-content: space-between;
 }
 
 .container-total-people img{
@@ -110,39 +114,64 @@ export default {
 
 
 .container-count-people{
-    width: 25px;
-    height: 25px;
-    border-radius: 100%;
-    border: 2px solid var(--colorPrimary);
-    position: relative;
-    right: .9em;
-    background-color: #ffffff;
+  display: flex;
+  width: 25px;
+  height: 25px;
+  border-radius: 100%;
+  border: 2px solid var(--colorPrimary);
+  position: relative;
+  gap: 1.1em;
+  background-color: #ffffff;
+  margin-left: .3em;
+  
 }
 
 .container-count-people h4{
-    font-size: .8em;
-    margin: .4em auto;
-    width: min-content;
+  font-size: .8em;
+  margin: auto;
+  left: .4em;
+  position: relative;
+  width: min-content;
+  color: black;
+  cursor: pointer;
 }
 
 .container-total-people button {
-    width: 50px;
-    border-radius: 15px;
-    border: none;
-    color: #ffffffea;
-    font-weight: lighter;
-    margin: auto;
-    padding: .5em;
+  border-radius: 15px;
+  width: 50px;
+  border: none;
+  color: #ffffffea;
+  font-weight: lighter;
+  padding: .5em;
+  cursor: pointer;
 }
+
 
 .button-join{ 
-    margin-left: .5em;
-    background-color: var(--colorPrimary);
+  background-color: var(--colorPrimary);
 }
 
-.button-look{
-    background: var(--colorSecundary);
-    position: relative;
-    left: 1em;
+.button-show{
+  background-color: var(--colorSecundary);
+}
+
+.container-buttons{
+    background-color: blue;
+    display: flex;
+    gap: 1em;
+    margin-left: 1em;
+}
+
+.container-no-events{
+  font-size: 1em;
+  margin: 1em;
+  width: 90%;
+  height: min-content;
+  background-color: #ffe60015;
+  justify-content: center;
+}
+
+.container-no-events h1{
+    padding: .7em;
 }
 </style>
