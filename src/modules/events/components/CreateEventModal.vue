@@ -7,18 +7,21 @@
                     type="text" 
                     placeholder="Nombre del evento"
                     v-model="this.newEvent.name"
+                    required
                 >
                 
                 <input 
                     type="text" 
                     placeholder="Horario"
                     v-model="this.newEvent.schedule"
+                    required
                 >
                 
                 <input 
                     type="date" 
                     min="2021"
                     v-model="this.newEvent.date"
+                    required
                 >
                 
                 <input 
@@ -30,7 +33,11 @@
                     cols="30" 
                     rows="10" 
                     placeholder="Describe el evento..."
-                    v-model="this.newEvent.description">
+                    v-model="this.newEvent.description"
+                    required
+                    minlength="35"
+                >
+                    
                 </textarea>
                 <button type="submit">Crear</button>
             </form>
@@ -47,12 +54,14 @@ export default {
         return{
             newEvent: 
             {
+                id: '',
                 name: '',
                 schedule: '',
                 date: '',
                 description: '', 
-                id: '',
                 photo: '',
+                joined: 0,
+                register: ['']
             }
         }
     },
@@ -78,12 +87,14 @@ export default {
         /*Resetea formulario */
         this.newEvent = 
             {
+                id: '',
                 name: '',
                 schedule: '',
                 date: '',
                 description: '', 
-                id: '',
                 photo: '',
+                joined: 0,
+                register: [''],
             }
     },
 
@@ -196,5 +207,6 @@ button{
     outline: none;
     border-bottom: 2px solid var(--colorPrimary);
 }
+
 
 </style>

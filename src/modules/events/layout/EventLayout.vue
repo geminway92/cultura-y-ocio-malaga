@@ -134,7 +134,7 @@ export default {
     filterForCurrentMonth(){
       if( null === this.events ) return /*Al estilo yoda así por error no se cambia de valor */
       const eventArray = Object.values(this.events) /*Los paso array para eliminar el idToken que crea firebase */
-
+      console.log(eventArray)
       this.filterMonthEvent = eventArray.filter(e => e.date.includes(this.currentMonth))
 
       console.log(this.filterMonthEvent, 'filtermonth')

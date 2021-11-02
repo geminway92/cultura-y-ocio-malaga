@@ -1,5 +1,6 @@
 <template>
   <div class="container-next-event">
+    <ModalNameRegister v-if="modalNameIsTrue" @openModalName="openModalName" :modalNameIsTrue="modalNameIsTrue" :nameRegister="nameRegister"/>
       <div class="container-next-event--header">
         <h1>Próximos Eventos en <span>{{monthLetter}}</span></h1>
         <div class="container-arrow-slider">
@@ -11,7 +12,7 @@
           </div>
         </div>
       </div>
-      <div v-if="this.updateEvent" class="container-slider"  ref="slider">
+      <div class="container-slider"  ref="slider">
           <div v-for="event in updateEvent" :key="event" class="container-card slide">
             <div class="container-img">
               <img v-if="event.photo" :src="event.photo" alt="">
@@ -21,28 +22,36 @@
               <div class="container-h">
                 <h5 class="subtitle-date">{{event.date}}</h5>
                 <h2>{{event.name}}</h2>
-                <p>{{event.description.substring(0,35) + '...'}}</p>
+                <p>{{event.description.substring(0,30) + '...'}}</p>
               </div>
               <div class="container-total-people">
-                  <img :src="user.profilePicture" alt="">
-                  <div class="container-count-people">
-                      <h4>+25</h4>
+                  <div @click="openModalName(event.register)" v-if="event.joined > 0" class="container-count-people">
+                    <h4>+{{event.joined}}</h4>
+                  <h4>Inscritos</h4>
                   </div>
-                  <button @click="getEventInterested(event)">Ver</button>
+                  <div v-if="this.user.email" class="container-buttons">
+                    <button class="button-show" @click="getEventInterested(event)">Ver</button>
+                    <button class="button-join" @click="joinEvent(event)">Unir</button>
+                  </div>
               </div>
             </div>
           </div>
-        <div v-if="this.updateEvent <= 0"  class="container-no-events">
-          <h1>No hay eventos</h1>
-        </div>
-    </div>
+          <div v-if="this.updateEvent.length === 0 " class="container-no-events">
+            <h1>No hay eventos</h1>
+          </div>
+      </div>
   </div>
 </template>
 
 <script>
-import { mapState} from 'vuex'
+import { mapActions, mapState} from 'vuex'
+import { defineAsyncComponent } from 'vue';
 
 export default {
+  components: {
+    ModalNameRegister: defineAsyncComponent( () => import('../components/ModalNameRegister.vue')),
+  },
+
   data(){
     return{
       slider: null,
@@ -54,6 +63,8 @@ export default {
       arrowRightActive: true,
       filterEvents: null,
       totalClickRight: 0,
+      modalNameIsTrue: false,
+      nameRegister: null,
     }
   },
   
@@ -73,9 +84,8 @@ export default {
   },
 
   methods:{
-
+    ...mapActions('event',['joinEventAction', 'loadEventAction']),
     
-
     moveSliderRight(){
       
       if(this.totalClickRight < this.updateEvent.length -1){ /*-1 porque al empezar en 0 el length no contabiliza bien */
@@ -131,7 +141,49 @@ export default {
 
     getEventInterested(event){
       this.$emit('openModal',event)
+    },
+
+    joinEvent(event){
+      
+      
+      const dataToSave = {       
+        id: event.id,
+        name: event.name,
+        schedule: event.schedule,
+        date: event.date,
+        description: event.description, 
+        photo: event.photo,
+        joined: event.joined,
+        register: event.register
+      }
+      
+      const filter = event.register.filter( e => e === this.user.name)
+      console.log(filter, 'existe')
+
+      if(filter.length > 0) {
+        console.error('Ya te has inscrito')
+        return 
+
+      } 
+      dataToSave.joined = event.joined +1
+      event.register.push(this.user.name)
+      
+      this.joinEventAction( dataToSave)
+      console.log(dataToSave, 'Resp de filtro para id')
+
+      return event.joined = event.joined +1
+    },
+
+    openModalName(name){
+      this.modalNameIsTrue = !this.modalNameIsTrue
+      console.log(this.modalNameIsTrue)
+
+      this.nameRegister = name
+
+      console.log(this.nameRegister)
+
     }
+   
 
   },
   
@@ -147,7 +199,7 @@ export default {
       console.log(this.filterMonthEvent.length)
       return this.filterMonthEvent /*Para que actualice el filtro de eventos por mes si se registra uno */
     },
-
+    
   },
 
   
@@ -274,8 +326,9 @@ p{
 
 .container-total-people{
   display: flex;
-  width: min-content;
-  margin-bottom: .5em;
+  width: 90%;
+  margin: auto;
+  justify-content: space-between;
 }
 
 .container-total-people img{
@@ -286,30 +339,48 @@ p{
 
 
 .container-count-people{
+  display: flex;
   width: 25px;
-    height: 25px;
-    border-radius: 100%;
-    border: 2px solid var(--colorPrimary);
-    position: relative;
-    right: .9em;
-    background-color: #ffffff;
+  height: 25px;
+  border-radius: 100%;
+  border: 2px solid var(--colorPrimary);
+  position: relative;
+  right: .9em;
+  gap: 1.5em;
+  background-color: #ffffff;
 }
 
 .container-count-people h4{
   font-size: .8em;
-  margin: .4em auto;
+  margin: auto;
+  left: .4em;
+  position: relative;
   width: min-content;
+  cursor: pointer;
 }
 
 .container-total-people button {
-  width: 90px;
-    border-radius: 15px;
-    border: none;
-    background-color: var(--colorPrimary);
-    color: #ffffffea;
-    font-weight: lighter;
-    margin: auto;
-    padding: .5em;
+  border-radius: 15px;
+  width: 50px;
+  border: none;
+  color: #ffffffea;
+  font-weight: lighter;
+  padding: .5em;
+  cursor: pointer;
+}
+
+.container-buttons{
+  display: flex;
+  gap: 1em;
+  margin: auto;
+}
+
+.button-join{ 
+  background-color: var(--colorPrimary);
+}
+
+.button-show{
+  background: var(--colorSecundary);
 }
 
 .container-no-events{
@@ -326,4 +397,6 @@ p{
   height: 120px;
   object-fit: cover;
 }
+
+
 </style>

@@ -10,3 +10,7 @@ export const loadEventMutation = (state, payload) => {
     state.events = payload 
 
 }
+
+export const joinEventMutation = (state, payload) => {
+    state. events = payload
+}
