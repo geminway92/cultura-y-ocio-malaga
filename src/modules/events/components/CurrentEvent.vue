@@ -228,6 +228,13 @@ p{
   margin: .5em .2em 0em .1em;
 }
 
+@media screen and (min-width: 730px){
+  .container-next-event{
+    top: -3em;
+    position: relative;
+  }
+}
+
 .container-next-event--header h1{
   width: 200px;
   font-weight: 600;
@@ -274,11 +281,25 @@ p{
   margin: auto;
 }
 
+@media screen and (min-width: 730px){
+  .container-slider{
+    top: 2em;
+    position: relative;
+  }
+}
+
 .container-card {
   display: flex;
   width: 250px;
   gap: .2em;
 }
+
+@media screen and (min-width: 730px){
+  .container-card{
+    margin: 1em;
+  }
+}
+
 
 img{
   width: 110px;

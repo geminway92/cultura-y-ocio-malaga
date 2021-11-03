@@ -145,6 +145,13 @@ export default {
     }
 }
 
+@media screen and (min-width: 730px){
+    .container-card{
+        width: 500px;
+        margin: auto;
+        margin-top: 2em;
+    }
+}
 .container-img{
     width: 250px;
 }
