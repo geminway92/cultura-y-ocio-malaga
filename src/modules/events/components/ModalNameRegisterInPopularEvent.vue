@@ -1,14 +1,11 @@
 <template>
-    <div @click.self="this.$emit('openModal')" class="container-modal">
+    <div @click.self="this.$emit('showNameRegister')" class="container-modal">
         <div class="modal">
-                <h1>{{this.eventForModal.name}}</h1>
                 <div class="container-description">
-                    <img v-if="this.eventForModal.photo" :src="this.eventForModal.photo" alt="">
-                    <img v-else src="../../../assets/images/categoria-sin-nombre.jpg" alt="">
-                        <h5 class="description-item"><span>Fecha: </span>{{this.eventForModal.date}}</h5>
-                        <h5 class="description-item"><span>Horario: </span>{{this.eventForModal.schedule}}</h5>
-                    <p class="description-item">{{this.eventForModal.description}}</p>
-
+                    <h1>Inscritos en el evento</h1>
+                    <ul v-for="event in nameRegister" :key="event">
+                        <li>{{event}}</li>
+                    </ul>
                 </div>
         </div>
 
@@ -18,13 +15,13 @@
 <script>
 export default {
     props:{
-        openModalIsTrue:{
+        openNameRegister:{
             type: Boolean,
             default: false
         },
-        eventForModal:{
+        nameRegister:{
             type: Object
-        },
+        }
         
     },
     
@@ -34,18 +31,15 @@ export default {
 
 <style scoped>
 
-img{
-    width: 150px;
-    border-radius: 15px;
+ul{
+    margin: auto;
+    padding: .2em;
 }
 
-p{
-    margin: 1em;
-    text-align: start;
-    font-size: .9em;
-    font-weight: 500;
-}
+h1{
+    color: var(--colorPrimary);
 
+}
 
 .container-modal{
     background-color: rgba(116, 111, 111, 0.295);
@@ -58,7 +52,7 @@ p{
 
 .modal{
     background-color: #ffffff;
-    width: 90%;
+    width: 65%;
     height: 300px;
     margin: auto;
     border-radius: 15px;
@@ -69,7 +63,9 @@ p{
 
 @media screen and (width: 320px){
     .container-modal{
-        height: 660px;
+        position: absolute;
+        top: -3em;
+        height: 700px;
     }
 }
 
@@ -85,13 +81,15 @@ p{
 }
 
 .container-description{
-    width: 90%;
-    margin: auto;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    text-align: center;
 }
 
-.description-item{
-    margin: 0.5em 0;
-    text-align: start;
+.container-description li{
+    list-style: none;
 }
+
 
 </style>

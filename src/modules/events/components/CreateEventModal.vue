@@ -164,6 +164,12 @@ button{
     display: flex;
 }
 
+@media screen and (width: 320px){
+    .container-modal{
+        height: 660px;
+    }
+}
+
 .modal{
     background-color: #ffffff;
     width: 90%;
@@ -171,9 +177,8 @@ button{
     margin: auto;
     border-radius: 15px;
     box-shadow: 4px 3px 4px #746f6f4b;
-    /* overflow: scroll;
-    overflow-x: hidden; */
 }
+
 
 .modal::-webkit-scrollbar{
     width: 10px;

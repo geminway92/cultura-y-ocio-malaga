@@ -1,13 +1,13 @@
 <template>
-    <div @click.self="this.$emit('openModal')" class="container-modal">
+    <div @click.self="this.$emit('showEvent')" class="container-modal">
         <div class="modal">
-                <h1>{{this.eventForModal.name}}</h1>
+                <h1>{{this.event.name}}</h1>
                 <div class="container-description">
-                    <img v-if="this.eventForModal.photo" :src="this.eventForModal.photo" alt="">
+                    <img v-if="this.event.photo" :src="this.event.photo" alt="">
                     <img v-else src="../../../assets/images/categoria-sin-nombre.jpg" alt="">
-                        <h5 class="description-item"><span>Fecha: </span>{{this.eventForModal.date}}</h5>
-                        <h5 class="description-item"><span>Horario: </span>{{this.eventForModal.schedule}}</h5>
-                    <p class="description-item">{{this.eventForModal.description}}</p>
+                        <h5 class="description-item"><span>Fecha: </span>{{this.event.date}}</h5>
+                        <h5 class="description-item"><span>Horario: </span>{{this.event.schedule}}</h5>
+                    <p class="description-item">{{this.event.description}}</p>
 
                 </div>
         </div>
@@ -18,13 +18,13 @@
 <script>
 export default {
     props:{
-        openModalIsTrue:{
+        openPopularModal:{
             type: Boolean,
             default: false
         },
-        eventForModal:{
+        event:{
             type: Object
-        },
+        }
         
     },
     
@@ -50,6 +50,7 @@ p{
 .container-modal{
     background-color: rgba(116, 111, 111, 0.295);
     position: absolute;
+    top: 0;
     width: 100vw;
     height: 100vh;
     z-index: 3;

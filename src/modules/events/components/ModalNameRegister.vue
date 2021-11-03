@@ -61,6 +61,14 @@ h1{
     overflow-x: hidden;
 }
 
+@media screen and (width: 320px){
+    .container-modal{
+        position: absolute;
+        top: -3em;
+        height: 660px;
+    }
+}
+
 .modal::-webkit-scrollbar{
     width: 10px;
 }

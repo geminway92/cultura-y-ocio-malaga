@@ -1,7 +1,22 @@
 <template>
   <div class="container-popular-event">
+      <!-- Modal Popular -->
+      <PopularModal 
+        v-if="openPopularModal" 
+        :openPopularModal="openPopularModal" 
+        @showEvent="showEvent"
+        :event="event"
+      />
+      <!-- Modal NameRegister -->
+      <ModalNameRegisterInPopularEvent
+        v-if="openNameRegister"
+        @showNameRegister="showNameRegister"
+        :openNameRegister="openNameRegister"
+        :nameRegister="nameRegister"
+        />
+
       <h1 class="title">Eventos Populares</h1>
-      <div v-if="filterPopularEvent.length === 1" class="container-card">
+      <div v-if="filterPopularEvent.length > 1" class="container-card">
           <div class="container-img">
             <img :src="filterPopularEvent[0].photo" alt="">
           </div>
@@ -11,12 +26,12 @@
                 <p>{{filterPopularEvent[0].description.substring(0,27) + '...'}}</p>
                 <div class="container-total-people">
                     <div class="container-count-people">
-                        <h4>+{{filterPopularEvent[0].joined}}</h4>
+                        <h4 @click="showNameRegister()">+{{filterPopularEvent[0].joined}}</h4>
                         <h4>Inscritos</h4>
                     </div>
                     <div class="container-buttons">
-                        <button class="button-show">Ver</button>
-                        <button class="button-join">Unir</button>
+                        <button @click="showEvent()" class="button-show">Ver</button>
+                        <button @click="joinEvent(filterPopularEvent[0])" class="button-join">Unir</button>
                     </div>
                 </div>
                 </div>
@@ -28,12 +43,73 @@
 </template>
 
 <script>
-import {mapState} from 'vuex'
+import {mapActions, mapState} from 'vuex'
+import { defineAsyncComponent } from 'vue';
 
 export default {
+    components:{
+        PopularModal: defineAsyncComponent(() => import('../components/PopularModal.vue')),
+        ModalNameRegisterInPopularEvent: defineAsyncComponent(() => import('../components/ModalNameRegisterInPopularEvent.vue'))
+    },
+    data(){
+        return{
+            openPopularModal: false,
+            openNameRegister: false,
+            event: [],
+            nameRegister: {}
+        }
+    },
+
     props:{
         filterPopularEvent:{
             type: Array
+        }
+    },
+
+    methods:{
+        ...mapActions('event', ['joinEventAction']),
+
+        showEvent(){
+            this.openPopularModal = !this.openPopularModal
+            this.event = this.filterPopularEvent[0]
+            console.log('Ha llegado al showEvent',this.openPopularModal)
+        },
+
+        joinEvent(event){
+      
+            const dataToSave = {       
+                id: event.id,
+                name: event.name,
+                schedule: event.schedule,
+                date: event.date,
+                description: event.description, 
+                photo: event.photo,
+                joined: event.joined,
+                register: event.register
+            }
+            
+            const filter = event.register.filter( e => e === this.user.name)
+            console.log(filter, 'existe')
+
+            if(filter.length > 0) {
+                console.error('Ya te has inscrito')
+                return 
+
+            } 
+            dataToSave.joined = event.joined +1
+            event.register.push(this.user.name)
+            
+            this.joinEventAction( dataToSave)
+            console.log(dataToSave, 'Resp de filtro para id')
+
+            return event.joined = event.joined +1
+        },
+
+        showNameRegister(){
+            this.openNameRegister = !this.openNameRegister
+            this.nameRegister = this.filterPopularEvent[0].register
+            console.log(this.nameRegister)
+            
         }
     },
 
@@ -63,26 +139,50 @@ export default {
     display: flex;
 }
 
+@media screen and (width: 320px) {
+    .container-card{
+        height: 150px;
+    }
+}
+
 .container-img{
     width: 250px;
 }
 
+@media screen and (width: 320px){
+    .container-img{
+        width: 100%;
+        height: 100%;
+    }
+}
+
 .container-img img{
     width: 100%;
+    height: 100%;
     border-radius: 15px;
+    object-fit: cover;
 }
+
 
 .container-content{
     width: 100%;
     height: 100%;
     text-align: start;
-    background-color: violet;
+}
+
+@media screen and (width: 320px){
+    .container-content{
+        display: flex;
+        flex-direction: column;
+    }
 }
 
 .container-content h4{
     color: var(--colorSecundary);
+    margin: 0;
     margin-left: .3em;
 }
+
 
 .container-content h2{
     font-size: 1em;
@@ -99,17 +199,20 @@ export default {
     margin-left: .3em;
 }
 
-.container-total-people{
-    display: flex;
-    width: min-content;
-    background-color: violet;
-    justify-content: space-between;
+@media screen and (width: 320px){
+    .container-content p {
+        margin: 0;
+        margin-left: .3em;
+    }
 }
 
-.container-total-people img{
-    width: 30px;
-    height: 30px;
-    border-radius: 100%;
+
+
+@media screen and (width: 320px){
+    .container-total-people{
+        position: relative;
+        bottom: 1em;
+    }
 }
 
 
@@ -146,7 +249,6 @@ export default {
   cursor: pointer;
 }
 
-
 .button-join{ 
   background-color: var(--colorPrimary);
 }
@@ -156,10 +258,18 @@ export default {
 }
 
 .container-buttons{
-    background-color: blue;
     display: flex;
     gap: 1em;
     margin-left: 1em;
+}
+
+@media screen and (width: 320px){
+    .container-buttons{
+        width: min-content;
+        margin: auto ;
+        margin-top: .3em;
+        gap: .5em;
+    }
 }
 
 .container-no-events{

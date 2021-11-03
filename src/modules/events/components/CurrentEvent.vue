@@ -218,8 +218,14 @@ export default {
 <style scoped>
 
 p{
-  margin: 1em;
+  margin: .3em;
   width: 280px;
+}
+
+@media screen and (width: 320px) {
+  p{
+    width: 150px;
+  }
 }
 
 .container-next-event--header{
@@ -277,22 +283,15 @@ p{
 .container-card {
   display: flex;
   width: 250px;
-  height: min-content;
   gap: .2em;
 }
 
-.container-img{
-  width: min-content;
-  background-color: #ffe60015;
-  margin: auto;
-}
-
-.container-img img {
-  border-radius: 15px;
+img{
   width: 110px;
-  height: 130px;
+  height: 100%;
+  border-radius: 15px;
+  object-fit: cover;
 }
-
 
 .container-card h2 {
   width: 200px;
@@ -307,7 +306,6 @@ p{
   width: 400px;
   background-color: #ffe60015;
   text-align: start;
-  justify-content: space-between;
   
 }
 
@@ -326,17 +324,14 @@ p{
 
 .container-total-people{
   display: flex;
-  width: 90%;
-  margin: auto;
-  justify-content: space-between;
+  width: 80%;
 }
 
-.container-total-people img{
-  width: 30px;
-  height: 30px;
-  border-radius: 100%;
+@media screen and (width: 320px){
+  .container-total-people{
+    flex-direction: column;
+  }
 }
-
 
 .container-count-people{
   display: flex;
@@ -344,9 +339,8 @@ p{
   height: 25px;
   border-radius: 100%;
   border: 2px solid var(--colorPrimary);
-  position: relative;
-  right: .9em;
   gap: 1.5em;
+  margin-left: .3em;
   background-color: #ffffff;
 }
 
@@ -371,9 +365,13 @@ p{
 
 .container-buttons{
   display: flex;
-  gap: 1em;
+  justify-content: center;
+  width: min-content;
   margin: auto;
+  margin-bottom: .3em;
+  gap: .5em;
 }
+
 
 .button-join{ 
   background-color: var(--colorPrimary);
