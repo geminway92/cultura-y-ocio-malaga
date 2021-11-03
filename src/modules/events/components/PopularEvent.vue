@@ -260,7 +260,8 @@ export default {
 .container-buttons{
     display: flex;
     gap: 1em;
-    margin-left: 1em;
+    justify-content: center;
+    margin-bottom: .5em;
 }
 
 @media screen and (width: 320px){

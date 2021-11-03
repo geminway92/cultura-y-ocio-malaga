@@ -159,7 +159,7 @@ button{
     background-color: rgba(116, 111, 111, 0.295);
     position: absolute;
     width: 100vw;
-    height: 100vh;
+    height: 650px;
     z-index: 3;
     display: flex;
 }
@@ -167,6 +167,12 @@ button{
 @media screen and (width: 320px){
     .container-modal{
         height: 660px;
+    }
+}
+
+@media screen and (min-width: 380px) {
+    .container-modal{
+        height: 100vh;
     }
 }
 

@@ -51,9 +51,16 @@ p{
     background-color: rgba(116, 111, 111, 0.295);
     position: absolute;
     width: 100vw;
-    height: 100vh;
+    height: 650px;
     z-index: 3;
     display: flex;
+}
+
+@media screen and (min-width: 380px) {
+    .container-modal{
+        height: 100vh;
+        /* background-color: royalblue; */
+    }
 }
 
 .modal{
@@ -67,11 +74,6 @@ p{
     overflow-x: hidden;
 }
 
-@media screen and (width: 320px){
-    .container-modal{
-        height: 660px;
-    }
-}
 
 .modal::-webkit-scrollbar{
     width: 10px;

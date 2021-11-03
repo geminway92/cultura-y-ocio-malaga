@@ -11,6 +11,13 @@
         @createNewEvent="createNewEvent"
       />
 
+    <!-- Modal Ver Evento del mes -->
+      <ModalNameRegister 
+      v-if="modalNameIsTrue" 
+      @openModalName="openModalName" 
+      :modalNameIsTrue="modalNameIsTrue" 
+      :nameRegister="nameRegister"/>
+
     <!-- Header -->
     <div class="container-header">
       <div class="container-search">
@@ -23,10 +30,15 @@
       </div>
     </div>
 
+
+    
+
     <!-- Slider -->
     <div class="container-slider">
       <CurrentEvent 
         @openModal="openModal"
+        @openModalName="openModalName" 
+        :modalNameIsTrue="modalNameIsTrue" 
         :filterMonthEvent="filterMonthEvent"
         :monthLetter="monthLetter"/>
     </div>
@@ -60,7 +72,8 @@ export default {
     PopularEvent: defineAsyncComponent( () => import('../components/PopularEvent.vue')),
     BarBotton: defineAsyncComponent( () => import('../components/BarBotton.vue')),
     EventModal: defineAsyncComponent( () => import('../components/EventModal.vue')),
-    CreateEventModal: defineAsyncComponent( () => import('../components/CreateEventModal.vue'))
+    CreateEventModal: defineAsyncComponent( () => import('../components/CreateEventModal.vue')),
+    ModalNameRegister: defineAsyncComponent( () => import('../components/ModalNameRegister.vue')),
   },
 
   data(){
@@ -73,6 +86,8 @@ export default {
       monthLetter: null,
       newEvent: null,
       filterPopularEvent: [],
+      modalNameIsTrue: false,
+      nameRegister: null,
     }
   },
 
@@ -151,6 +166,16 @@ export default {
       this.filterPopularEvent = event.filter(e => e.joined === pos1) /*Filtramos el que coincide con el mayor de todos */
       console.log(this.filterPopularEvent, 'popularvent')
       
+    },
+
+    openModalName(name){
+      this.modalNameIsTrue = !this.modalNameIsTrue
+      console.log(this.modalNameIsTrue)
+
+      this.nameRegister = name
+
+      console.log(this.nameRegister)
+
     }
 
 

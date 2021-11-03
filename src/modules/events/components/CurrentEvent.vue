@@ -1,6 +1,5 @@
 <template>
   <div class="container-next-event">
-    <ModalNameRegister v-if="modalNameIsTrue" @openModalName="openModalName" :modalNameIsTrue="modalNameIsTrue" :nameRegister="nameRegister"/>
       <div class="container-next-event--header">
         <h1>Próximos Eventos en <span>{{monthLetter}}</span></h1>
         <div class="container-arrow-slider">
@@ -25,7 +24,7 @@
                 <p>{{event.description.substring(0,30) + '...'}}</p>
               </div>
               <div class="container-total-people">
-                  <div @click="openModalName(event.register)" v-if="event.joined > 0" class="container-count-people">
+                  <div @click="this.$emit('openModalName',event.register)" v-if="event.joined > 0" class="container-count-people">
                     <h4>+{{event.joined}}</h4>
                   <h4>Inscritos</h4>
                   </div>
@@ -41,16 +40,14 @@
           </div>
       </div>
   </div>
+  
+
 </template>
 
 <script>
 import { mapActions, mapState} from 'vuex'
-import { defineAsyncComponent } from 'vue';
 
 export default {
-  components: {
-    ModalNameRegister: defineAsyncComponent( () => import('../components/ModalNameRegister.vue')),
-  },
 
   data(){
     return{
@@ -63,8 +60,6 @@ export default {
       arrowRightActive: true,
       filterEvents: null,
       totalClickRight: 0,
-      modalNameIsTrue: false,
-      nameRegister: null,
     }
   },
   
@@ -174,15 +169,7 @@ export default {
       return event.joined = event.joined +1
     },
 
-    openModalName(name){
-      this.modalNameIsTrue = !this.modalNameIsTrue
-      console.log(this.modalNameIsTrue)
-
-      this.nameRegister = name
-
-      console.log(this.nameRegister)
-
-    }
+    
    
 
   },
@@ -227,6 +214,13 @@ p{
     width: 150px;
   }
 }
+
+@media screen and (min-width: 360px){
+  p{
+    width: 90%;
+  }
+}
+
 
 .container-next-event--header{
   display: flex;
@@ -306,8 +300,14 @@ img{
   width: 400px;
   background-color: #ffe60015;
   text-align: start;
-  
 }
+
+@media screen and (min-width: 730px){
+  .container-flex{
+    width: min-content;
+  }
+}
+
 
 .subtitle-date{
   margin: 0;
@@ -322,16 +322,14 @@ img{
   border-radius: 15px;
 }
 
+
+
 .container-total-people{
   display: flex;
+  flex-direction: column;
   width: 80%;
 }
 
-@media screen and (width: 320px){
-  .container-total-people{
-    flex-direction: column;
-  }
-}
 
 .container-count-people{
   display: flex;
@@ -366,10 +364,9 @@ img{
 .container-buttons{
   display: flex;
   justify-content: center;
-  width: min-content;
   margin: auto;
   margin-bottom: .3em;
-  gap: .5em;
+  gap: 1em;
 }
 
 
