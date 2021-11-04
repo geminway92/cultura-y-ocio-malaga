@@ -100,11 +100,13 @@ export default {
           return this.width = this.resetWidth
         }
 
+          console.log('totalclick', this.totalClickRight)
+
       } else return
       
     },
 
-    moveSliderLeft(){
+    moveSliderLeft(){  
 
       if(this.totalClickRight > 0 ){
         this.arrowLeftActive = true  
@@ -123,9 +125,14 @@ export default {
         if(this.width < this.resetWidth){
           return this.width = this.resetWidth
         } 
+        
+        console.log('totalclick', this.totalClickRight)
 
-      } else return
-      
+        if(screen.width > 700 && this.totalClickRight <= 1){  /*Al añadirle totalclickRight 1 en mounted necesita hacer esta correción para que se desactive el boton */
+          this.arrowLeftActive = false
+        }
+      } return
+
     },
 
     checkTotalEvent(){
@@ -169,10 +176,30 @@ export default {
       return event.joined = event.joined +1
     },
 
+    checkScreen(){
+    this.slider = this.$refs.slider 
+  
+    if(screen.width > 700){
+      this.width = this.slider.offsetWidth 
+      this.width = this.width /2
+      this.resetWidth = this.width
+
+      this.totalClickRight = 1
     
+    } else {
+      this.width = this.slider.offsetWidth
+      this.resetWidth = this.slider.offsetWidth
+    }
+
+    console.log(this.width)
+    console.log(this.resetWidth)
+  },
    
 
   },
+
+  
+
   
 
   computed:{
@@ -191,9 +218,7 @@ export default {
 
   
   mounted(){
-    this.slider = this.$refs.slider
-    this.width = this.slider.offsetWidth
-    this.resetWidth = this.slider.offsetWidth
+    this.checkScreen()
 
     this.checkTotalEvent()
   }
@@ -291,7 +316,6 @@ p{
 .container-card {
   display: flex;
   width: 250px;
-  gap: .2em;
 }
 
 @media screen and (min-width: 730px){
