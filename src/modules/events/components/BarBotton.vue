@@ -23,29 +23,44 @@ export default {
 
 <style scoped>
 button {
-    background-color: var(--colorPrimary);
-    border: none;
-    border-radius: 15px;
-    color: white;
-    font-size: 1em;
-    padding: 1em;
-    margin: auto ;
-    text-align: center;
+  background-color: var(--colorPrimary);
+  border: none;
+  border-radius: 15px;
+  color: white;
+  font-size: 1em;
+  padding: 1em;
+  margin: auto ;
+  text-align: center;
 }
 
 i{
-    margin: auto;
-    font-size: 1.3em;
+  margin: auto;
+  font-size: 1.3em;
+}
+
+@media screen and (min-width: 1800px) {
+
+  button{
+    padding: 2em;
+  }
+
+  i{
+    font-size: 2em;
+  }
 }
 
 .container-bar{
-    display: flex;
-    height: 70px;
-    /* margin: auto; */
-    justify-content: space-between;
-    z-index: 1;
+  display: flex;
+  height: 70px;
+  justify-content: space-between;
+  z-index: 1;
 }
 
+@media screen and (min-width: 1800px) {
+  .container-bar{
+    height: 100px;
+  }
+}
 
 
 </style>

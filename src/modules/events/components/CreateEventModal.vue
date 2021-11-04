@@ -185,6 +185,11 @@ button{
     box-shadow: 4px 3px 4px #746f6f4b;
 }
 
+@media screen and (min-width: 1200px) {
+    .modal{
+        width: 550px;
+    }
+}
 
 .modal::-webkit-scrollbar{
     width: 10px;

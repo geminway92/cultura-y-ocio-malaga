@@ -75,6 +75,12 @@ p{
     overflow-x: hidden;
 }
 
+@media screen and (min-width: 1200px) {
+    .modal{
+        width: 600px;
+        height: 400px;
+    }
+}
 
 .modal::-webkit-scrollbar{
     width: 10px;

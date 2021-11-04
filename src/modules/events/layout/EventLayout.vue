@@ -201,6 +201,12 @@ i{
   font-size: 1.3em;
 }
 
+@media screen and (min-width: 1800px) {
+  i{
+    font-size: 2em;
+  }
+}
+
 .eventlayout{
   width: 100vw;
   height: 100vh;
@@ -208,6 +214,7 @@ i{
   flex-direction: column;
   justify-content: space-between;
 }
+
 
 .container-header{
   width: 100vw;
@@ -219,9 +226,21 @@ i{
   z-index: 3;
 }
 
+@media screen and (min-width: 1800px) {
+  .container-header{
+    height: 70px;
+  }
+}
+
 .container-header img{
   width: 40px;
   border-radius: 100%;
+}
+
+@media screen and (min-width: 1800px) {
+  .container-header img {
+    width: 60px;
+  }
 }
 
 .container-search,
@@ -233,6 +252,14 @@ i{
   display: flex;
   justify-content: center;
   flex-direction: column;
+}
+
+@media screen and (min-width: 1800px) {
+  .container-search,
+  .container-logout{
+    width: 50px;
+    height: 50px;
+  }
 }
 
 .container-search {

@@ -132,6 +132,7 @@ export default {
     width: 200px;
     margin: 1em 1em 0;
 }
+
 .container-card{
     background-color: #ffe60015;
     height: min-content;
@@ -152,6 +153,15 @@ export default {
         margin-top: 2em;
     }
 }
+
+@media screen and (min-width: 1800px) {
+    .container-card{
+        flex-direction: column;
+        width: 700px;
+        height: 400px;
+    }
+}
+
 .container-img{
     width: 250px;
 }
@@ -170,6 +180,12 @@ export default {
     object-fit: cover;
 }
 
+@media screen and (min-width: 1800px) {
+    .container-img {
+        margin: 1em;
+    }
+}
+
 
 .container-content{
     width: 100%;
@@ -181,6 +197,13 @@ export default {
     .container-content{
         display: flex;
         flex-direction: column;
+    }
+}
+
+@media screen and (min-width: 1800px) {
+    .container-content{
+        width: 90%;
+        margin: auto;
     }
 }
 

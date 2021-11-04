@@ -68,6 +68,12 @@ h1{
     overflow-x: hidden;
 }
 
+@media screen and (min-width: 1200px) {
+    .modal{
+        width: 300px;
+    }
+}
+
 @media screen and (width: 320px){
     .container-modal{
         position: absolute;

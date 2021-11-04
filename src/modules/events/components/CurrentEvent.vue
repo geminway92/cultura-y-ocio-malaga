@@ -109,6 +109,7 @@ export default {
     moveSliderLeft(){  
 
       if(this.totalClickRight > 0 ){
+
         this.arrowLeftActive = true  
         this.arrowRightActive = true
         this.totalClickRight--
@@ -130,7 +131,9 @@ export default {
 
         if(screen.width > 700 && this.totalClickRight <= 1){  /*Al añadirle totalclickRight 1 en mounted necesita hacer esta correción para que se desactive el boton */
           this.arrowLeftActive = false
-        }
+        
+        } 
+
       } return
 
     },
@@ -177,22 +180,17 @@ export default {
     },
 
     checkScreen(){
-    this.slider = this.$refs.slider 
-  
-    if(screen.width > 700){
+      this.slider = this.$refs.slider 
       this.width = this.slider.offsetWidth 
-      this.width = this.width /2
       this.resetWidth = this.width
+  
+      if(screen.width > 700 && screen.width ){
+        this.width = this.width /2
+        this.resetWidth = this.width
 
-      this.totalClickRight = 1
-    
-    } else {
-      this.width = this.slider.offsetWidth
-      this.resetWidth = this.slider.offsetWidth
-    }
+        this.totalClickRight = 1
 
-    console.log(this.width)
-    console.log(this.resetWidth)
+      }   return
   },
    
 
@@ -260,6 +258,13 @@ p{
   }
 }
 
+@media screen and (min-width: 1200px) {
+  .container-next-event--header{
+    position: relative;
+    top: 1.5em;
+  }
+}
+
 .container-next-event--header h1{
   width: 200px;
   font-weight: 600;
@@ -309,6 +314,7 @@ p{
 @media screen and (min-width: 730px){
   .container-slider{
     top: 2em;
+    width: 700px;
     position: relative;
   }
 }
