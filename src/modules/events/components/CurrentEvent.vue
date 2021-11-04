@@ -32,6 +32,9 @@
                     <button class="button-show" @click="getEventInterested(event)">Ver</button>
                     <button class="button-join" @click="joinEvent(event)">Unir</button>
                   </div>
+                  <div v-else class="container-button--anonimous">
+                    <button class="button-show" @click="getEventInterested(event)">Ver</button>
+                  </div>
               </div>
             </div>
           </div>
@@ -261,7 +264,7 @@ p{
 @media screen and (min-width: 1200px) {
   .container-next-event--header{
     position: relative;
-    top: 1.5em;
+    top: 3em;
   }
 }
 
@@ -420,6 +423,12 @@ img{
   gap: 1em;
 }
 
+.container-button--anonimous{
+  margin:  auto;
+  margin-bottom: .3em;
+  width: min-content;
+
+}
 
 .button-join{ 
   background-color: var(--colorPrimary);

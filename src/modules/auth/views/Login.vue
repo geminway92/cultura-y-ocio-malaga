@@ -116,6 +116,12 @@ input{
   margin: 2em auto;
 }
 
+@media screen and (min-width: 1200px) {
+  .container-login{
+    width: 50%;
+  }
+}
+
 .container-email h1,
 .container-password h1 {
   font-size: 1.1em;

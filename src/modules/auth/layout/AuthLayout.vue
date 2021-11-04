@@ -49,6 +49,20 @@ h2{
 
 }
 
+@media screen and (min-width: 700px) {
+  .container-layout{
+    margin-top: 2em;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .container-layout{
+    width: 80%;
+    margin: auto;
+  }
+}
+
+
 .container-intro{
   background-color: #F2F9F4;
   width: 85%;

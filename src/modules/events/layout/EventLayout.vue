@@ -199,6 +199,8 @@ export default {
 
 i{
   font-size: 1.3em;
+  cursor: pointer;
+
 }
 
 @media screen and (min-width: 1800px) {

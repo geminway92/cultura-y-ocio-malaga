@@ -133,6 +133,7 @@ input{
   padding-left: 1.3em;
 }
 
+
 h1{
   padding-left: 1em;
   margin: .3em 0;
@@ -140,6 +141,13 @@ h1{
 .register{
   width: 100%;
   height: 100%;
+}
+
+@media screen and (min-width: 1200px) {
+  .register{
+    width: 50%;
+    margin: auto;
+  }
 }
 
 .container-form{

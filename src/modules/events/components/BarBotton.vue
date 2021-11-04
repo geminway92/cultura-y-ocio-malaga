@@ -54,6 +54,7 @@ i{
   height: 70px;
   justify-content: space-between;
   z-index: 1;
+  cursor: pointer;
 }
 
 @media screen and (min-width: 1800px) {

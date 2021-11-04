@@ -29,10 +29,13 @@
                         <h4 @click="showNameRegister()">+{{filterPopularEvent[0].joined}}</h4>
                         <h4>Inscritos</h4>
                     </div>
-                    <div class="container-buttons">
+                    <div v-if="this.user.email" class="container-buttons">
                         <button @click="showEvent()" class="button-show">Ver</button>
                         <button @click="joinEvent(filterPopularEvent[0])" class="button-join">Unir</button>
                     </div>
+                    <div v-else class="container-button--anonimous">
+                    <button class="button-show" @click="getEventInterested(event)">Ver</button>
+                  </div>
                 </div>
                 </div>
           </div>
@@ -256,6 +259,7 @@ export default {
   gap: 1.1em;
   background-color: #ffffff;
   margin-left: .3em;
+  margin-bottom: .5em;
   
 }
 
@@ -292,6 +296,12 @@ export default {
     gap: 1em;
     justify-content: center;
     margin-bottom: .5em;
+}
+
+.container-button--anonimous{
+  margin:  auto;
+  margin-bottom: .3em;
+  width: min-content;
 }
 
 @media screen and (width: 320px){
