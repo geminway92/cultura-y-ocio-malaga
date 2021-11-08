@@ -85,14 +85,15 @@ export default {
     ...mapActions('event',['joinEventAction', 'loadEventAction']),
     
     moveSliderRight(){
-      
-      if(this.totalClickRight < this.updateEvent.length -1){ /*-1 porque al empezar en 0 el length no contabiliza bien */
+
+      if(this.totalClickRight < this.updateEvent.length){ /*-1 porque al empezar en 0 el length no contabiliza bien */
         this.totalClickRight++
         this.arrowLeftActive = true
 
-        if(this.totalClickRight === this.updateEvent.length -1){
+        if(this.totalClickRight === this.updateEvent.length){
           this.arrowRightActive = false
         }
+
         this.slider.scrollTo({
           left: this.width * 1,
           behavior: 'smooth'
@@ -109,7 +110,7 @@ export default {
       
     },
 
-    moveSliderLeft(){  
+    moveSliderLeft(){ 
 
       if(this.totalClickRight > 0 ){
 
@@ -118,7 +119,7 @@ export default {
         this.totalClickRight--
         this.width = this.width - this.resetWidth  /*Resta para moverse a la izquierda */
         
-        if(this.totalClickRight < 1){
+        if(this.totalClickRight <= 1){
           this.arrowLeftActive = false
         }
 
@@ -132,17 +133,22 @@ export default {
         
         console.log('totalclick', this.totalClickRight)
 
-        if(screen.width > 700 && this.totalClickRight <= 1){  /*Al añadirle totalclickRight 1 en mounted necesita hacer esta correción para que se desactive el boton */
+        if(screen.width < 700 && this.totalClickRight <= 1){
+          this.arrowRightActive = false
+        
+        }else if(screen.width > 700 && screen.width < 1200 && this.totalClickRight <= 2){  /*Al añadirle totalclickRight 1 en mounted necesita hacer esta correción para que se desactive el boton */
           this.arrowLeftActive = false
         
-        } 
+        } else if(screen.width > 1200 && this.totalClickRight <= 4){
+          this.arrowLeftActive = false
+        }
 
       } return
 
     },
 
     checkTotalEvent(){
-      (this.updateEvent.length <= 1)
+      (this.updateEvent.length <= this.totalClickRight)
         ? this.arrowRightActive = false
         : this.arrowRightActive = true 
     },
@@ -182,26 +188,30 @@ export default {
       return event.joined = event.joined +1
     },
 
-    checkScreen(){
+     checkScreen(){
+      
       this.slider = this.$refs.slider 
       this.width = this.slider.offsetWidth 
       this.resetWidth = this.width
   
-      if(screen.width > 700 && screen.width ){
+      if(screen.width < 700){
+        this.totalClickRight = 1
+        
+      } else if(screen.width > 700 && screen.width < 1100){
         this.width = this.width /2
         this.resetWidth = this.width
 
-        this.totalClickRight = 1
+        this.totalClickRight = 2
 
-      }   return
+      } else if(screen.width > 1200){
+        this.width = this.width /4
+        this.resetWidth = this.width
+        
+        this.totalClickRight = 4
+      }
+    }
   },
-   
-
-  },
-
-  
-
-  
+    
 
   computed:{
     ...mapState('auth',['user']),
@@ -220,9 +230,15 @@ export default {
   
   mounted(){
     this.checkScreen()
-
     this.checkTotalEvent()
-  }
+    console.log('mounted')
+  },
+
+  beforeUpdate(){
+    this.checkTotalEvent()
+    console.log('beforeUpdate')
+  },
+
   
 
 }
@@ -318,6 +334,14 @@ p{
   .container-slider{
     top: 2em;
     width: 700px;
+    position: relative;
+  }
+}
+
+@media screen and (min-width: 1200px){
+  .container-slider{
+    top: 2em;
+    width: 1400px;
     position: relative;
   }
 }
