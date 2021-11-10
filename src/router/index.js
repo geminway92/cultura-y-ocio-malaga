@@ -18,6 +18,7 @@ const routes = [
    {
       path: '/profile-user',
       name: 'profileUser',
+      beforeEnter: [isAuthenticatedGuard],
       component: () =>
          import(
             /*webpackChunkName: "profileUser" */ '../modules/events/views/ProfileUser.vue'
