@@ -1,28 +1,52 @@
 {
-  "name": "cultura-y-ocio",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
-  },
-  "dependencies": {
-    "@fortawesome/fontawesome-free": "^5.15.4",
-    "@fortawesome/fontawesome-svg-core": "^1.2.36",
-    "axios": "^0.23.0",
-    "core-js": "^3.6.5",
-    "font-awesome": "^4.7.0",
-    "fontawesome-5-icons-list": "^1.0.1",
-    "sweetalert2": "^11.1.9",
-    "vue": "^3.0.0",
-    "vue-router": "^4.0.0-0",
-    "vuex": "^4.0.0-0"
-  },
-  "devDependencies": {
-    "@vue/cli-plugin-babel": "~4.5.0",
-    "@vue/cli-plugin-router": "~4.5.0",
-    "@vue/cli-plugin-vuex": "~4.5.0",
-    "@vue/cli-service": "~4.5.0",
-    "@vue/compiler-sfc": "^3.0.0"
-  }
+   "name": "cultura-y-ocio",
+   "version": "0.1.0",
+   "private": true,
+   "scripts": {
+      "lint": "eslint .",
+      "lintfix": "eslint --fix .",
+      "serve": "vue-cli-service serve",
+      "build": "vue-cli-service build"
+   },
+   "dependencies": {
+      "@fortawesome/fontawesome-free": "^5.15.4",
+      "@fortawesome/fontawesome-svg-core": "^1.2.36",
+      "axios": "^0.23.0",
+      "core-js": "^3.6.5",
+      "espree": "^9.0.0",
+      "font-awesome": "^4.7.0",
+      "fontawesome-5-icons-list": "^1.0.1",
+      "sweetalert2": "^11.1.9",
+      "vue": "^3.0.0",
+      "vue-router": "^4.0.0-0",
+      "vuex": "^4.0.0-0"
+   },
+   "devDependencies": {
+      "@vue/cli-plugin-babel": "~4.5.0",
+      "@vue/cli-plugin-router": "~4.5.0",
+      "@vue/cli-plugin-vuex": "~4.5.0",
+      "@vue/cli-service": "~4.5.0",
+      "@vue/compiler-sfc": "^3.0.0",
+      "eslint": "^7.32.0",
+      "eslint-config-standard": "^16.0.3",
+      "eslint-plugin-import": "^2.25.2",
+      "eslint-plugin-node": "^11.1.0",
+      "eslint-plugin-promise": "^5.1.1",
+      "eslint-plugin-vue": "^8.0.3"
+   },
+   "description": "```\r Proyecto que tiene como finalidad encontrar los eventos que hay en Málaga.",
+   "main": "babel.config.js",
+   "directories": {
+      "doc": "docs"
+   },
+   "repository": {
+      "type": "git",
+      "url": "git+https://github.com/geminway92/cultura-y-ocio-malaga.git"
+   },
+   "author": "",
+   "license": "ISC",
+   "bugs": {
+      "url": "https://github.com/geminway92/cultura-y-ocio-malaga/issues"
+   },
+   "homepage": "https://github.com/geminway92/cultura-y-ocio-malaga#readme"
 }
