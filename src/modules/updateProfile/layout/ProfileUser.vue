@@ -1,8 +1,15 @@
 <template>
+   <UpdateNameModal
+      :openModalNewName="openModalNewName"
+      @changeName="changeName"
+   />
    <header>
       <div class="container-header">
-         <i class="fas fa-chevron-left icon-back"></i>
-         <h2>Ajuste</h2>
+         <i
+            @click="this.goRouteCurrentEvent()"
+            class="fas fa-chevron-left icon-back"
+         ></i>
+         <h2>Ajustes</h2>
       </div>
    </header>
    <body>
@@ -12,7 +19,7 @@
             <img
                class="profile-photo"
                src="../../../assets/images/2.jpg"
-               alt=""
+               alt="foto de usuario"
             />
             <hr />
             <h4>Perfil</h4>
@@ -20,14 +27,17 @@
 
          <div class="container-ul">
             <ul>
-               <li>
+               <!-- //TODO action to change the name Cambiar nombre -->
+               <li @click="this.changeName()">
                   Cambiar nombre
                   <i class="fas fa-chevron-right"></i>
                </li>
+               <!-- //TODO action to change update Cambiar foto de perfil -->
                <li>
-                  Cambiar foto de perfil
+                  Cambiar foto
                   <i class="fas fa-chevron-right"></i>
                </li>
+               <!-- //TODO action to change password -->
                <li>
                   Cambiar contraseña
                   <i class="fas fa-chevron-right"></i>
@@ -41,13 +51,34 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapActions, mapState } from 'vuex';
+import { defineAsyncComponent } from 'vue';
+
 export default {
    name: 'profileUser',
+   components: {
+      UpdateNameModal: defineAsyncComponent(() =>
+         import(
+            /*webpackChunckName: "updateNameModal" */ '../components/UpdateNameModal.vue'
+         )
+      )
+   },
+
    data() {
       return {
-         userName: ''
+         userName: '',
+         openModalNewName: false
       };
+   },
+
+   methods: {
+      goRouteCurrentEvent() {
+         this.$router.push({ name: 'eventlayout' });
+      },
+
+      changeName() {
+         this.openModalNewName = !this.openModalNewName;
+      }
    },
 
    computed: {

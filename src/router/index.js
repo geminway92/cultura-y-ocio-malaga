@@ -21,7 +21,7 @@ const routes = [
       beforeEnter: [isAuthenticatedGuard],
       component: () =>
          import(
-            /*webpackChunkName: "profileUser" */ '../modules/events/views/ProfileUser.vue'
+            /*webpackChunkName: "profileUser" */ '../modules/updateProfile/layout/ProfileUser.vue'
          )
    },
    {
