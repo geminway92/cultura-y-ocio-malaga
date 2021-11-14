@@ -33,7 +33,6 @@
             <h4>Perfil</h4>
          </div>
 
-         <!-- //? See if the modal of changeName can be reused -->
          <div class="container-ul">
             <ul>
                <li @click="this.changeName()">

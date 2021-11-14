@@ -1,285 +1,306 @@
 <template>
-  <div class="eventlayout">
-    <!-- Modal de event -->
-      <EventModal @openModal="openModal"  v-if="openModalIsTrue" :eventForModal="eventForModal"/>
-    
-    <!-- Modal Create event -->
-      <CreateEventModal 
-        v-if="showCreateModal" 
-        @openModalCreateEvent="openModalCreateEvent" 
-        :showCreateModal="showCreateModal"
-        @createNewEvent="createNewEvent"
+   <div class="eventlayout">
+      <!-- Modal de event -->
+      <EventModal
+         @openModal="openModal"
+         v-if="openModalIsTrue"
+         :eventForModal="eventForModal"
       />
 
-    <!-- Modal Ver Evento del mes -->
-      <ModalNameRegister 
-      v-if="modalNameIsTrue" 
-      @openModalName="openModalName" 
-      :modalNameIsTrue="modalNameIsTrue" 
-      :nameRegister="nameRegister"/>
-
-    <!-- Header -->
-    <div class="container-header">
-      <div class="container-search">
-        <i class="fas fa-search"></i>
-      </div>
-      <img v-if="user.profilePicture" :src="user.profilePicture" alt="">
-      <img v-else src="" alt="">
-      <div class="container-logout">
-        <i @click="onLogout" class="fas fa-sign-out-alt"></i>
-      </div>
-    </div>
-
-
-    
-
-    <!-- Slider -->
-    <div class="container-slider">
-      <CurrentEvent 
-        @openModal="openModal"
-        @openModalName="openModalName" 
-        :modalNameIsTrue="modalNameIsTrue" 
-        :filterMonthEvent="filterMonthEvent"
-        :monthLetter="monthLetter"/>
-    </div>
-    
-    <!-- Popular Event -->
-    <div class="container-slider-2">
-      <PopularEvent :filterPopularEvent="filterPopularEvent" />
-    </div>
-    
-    <div class="container-bar">
-      <BarBotton 
-        @openModalCreateEvent="openModalCreateEvent" 
-        :showCreateModal="showCreateModal"
+      <!-- Modal Create event -->
+      <CreateEventModal
+         v-if="showCreateModal"
+         @openModalCreateEvent="openModalCreateEvent"
+         :showCreateModal="showCreateModal"
+         @createNewEvent="createNewEvent"
       />
-    </div>    
 
-    
-  </div>
+      <!-- Modal Ver Evento del mes -->
+      <ModalNameRegister
+         v-if="modalNameIsTrue"
+         @openModalName="openModalName"
+         :modalNameIsTrue="modalNameIsTrue"
+         :nameRegister="nameRegister"
+      />
+
+      <!-- Header -->
+      <div class="container-header">
+         <div class="container-search">
+            <i class="fas fa-search"></i>
+         </div>
+         <img v-if="user.profilePicture" :src="user.profilePicture" alt="" />
+         <img v-else src="" alt="" />
+         <div class="container-logout">
+            <i @click="onLogout" class="fas fa-sign-out-alt"></i>
+         </div>
+      </div>
+
+      <!-- Slider -->
+      <div class="container-slider">
+         <CurrentEvent
+            @openModal="openModal"
+            @openModalName="openModalName"
+            :modalNameIsTrue="modalNameIsTrue"
+            :filterMonthEvent="filterMonthEvent"
+            :monthLetter="monthLetter"
+         />
+      </div>
+
+      <!-- Popular Event -->
+      <div class="container-slider-2">
+         <PopularEvent :filterPopularEvent="filterPopularEvent" />
+      </div>
+
+      <div class="container-bar">
+         <BarBotton
+            @openModalCreateEvent="openModalCreateEvent"
+            :showCreateModal="showCreateModal"
+         />
+      </div>
+   </div>
 </template>
 
 <script>
-import {mapActions, mapState} from 'vuex'
-import {defineAsyncComponent} from 'vue'
-import getDayMonthYear from "../helpers/getMonthYear";
-import Swal from 'sweetalert2'
+import { mapActions, mapState } from 'vuex';
+import { defineAsyncComponent } from 'vue';
+import getDayMonthYear from '../helpers/getMonthYear';
+import Swal from 'sweetalert2';
 
 export default {
-  name: 'eventlayout',
-  components: {
-    CurrentEvent: defineAsyncComponent( () => import('../components/CurrentEvent.vue')),
-    PopularEvent: defineAsyncComponent( () => import('../components/PopularEvent.vue')),
-    BarBotton: defineAsyncComponent( () => import('../components/BarBotton.vue')),
-    EventModal: defineAsyncComponent( () => import('../components/EventModal.vue')),
-    CreateEventModal: defineAsyncComponent( () => import('../components/CreateEventModal.vue')),
-    ModalNameRegister: defineAsyncComponent( () => import('../components/ModalNameRegister.vue')),
-  },
+   name: 'eventlayout',
+   components: {
+      CurrentEvent: defineAsyncComponent(() =>
+         import('../components/CurrentEvent.vue')
+      ),
+      PopularEvent: defineAsyncComponent(() =>
+         import('../components/PopularEvent.vue')
+      ),
+      BarBotton: defineAsyncComponent(() =>
+         import('../components/BarBotton.vue')
+      ),
+      EventModal: defineAsyncComponent(() =>
+         import('../components/EventModal.vue')
+      ),
+      CreateEventModal: defineAsyncComponent(() =>
+         import('../components/CreateEventModal.vue')
+      ),
+      ModalNameRegister: defineAsyncComponent(() =>
+         import('../components/ModalNameRegister.vue')
+      )
+   },
 
-  data(){
-    return{
-      openModalIsTrue: false,
-      eventForModal: null,
-      showCreateModal: false,
-      filterMonthEvent: [],
-      currentMonth: null,
-      monthLetter: null,
-      newEvent: null,
-      filterPopularEvent: [],
-      modalNameIsTrue: false,
-      nameRegister: null,
-    }
-  },
+   data() {
+      return {
+         openModalIsTrue: false,
+         eventForModal: null,
+         showCreateModal: false,
+         filterMonthEvent: [],
+         currentMonth: null,
+         monthLetter: null,
+         newEvent: null,
+         filterPopularEvent: [],
+         modalNameIsTrue: false,
+         nameRegister: null
+      };
+   },
 
-  methods:{
-    ...mapActions('auth',['logout']),
-    ...mapActions('event',['loadEventAction']),
+   methods: {
+      ...mapActions('auth', ['logout']),
+      ...mapActions('event', ['loadEventAction']),
 
-    onLogout(){
-      this.logout()
-      this.$router.push({name: 'login'})
-    },
+      onLogout() {
+         this.logout();
+         this.$router.push({ name: 'login' });
+      },
 
-    openModal(event){
-      this.openModalIsTrue = !this.openModalIsTrue
-      console.log(this.openModalIsTrue)
+      openModal(event) {
+         this.openModalIsTrue = !this.openModalIsTrue;
+         console.log(this.openModalIsTrue);
 
-      this.eventForModal = event
-      console.log(this.eventForModal)
+         this.eventForModal = event;
+         console.log(this.eventForModal);
+      },
 
-    },
+      openModalCreateEvent() {
+         this.showCreateModal = !this.showCreateModal;
+         console.log(this.showCreateModal);
+      },
 
-    openModalCreateEvent(){
-      this.showCreateModal = !this.showCreateModal
-      console.log(this.showCreateModal)
-    },
+      async createNewEvent(events) {
+         this.newEvent = events;
+         const { ok, message } = await this.$store.dispatch(
+            'event/createEvent',
+            this.newEvent
+         );
 
-    async createNewEvent(events){
-      this.newEvent = events
-      const {ok, message} = await this.$store.dispatch('event/createEvent', this.newEvent)
+         if (ok)
+            Swal.fire({
+               icon: 'success',
+               title: message,
+               confirmButtonColor: '#B128C3'
+            });
+         else
+            Swal.fire({
+               icon: 'error',
+               title: message,
+               confirmButtonColor: '#B128C3'
+            });
 
-      if(ok )Swal.fire({
-        icon: 'success',
-        title: message,
-        confirmButtonColor: '#B128C3',
-      })
-      else Swal.fire({
-        icon: 'error',
-        title: message,
-        confirmButtonColor: '#B128C3',
-      })
+         this.loadEvents();
+      },
 
-      this.loadEvents()
-    },
+      month() {
+         const { monthCurrent, year, month } = getDayMonthYear();
+         this.monthLetter = month;
 
-     month(){
-      const {monthCurrent, year, month} = getDayMonthYear()
-      this.monthLetter = month
-      
-      this.currentMonth = `${year}-${monthCurrent}`
-      console.log(this.currentMonth)
-    },
+         this.currentMonth = `${year}-${monthCurrent}`;
+         console.log(this.currentMonth);
+      },
 
-    async loadEvents(){
-      await this.loadEventAction()
+      async loadEvents() {
+         await this.loadEventAction();
 
-      this.filterForCurrentMonth()
+         this.filterForCurrentMonth();
+      },
 
-    },
+      filterForCurrentMonth() {
+         if (null === this.events)
+            return; /*Al estilo yoda así por error no se cambia de valor */
+         const eventArray = Object.values(
+            this.events
+         ); /*Los paso array para eliminar el idToken que crea firebase */
+         console.log(eventArray);
+         this.filterMonthEvent = eventArray.filter(e =>
+            e.date.includes(this.currentMonth)
+         );
 
-    filterForCurrentMonth(){
-      if( null === this.events ) return /*Al estilo yoda así por error no se cambia de valor */
-      const eventArray = Object.values(this.events) /*Los paso array para eliminar el idToken que crea firebase */
-      console.log(eventArray)
-      this.filterMonthEvent = eventArray.filter(e => e.date.includes(this.currentMonth))
+         console.log(this.filterMonthEvent, 'filtermonth');
+         this.filterForPopularEvent(this.filterMonthEvent);
+      },
 
-      console.log(this.filterMonthEvent, 'filtermonth')
-      this.filterForPopularEvent(this.filterMonthEvent)
-    },
+      filterForPopularEvent(event) {
+         const mapJoined = this.filterMonthEvent.map(
+            e => e.joined
+         ); /*Mapeamos todos los inscritos */
+         mapJoined.sort(
+            (a, b) => b - a
+         ); /*Ordanamos los inscritos de mayor a menor */
+         const [
+            pos1,
+            ...other
+         ] = mapJoined; /*destructuramos el primero que nos interesa por ser el más grande */
 
-    filterForPopularEvent(event){
-      const mapJoined = this.filterMonthEvent.map(e => e.joined ) /*Mapeamos todos los inscritos */
-      mapJoined.sort((a,b) => b- a) /*Ordanamos los inscritos de mayor a menor */
-      const [pos1, ...other] = mapJoined /*destructuramos el primero que nos interesa por ser el más grande */
+         console.log(mapJoined);
+         this.filterPopularEvent = event.filter(
+            e => e.joined === pos1
+         ); /*Filtramos el que coincide con el mayor de todos */
+         console.log(this.filterPopularEvent, 'popularvent');
+      },
 
-      console.log(mapJoined)
-      this.filterPopularEvent = event.filter(e => e.joined === pos1) /*Filtramos el que coincide con el mayor de todos */
-      console.log(this.filterPopularEvent, 'popularvent')
-      
-    },
+      openModalName(name) {
+         this.modalNameIsTrue = !this.modalNameIsTrue;
+         console.log(this.modalNameIsTrue);
 
-    openModalName(name){
-      this.modalNameIsTrue = !this.modalNameIsTrue
-      console.log(this.modalNameIsTrue)
+         this.nameRegister = name;
 
-      this.nameRegister = name
+         console.log(this.nameRegister);
+      }
+   },
+   created() {
+      this.loadEvents();
+      this.month();
+   },
 
-      console.log(this.nameRegister)
-
-    }
-
-
-
-  },
-  created(){    
-    this.loadEvents()
-    this.month()
-  },
-
-  computed:{
-    ...mapState('auth',['user']),
-    ...mapState('event',['events'])
-
-  }
-
-}
+   computed: {
+      ...mapState('auth', ['user']),
+      ...mapState('event', ['events'])
+   }
+};
 </script>
 
 <style scoped>
-
-i{
-  font-size: 1.3em;
-  cursor: pointer;
-
+i {
+   font-size: 1.3em;
+   cursor: pointer;
 }
 
 @media screen and (min-width: 1800px) {
-  i{
-    font-size: 2em;
-  }
+   i {
+      font-size: 2em;
+   }
 }
 
-.eventlayout{
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+.eventlayout {
+   width: 100vw;
+   height: 100vh;
+   display: flex;
+   flex-direction: column;
+   justify-content: space-between;
 }
 
-
-.container-header{
-  width: 100vw;
-  display: flex;
-  /* position: fixed; */
-  top: 0;
-  justify-content: space-between;
-  padding: .5em 0;
-  z-index: 3;
-}
-
-@media screen and (min-width: 1800px) {
-  .container-header{
-    height: 70px;
-  }
-}
-
-.container-header img{
-  width: 40px;
-  border-radius: 100%;
+.container-header {
+   width: 100vw;
+   display: flex;
+   /* position: fixed; */
+   top: 0;
+   justify-content: space-between;
+   padding: 0.5em 0;
+   z-index: 3;
 }
 
 @media screen and (min-width: 1800px) {
-  .container-header img {
-    width: 60px;
-  }
+   .container-header {
+      height: 70px;
+   }
+}
+
+.container-header img {
+   width: 40px;
+   object-fit: cover;
+   border-radius: 100%;
+}
+
+@media screen and (min-width: 1800px) {
+   .container-header img {
+      width: 60px;
+   }
 }
 
 .container-search,
 .container-logout {
-  background-color: #F3F3F4;
-  width: 40px;
-  height: 40px;
-  border-radius: 100%;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
+   background-color: #f3f3f4;
+   width: 40px;
+   height: 40px;
+   border-radius: 100%;
+   display: flex;
+   justify-content: center;
+   flex-direction: column;
 }
 
 @media screen and (min-width: 1800px) {
-  .container-search,
-  .container-logout{
-    width: 50px;
-    height: 50px;
-  }
+   .container-search,
+   .container-logout {
+      width: 50px;
+      height: 50px;
+   }
 }
 
 .container-search {
-  margin-left: .5em;
+   margin-left: 0.5em;
 }
 
 .container-logout {
-  margin-right: .5em;
+   margin-right: 0.5em;
 }
 
-.container-slider{
-  position: relative;
-  bottom: 1em;
+.container-slider {
+   position: relative;
+   bottom: 1em;
 }
 
-.container-bar{
-  /* position: sticky; */
-  width: 100%;
-  height: min-content;
+.container-bar {
+   /* position: sticky; */
+   width: 100%;
+   height: min-content;
 }
 </style>
