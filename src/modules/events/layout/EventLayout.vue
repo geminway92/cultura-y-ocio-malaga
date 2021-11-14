@@ -22,10 +22,10 @@
          :modalNameIsTrue="modalNameIsTrue"
          :nameRegister="nameRegister"
       />
-
+      <!-- //TODO Make methods search -->
       <!-- Header -->
-      <div class="container-header">
-         <div class="container-search">
+      <div v-if="!this.searchEvent" class="container-header">
+         <div @click="this.openSearchModal()" class="container-search">
             <i class="fas fa-search"></i>
          </div>
          <img v-if="user.profilePicture" :src="user.profilePicture" alt="" />
@@ -33,6 +33,17 @@
          <div class="container-logout">
             <i @click="onLogout" class="fas fa-sign-out-alt"></i>
          </div>
+      </div>
+      <div v-else class="container-header--search">
+         <div
+            @click="this.openSearchModal()"
+            class="container-search search-input"
+         >
+            <span class="fas fa-search search-icon"></span>
+         </div>
+         <form @submit.prevent="this.searchEventFilter(this.textSearch)">
+            <input type="search" v-model="this.textSearch" />
+         </form>
       </div>
 
       <!-- Slider -->
@@ -100,7 +111,9 @@ export default {
          newEvent: null,
          filterPopularEvent: [],
          modalNameIsTrue: false,
-         nameRegister: null
+         nameRegister: null,
+         searchEvent: false,
+         textSearch: ''
       };
    },
 
@@ -108,6 +121,10 @@ export default {
       ...mapActions('auth', ['logout']),
       ...mapActions('event', ['loadEventAction']),
 
+      openSearchModal() {
+         this.searchEvent = !this.searchEvent;
+         console.log(this.searchEvent);
+      },
       onLogout() {
          this.logout();
          this.$router.push({ name: 'login' });
@@ -204,6 +221,19 @@ export default {
          this.nameRegister = name;
 
          console.log(this.nameRegister);
+      },
+
+      searchEventFilter(text) {
+         const eventArray = Object.values(this.events); //* Convert to array to remove id
+         console.log(eventArray);
+
+         const eventFilter = eventArray.filter(e =>
+            e.name.toLowerCase().includes(text.toLocaleLowerCase())
+         );
+         console.log(
+            '🚀 ~ file: EventLayout.vue ~ line 222 ~ searchEvent ~ eventFilter',
+            eventFilter
+         );
       }
    },
    created() {
@@ -264,6 +294,39 @@ i {
    .container-header img {
       width: 60px;
    }
+}
+
+.container-header--search {
+   width: 100vw;
+   min-height: 50px;
+   display: flex;
+   z-index: 5;
+}
+
+.container-header--search input {
+   width: 300px;
+   height: 40px;
+   border-radius: 5px;
+   border: 2px solid #a4a3a1;
+   padding: 0.5em;
+   margin: auto 0;
+}
+
+.container-header--search input:focus {
+   outline: 1px solid #b128c3;
+}
+
+.search-icon {
+   margin: auto;
+   font-size: 1.2em;
+   /* color: #a4a3a1; */
+   cursor: pointer;
+}
+
+.search-input {
+   margin-right: 0.2em;
+   position: relative;
+   top: 0.3em;
 }
 
 .container-search,
