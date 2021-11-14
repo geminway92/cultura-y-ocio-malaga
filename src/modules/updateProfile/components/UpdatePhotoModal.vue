@@ -1,24 +1,14 @@
 <template>
    <div
-      v-if="openModalNewName"
-      @click.self="this.$emit('changeName')"
+      v-if="openModalPhoto"
+      @click.self="this.$emit('changePhoto')"
       class="container-modal"
    >
       <div class="modal">
-         <form @submit.prevent="this.updateName()">
-            <h1>Actualizar nombre a:</h1>
-            <h4>{{ this.newName }}</h4>
-            <label>
-               <h3 class="title-name">Nombre</h3>
-               <input
-                  class="input-name"
-                  type="text"
-                  placeholder="Geminway"
-                  v-model="newName"
-                  required
-               />
-            </label>
-            <input class="button-submit" type="submit" />
+         <form @submit.prevent="this.updatePhoto()">
+            <h1>Actualizar foto</h1>
+            <input class="input-photo" type="file" @change="onSelectImage" />
+            <input class="button-submit" type="submit" value="Cambiar" />
          </form>
       </div>
    </div>
@@ -27,33 +17,38 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 import Swal from 'sweetalert2';
+import getUpdatePhoto from '../helper/getUpdatePhoto';
 
 export default {
    data() {
       return {
-         newName: ''
+         picture: ''
       };
    },
 
    props: {
-      openModalNewName: {
+      openModalPhoto: {
          type: Boolean,
          default: false
       }
    },
 
    methods: {
-      ...mapActions('updateStore', ['changeNameAction']),
+      ...mapActions('updateStore', ['changeNameAction', 'changePhotoAction']),
 
-      async updateName() {
+      async onSelectImage(event) {
+         const file = event.target.files[0];
+         const resp = await getUpdatePhoto(file);
+
+         this.picture = resp;
+      },
+
+      async updatePhoto() {
          const updateUser = this.user;
-         updateUser.name = this.newName;
          updateUser.idToken = this.idToken;
-         console.log(updateUser);
+         updateUser.profilePicture = this.picture;
 
-         //* Make http request for change name
-         const resp = await this.changeNameAction(updateUser);
-
+         const resp = await this.changePhotoAction(updateUser);
          if (!resp.ok)
             Swal.fire({
                icon: 'error',
@@ -69,7 +64,7 @@ export default {
                timer: 1500
             });
 
-         this.$emit('changeName');
+         this.$emit('changePhoto');
       }
    },
 
@@ -111,7 +106,7 @@ h4 {
    display: flex;
    justify-content: center;
    width: 300px;
-   height: 200px;
+   height: 150px;
    background-color: #ffffff;
    border-radius: 15px;
    box-shadow: 2px 3px 5px grey;
@@ -123,13 +118,11 @@ h4 {
    font-size: 1em;
 }
 
-.input-name {
+.input-photo {
    width: 90%;
    height: 30px;
-   border-radius: 10px;
-   background-color: #f3f3f4;
-   padding: 0.5em;
    border: none;
+   margin: auto;
 }
 
 .input-name:focus {

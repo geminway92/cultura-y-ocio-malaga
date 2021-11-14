@@ -3,6 +3,10 @@
       :openModalNewName="openModalNewName"
       @changeName="changeName"
    />
+   <UpdatePhotoModal
+      :openModalPhoto="openModalPhoto"
+      @changePhoto="changePhoto"
+   />
    <header>
       <div class="container-header">
          <i
@@ -18,22 +22,22 @@
             <h1 class="title-name">Hola {{ this.user.name }}</h1>
             <img
                class="profile-photo"
-               src="../../../assets/images/2.jpg"
+               :src="this.user.profilePicture"
                alt="foto de usuario"
             />
             <hr />
             <h4>Perfil</h4>
          </div>
 
+         <!-- //? See if the modal of changeName can be reused -->
          <div class="container-ul">
             <ul>
-               <!-- //TODO action to change the name Cambiar nombre -->
                <li @click="this.changeName()">
                   Cambiar nombre
                   <i class="fas fa-chevron-right"></i>
                </li>
                <!-- //TODO action to change update Cambiar foto de perfil -->
-               <li>
+               <li @click="this.changePhoto()">
                   Cambiar foto
                   <i class="fas fa-chevron-right"></i>
                </li>
@@ -51,7 +55,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
+import { mapState } from 'vuex';
 import { defineAsyncComponent } from 'vue';
 
 export default {
@@ -61,13 +65,20 @@ export default {
          import(
             /*webpackChunckName: "updateNameModal" */ '../components/UpdateNameModal.vue'
          )
+      ),
+      UpdatePhotoModal: defineAsyncComponent(() =>
+         import(
+            /*webpackChunkName: "updatePhotoModal" */ '../components/UpdatePhotoModal.vue'
+         )
       )
    },
 
    data() {
       return {
          userName: '',
-         openModalNewName: false
+         openModalNewName: false,
+         openModalPhoto: false,
+         file: ''
       };
    },
 
@@ -78,6 +89,10 @@ export default {
 
       changeName() {
          this.openModalNewName = !this.openModalNewName;
+      },
+
+      async changePhoto() {
+         this.openModalPhoto = !this.openModalPhoto;
       }
    },
 
@@ -177,6 +192,8 @@ button:active {
 
 .profile-photo {
    width: 70px;
+   height: 70px;
+   object-fit: cover;
    border-radius: 100%;
 }
 
@@ -217,6 +234,7 @@ button:active {
    padding: 0.7em;
    position: relative;
    left: -40px;
+   cursor: pointer;
 }
 
 @media screen and (min-width: 700px) {

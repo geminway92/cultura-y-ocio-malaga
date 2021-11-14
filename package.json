@@ -16,6 +16,7 @@
       "espree": "^9.0.0",
       "font-awesome": "^4.7.0",
       "fontawesome-5-icons-list": "^1.0.1",
+      "nodejs": "0.0.0",
       "sweetalert2": "^11.1.9",
       "vue": "^3.0.0",
       "vue-router": "^4.0.0-0",
