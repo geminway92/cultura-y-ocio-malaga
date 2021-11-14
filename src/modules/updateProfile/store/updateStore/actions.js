@@ -1,12 +1,14 @@
 import authApi from '../../../../api/authApi';
 
-export const changeNameAction = async ({ commit }, user) => {
+export const updateUserAction = async ({ commit }, user) => {
+   const { idToken, refreshToken, name, profilePicture } = user;
+
    try {
-      const { idToken, refreshToken, name } = user;
       const { data } = await authApi.post(':update', {
          idToken,
          refreshToken,
-         displayName: name
+         displayName: name,
+         photoUrl: profilePicture
       });
 
       commit('updateUser', { user, idToken, refreshToken });
@@ -20,23 +22,17 @@ export const changeNameAction = async ({ commit }, user) => {
    }
 };
 
-export const changePhotoAction = async ({ commit }, user) => {
+export const changePasswordAction = async ({ commit }, user) => {
+   const { idToken, password } = user;
    try {
-      const { idToken, refreshToken, profilePicture } = user;
       const { data } = await authApi.post(':update', {
          idToken,
-         refreshToken,
-         photoUrl: profilePicture
+         password,
+         returnSecureToken: true
       });
-
-      console.log(data);
-      commit('updateUser', { user, idToken, refreshToken });
 
       return { ok: true };
    } catch (error) {
-      return {
-         ok: false,
-         message: error
-      };
+      return { ok: false, message: error.response.data.error.message };
    }
 };

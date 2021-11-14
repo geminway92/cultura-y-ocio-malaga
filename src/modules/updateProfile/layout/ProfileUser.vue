@@ -7,6 +7,10 @@
       :openModalPhoto="openModalPhoto"
       @changePhoto="changePhoto"
    />
+   <UpdatePasswordModal
+      :openModalNewPassword="openModalNewPassword"
+      @changePassword="changePassword"
+   />
    <header>
       <div class="container-header">
          <i
@@ -36,26 +40,24 @@
                   Cambiar nombre
                   <i class="fas fa-chevron-right"></i>
                </li>
-               <!-- //TODO action to change update Cambiar foto de perfil -->
                <li @click="this.changePhoto()">
                   Cambiar foto
                   <i class="fas fa-chevron-right"></i>
                </li>
-               <!-- //TODO action to change password -->
-               <li>
+               <li @click="this.changePassword()">
                   Cambiar contraseña
                   <i class="fas fa-chevron-right"></i>
                </li>
             </ul>
          </div>
 
-         <button>Cerrar sesión</button>
+         <button @click="this.onLogout()">Cerrar sesión</button>
       </div>
    </body>
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 import { defineAsyncComponent } from 'vue';
 
 export default {
@@ -70,6 +72,11 @@ export default {
          import(
             /*webpackChunkName: "updatePhotoModal" */ '../components/UpdatePhotoModal.vue'
          )
+      ),
+      UpdatePasswordModal: defineAsyncComponent(() =>
+         import(
+            /*webpackChunkName: "updatePasswordName" */ '../components/UpdatePasswordModal.vue'
+         )
       )
    },
 
@@ -78,21 +85,33 @@ export default {
          userName: '',
          openModalNewName: false,
          openModalPhoto: false,
+         openModalNewPassword: false,
          file: ''
       };
    },
 
    methods: {
+      ...mapActions('auth', ['logout']),
+
       goRouteCurrentEvent() {
          this.$router.push({ name: 'eventlayout' });
+      },
+
+      onLogout() {
+         this.logout();
+         this.$router.push({ name: 'login' });
       },
 
       changeName() {
          this.openModalNewName = !this.openModalNewName;
       },
 
-      async changePhoto() {
+      changePhoto() {
          this.openModalPhoto = !this.openModalPhoto;
+      },
+
+      changePassword() {
+         this.openModalNewPassword = !this.openModalNewPassword;
       }
    },
 
