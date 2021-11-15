@@ -41,10 +41,15 @@
          >
             <span class="fas fa-search search-icon"></span>
          </div>
-         <form @submit.prevent="this.searchEventFilter(this.textSearch)">
-            <input type="search" v-model="this.textSearch" />
-         </form>
+         <input type="search" v-model="this.textSearch" />
       </div>
+
+      <!-- Modal for search Events -->
+      <ListEventsModal
+         :openModalSearch="openModalSearch"
+         :eventFilter="eventFilter"
+         :searchEventFilter="searchEventFilter"
+      />
 
       <!-- Slider -->
       <div class="container-slider">
@@ -97,6 +102,9 @@ export default {
       ),
       ModalNameRegister: defineAsyncComponent(() =>
          import('../components/ModalNameRegister.vue')
+      ),
+      ListEventsModal: defineAsyncComponent(() =>
+         import('../components/ListEventsModal.vue')
       )
    },
 
@@ -111,9 +119,11 @@ export default {
          newEvent: null,
          filterPopularEvent: [],
          modalNameIsTrue: false,
+         openModalSearch: false,
          nameRegister: null,
          searchEvent: false,
-         textSearch: ''
+         textSearch: '',
+         eventFilter: []
       };
    },
 
@@ -123,8 +133,17 @@ export default {
 
       openSearchModal() {
          this.searchEvent = !this.searchEvent;
-         console.log(this.searchEvent);
+         if (this.searchEvent) {
+            if (this.openModalSearch && !this.searchEvent) {
+               this.openModalIsTrue = true;
+            } else {
+               this.textSearch = '';
+            }
+         } else {
+            this.textSearch = '';
+         }
       },
+
       onLogout() {
          this.logout();
          this.$router.push({ name: 'login' });
@@ -132,10 +151,7 @@ export default {
 
       openModal(event) {
          this.openModalIsTrue = !this.openModalIsTrue;
-         console.log(this.openModalIsTrue);
-
          this.eventForModal = event;
-         console.log(this.eventForModal);
       },
 
       openModalCreateEvent() {
@@ -171,7 +187,6 @@ export default {
          this.monthLetter = month;
 
          this.currentMonth = `${year}-${monthCurrent}`;
-         console.log(this.currentMonth);
       },
 
       async loadEvents() {
@@ -186,12 +201,10 @@ export default {
          const eventArray = Object.values(
             this.events
          ); /*Los paso array para eliminar el idToken que crea firebase */
-         console.log(eventArray);
          this.filterMonthEvent = eventArray.filter(e =>
             e.date.includes(this.currentMonth)
          );
 
-         console.log(this.filterMonthEvent, 'filtermonth');
          this.filterForPopularEvent(this.filterMonthEvent);
       },
 
@@ -207,33 +220,14 @@ export default {
             ...other
          ] = mapJoined; /*destructuramos el primero que nos interesa por ser el más grande */
 
-         console.log(mapJoined);
          this.filterPopularEvent = event.filter(
             e => e.joined === pos1
          ); /*Filtramos el que coincide con el mayor de todos */
-         console.log(this.filterPopularEvent, 'popularvent');
       },
 
       openModalName(name) {
          this.modalNameIsTrue = !this.modalNameIsTrue;
-         console.log(this.modalNameIsTrue);
-
          this.nameRegister = name;
-
-         console.log(this.nameRegister);
-      },
-
-      searchEventFilter(text) {
-         const eventArray = Object.values(this.events); //* Convert to array to remove id
-         console.log(eventArray);
-
-         const eventFilter = eventArray.filter(e =>
-            e.name.toLowerCase().includes(text.toLocaleLowerCase())
-         );
-         console.log(
-            '🚀 ~ file: EventLayout.vue ~ line 222 ~ searchEvent ~ eventFilter',
-            eventFilter
-         );
       }
    },
    created() {
@@ -243,7 +237,30 @@ export default {
 
    computed: {
       ...mapState('auth', ['user']),
-      ...mapState('event', ['events'])
+      ...mapState('event', ['events']),
+
+      searchEventFilter() {
+         if (this.textSearch.length >= 1) {
+            this.openModalSearch = true;
+            const eventArray = Object.values(this.events); //* Convert to array to remove id
+            console.log(eventArray);
+
+            this.eventFilter = eventArray.filter(e =>
+               e.name
+                  .toLowerCase()
+                  .includes(this.textSearch.toLocaleLowerCase())
+            );
+            console.log(
+               '🚀 ~ file: EventLayout.vue ~ line 222 ~ searchEvent ~ eventFilter',
+               this.eventFilter
+            );
+         } else if (this.textSearch == 0) {
+            this.openModalSearch = false;
+            return (this.eventFilter = []);
+         }
+
+         return this.eventFilter;
+      }
    }
 };
 </script>
@@ -298,9 +315,10 @@ i {
 
 .container-header--search {
    width: 100vw;
-   min-height: 50px;
+   min-height: 40px;
    display: flex;
    z-index: 5;
+   margin: 0.5em 0;
 }
 
 .container-header--search input {
@@ -309,7 +327,6 @@ i {
    border-radius: 5px;
    border: 2px solid #a4a3a1;
    padding: 0.5em;
-   margin: auto 0;
 }
 
 .container-header--search input:focus {
@@ -319,14 +336,13 @@ i {
 .search-icon {
    margin: auto;
    font-size: 1.2em;
-   /* color: #a4a3a1; */
    cursor: pointer;
 }
 
 .search-input {
    margin-right: 0.2em;
    position: relative;
-   top: 0.3em;
+   top: 0.1em;
 }
 
 .container-search,

@@ -133,8 +133,6 @@ export default {
             if (this.width < this.resetWidth) {
                return (this.width = this.resetWidth);
             }
-
-            console.log('totalclick', this.totalClickRight);
          } else return;
       },
 
@@ -158,8 +156,6 @@ export default {
             if (this.width < this.resetWidth) {
                return (this.width = this.resetWidth);
             }
-
-            console.log('totalclick', this.totalClickRight);
 
             if (screen.width < 700 && this.totalClickRight <= 1) {
                this.arrowRightActive = false;
@@ -200,17 +196,14 @@ export default {
          };
 
          const filter = event.register.filter(e => e === this.user.name);
-         console.log(filter, 'existe');
 
          if (filter.length > 0) {
-            console.error('Ya te has inscrito');
             return;
          }
          dataToSave.joined = event.joined + 1;
          event.register.push(this.user.name);
 
          this.joinEventAction(dataToSave);
-         console.log(dataToSave, 'Resp de filtro para id');
 
          return (event.joined = event.joined + 1);
       },
@@ -245,7 +238,6 @@ export default {
          /*Comprobar longitud para bloquear o activar botón */ else
             this.arrowRightActive = true;
 
-         console.log(this.filterMonthEvent.length);
          return this
             .filterMonthEvent; /*Para que actualice el filtro de eventos por mes si se registra uno */
       }
@@ -254,12 +246,10 @@ export default {
    mounted() {
       this.checkScreen();
       this.checkTotalEvent();
-      console.log('mounted');
    },
 
    beforeUpdate() {
       this.checkTotalEvent();
-      console.log('beforeUpdate');
    }
 };
 </script>
