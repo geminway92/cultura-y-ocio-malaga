@@ -243,16 +243,11 @@ export default {
          if (this.textSearch.length >= 1) {
             this.openModalSearch = true;
             const eventArray = Object.values(this.events); //* Convert to array to remove id
-            console.log(eventArray);
 
             this.eventFilter = eventArray.filter(e =>
                e.name
                   .toLowerCase()
                   .includes(this.textSearch.toLocaleLowerCase())
-            );
-            console.log(
-               '🚀 ~ file: EventLayout.vue ~ line 222 ~ searchEvent ~ eventFilter',
-               this.eventFilter
             );
          } else if (this.textSearch == 0) {
             this.openModalSearch = false;

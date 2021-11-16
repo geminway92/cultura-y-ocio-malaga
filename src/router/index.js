@@ -16,6 +16,19 @@ const routes = [
       ...eventLayoutRouter
    },
    {
+      name: 'event-id',
+      path: '/:id',
+      component: () =>
+         import(
+            /*webpackChunkName: "event-id" */ '../modules/events/layout/EventId.vue'
+         ),
+      props: router => {
+         return {
+            id: router.params.id
+         };
+      }
+   },
+   {
       path: '/profile-user',
       name: 'profileUser',
       beforeEnter: [isAuthenticatedGuard],

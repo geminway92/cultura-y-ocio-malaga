@@ -2,7 +2,7 @@
    <div v-if="this.searchEventFilter.length >= 1" class="container-modal">
       <div v-for="event in searchEventFilter" :key="event">
          <ul>
-            <div class="container-li">
+            <div @click="this.openEvent(event)" class="container-li">
                <img :src="event.photo" alt="foto del evento" />
                <li>
                   {{ event.name }}
@@ -24,6 +24,16 @@ export default {
       searchEventFilter: {
          type: Array
       }
+   },
+
+   methods: {
+      openEvent(event) {
+         console.log(event);
+         this.$router.push({
+            name: 'event-id',
+            params: { id: event.id }
+         });
+      }
    }
 };
 </script>
@@ -33,7 +43,8 @@ export default {
    position: absolute;
    width: 295px;
    min-height: min-content;
-   max-height: 200px;
+   max-height: 500px;
+   overflow: scroll;
    background-color: #ffffff;
    box-shadow: 0px 0px 5px grey;
    top: 3em;
@@ -43,8 +54,6 @@ export default {
 
 ul {
    margin: 0;
-   min-height: min-content;
-   max-height: 200px;
    list-style-type: none;
 }
 

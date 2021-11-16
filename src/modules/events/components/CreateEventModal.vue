@@ -58,7 +58,7 @@ export default {
             description: '',
             photo: '',
             joined: 0,
-            register: ['']
+            register: ['Venom']
          }
       };
    },
@@ -93,7 +93,7 @@ export default {
             description: '',
             photo: '',
             joined: 0,
-            register: ['']
+            register: []
          };
       },
 
