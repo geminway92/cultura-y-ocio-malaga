@@ -182,8 +182,8 @@ export default {
       getEventInterested(event) {
          this.$emit('openModal', event);
       },
-      //BUG Cuando le doy a unir no me deja buscar eventos hasta que actualizo página
-      joinEvent(event) {
+
+      async joinEvent(event) {
          const dataToSave = {
             id: event.id,
             name: event.name,
@@ -203,7 +203,8 @@ export default {
          dataToSave.joined = event.joined + 1;
          event.register.push(this.user.name);
 
-         this.joinEventAction(dataToSave);
+         await this.joinEventAction(dataToSave);
+         await this.loadEventAction();
 
          return (event.joined = event.joined + 1);
       },

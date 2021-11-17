@@ -26,8 +26,12 @@
                v-model="this.newEvent.date"
                required
             />
-
-            <input type="file" @change="onSelectedImage" required />
+            <input
+               type="file"
+               @change="onSelectedImage"
+               accept="image/png, image/jpeg image/jpg"
+               required
+            />
 
             <textarea
                cols="30"

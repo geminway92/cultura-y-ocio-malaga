@@ -156,7 +156,8 @@ export default {
 
       openModalCreateEvent() {
          this.showCreateModal = !this.showCreateModal;
-         console.log(this.showCreateModal);
+         this.searchEvent = true; //* I strengthen the true to close and reset the input.
+         this.openSearchModal();
       },
 
       async createNewEvent(events) {
