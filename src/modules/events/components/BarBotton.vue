@@ -38,11 +38,19 @@ button {
    padding: 1em;
    margin: auto;
    text-align: center;
+   cursor: pointer;
 }
 
 i {
    margin: auto;
    font-size: 1.3em;
+}
+@media screen and (width: 375px) {
+   button {
+      padding: 0.8em;
+      position: relative;
+      bottom: 0.3em;
+   }
 }
 
 @media screen and (min-width: 1800px) {

@@ -146,6 +146,7 @@ button {
    padding: 0.7em;
    margin-top: 0.5em;
    color: white;
+   cursor: pointer;
 }
 
 button:active {
@@ -181,6 +182,7 @@ button:active {
    font-size: 1.5em;
    position: relative;
    left: 1em;
+   cursor: pointer;
 }
 
 @media screen and (min-width: 700px) {
@@ -217,7 +219,8 @@ button:active {
 
 @media screen and (min-width: 700px) {
    .profile-photo {
-      width: 100px;
+      width: 110px;
+      height: 110px;
    }
 }
 

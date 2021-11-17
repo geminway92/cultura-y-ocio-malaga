@@ -57,10 +57,6 @@ export default {
          const eventNotID = Object.values(this.events);
 
          this.eventID = eventNotID.find(e => e.id == this.id);
-         console.log(
-            '🚀 ~ file: EventId.vue ~ line 35 ~ eventId ~ this.eventID',
-            this.eventID
-         );
       },
 
       joinEvent() {
@@ -129,6 +125,12 @@ button {
    box-shadow: 0 0 3px black;
    cursor: pointer;
    margin-top: 1em;
+}
+
+@media screen and (width: 320px) {
+   button {
+      margin: 0 0 1em;
+   }
 }
 
 button:active {

@@ -22,7 +22,6 @@
          :modalNameIsTrue="modalNameIsTrue"
          :nameRegister="nameRegister"
       />
-      <!-- //TODO Make methods search -->
       <!-- Header -->
       <div v-if="!this.searchEvent" class="container-header">
          <div @click="this.openSearchModal()" class="container-search">
@@ -317,6 +316,13 @@ i {
    margin: 0.5em 0;
 }
 
+@media screen and (min-width: 700px) and (max-width: 900px) {
+   .container-header--search {
+      margin-bottom: 1em;
+      min-height: 70px;
+   }
+}
+
 .container-header--search input {
    width: 300px;
    height: 40px;
@@ -374,7 +380,6 @@ i {
 }
 
 .container-bar {
-   /* position: sticky; */
    width: 100%;
    height: min-content;
 }

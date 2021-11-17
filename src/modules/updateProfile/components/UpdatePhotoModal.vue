@@ -126,11 +126,6 @@ h4 {
    margin: auto;
 }
 
-.input-name:focus {
-   outline: none;
-   border-bottom: 2px solid var(--colorPrimary);
-}
-
 .button-submit {
    background-color: #b128c3;
    width: 80px;
@@ -139,5 +134,6 @@ h4 {
    padding: 0.7em;
    color: white;
    margin: auto;
+   cursor: pointer;
 }
 </style>

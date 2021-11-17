@@ -145,5 +145,6 @@ h4 {
    padding: 0.7em;
    color: white;
    margin: auto;
+   cursor: pointer;
 }
 </style>

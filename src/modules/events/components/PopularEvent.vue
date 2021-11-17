@@ -146,7 +146,7 @@ export default {
    font-size: 1.5em;
    text-align: start;
    width: 200px;
-   margin: 1em 1em 0;
+   margin: 0 1em;
 }
 
 .container-card {
@@ -154,6 +154,11 @@ export default {
    height: min-content;
    margin: 1em;
    display: flex;
+}
+@media screen and (width: 375px) {
+   .container-card {
+      margin: 0 1em;
+   }
 }
 
 @media screen and (width: 320px) {
@@ -172,9 +177,7 @@ export default {
 
 @media screen and (min-width: 1800px) {
    .container-card {
-      flex-direction: column;
-      width: 700px;
-      height: 400px;
+      width: 400px;
    }
 }
 

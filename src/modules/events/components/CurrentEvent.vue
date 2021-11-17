@@ -351,6 +351,7 @@ p {
    .container-slider {
       top: 2em;
       width: 1400px;
+      height: 200px;
       position: relative;
    }
 }
