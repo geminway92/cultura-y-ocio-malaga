@@ -4,7 +4,7 @@
          <button @click="this.$emit('openModalCreateEvent')">
             Crear evento
          </button>
-         <i class="far fa-calendar-alt"></i>
+         <i @click="goRouteCalendar()" class="far fa-calendar-alt"></i>
          <i class="fas fa-bell"></i>
          <i @click="openProfile()" class="fas fa-user"></i>
       </div>
@@ -23,6 +23,10 @@ export default {
       openProfile() {
          this.$router.push({ name: 'profileUser' });
          console.log('ha llegado');
+      },
+
+      goRouteCalendar() {
+         this.$router.push({ name: 'calendar' });
       }
    }
 };

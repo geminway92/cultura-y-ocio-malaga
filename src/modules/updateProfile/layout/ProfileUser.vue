@@ -127,7 +127,7 @@ header {
    width: 100vw;
    height: 80px;
    display: flex;
-   justify-content: end;
+   justify-content: flex-end;
 }
 
 h2 {
@@ -242,7 +242,7 @@ button:active {
    width: 200px;
    display: flex;
    flex-direction: column;
-   justify-content: start;
+   justify-content: flex-start;
    margin: auto;
 }
 
