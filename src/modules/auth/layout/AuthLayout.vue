@@ -40,7 +40,7 @@ export default {
 h2 {
    font-size: 1em;
    font-weight: 500;
-   opacity: 0.4;
+   opacity: 0.4;s
 }
 
 .container-layout {
