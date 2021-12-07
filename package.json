@@ -21,6 +21,7 @@
       "vue": "^3.2.24",
       "vue-cal": "^3.10.1",
       "vue-router": "^4.0.0-0",
+      "vue-simple-calendar": "^6.0.3",
       "vuex": "^4.0.0-0"
    },
    "devDependencies": {
