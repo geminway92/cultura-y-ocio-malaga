@@ -195,6 +195,7 @@ export default {
             register: event.register
          };
 
+         const eventUser = {id: this.user.email ,startDate: dataToSave.date,endDate: dataToSave.date,title: dataToSave.name,classes: "purple",}
          const filter = event.register.filter(e => e === this.user.name);
 
          if (filter.length > 0) {
@@ -203,7 +204,7 @@ export default {
          dataToSave.joined = event.joined + 1;
          event.register.push(this.user.name);
 
-         await this.joinEventAction(dataToSave);
+         await this.joinEventAction({dataToSave, eventUser});
          await this.loadEventAction();
 
          return (event.joined = event.joined + 1);
@@ -239,8 +240,7 @@ export default {
          /*Comprobar longitud para bloquear o activar botón */ else
             this.arrowRightActive = true;
 
-         return this
-            .filterMonthEvent; /*Para que actualice el filtro de eventos por mes si se registra uno */
+         return this.filterMonthEvent; /*Para que actualice el filtro de eventos por mes si se registra uno */
       }
    },
 

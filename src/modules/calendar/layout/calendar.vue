@@ -21,6 +21,7 @@
 
 <script>
 import { CalendarView, CalendarViewHeader } from 'vue-simple-calendar';
+import { mapState } from 'vuex';
 import '../../../../node_modules/vue-simple-calendar/dist/style.css';
 import "../../../../node_modules/vue-simple-calendar/static/css/holidays-us.css"
 
@@ -33,28 +34,11 @@ export default {
    data(){
       return{
          showDate: new Date(),
-         items: [
-            {
-               id: "1",
-               startDate: "2022-10-09",
-               endDate: "2022-10-19",
-               title: "Ejemplo evento 1"
-            },
-            {
-               id: "2",
-               startDate: "2022-02-19",
-               endDate: "2022-02-19",
-               title: "Ejemplo evento 2"
-            },
-            {
-               id: "3",
-               startDate: "2022-02-19",
-               title: "Ejemplo largo"
-            }
-         ]
+         items: []
       }
    },
    methods: {
+
       setShowDate(d){
          this.showDate = d;
       },
@@ -65,7 +49,31 @@ export default {
 			const t = new Date()
 			return new Date(t.getFullYear(), t.getMonth(), d, h || 0, m || 0)
 		},
+      printEvent(){
+         console.log(this.eventRegister[0])
+         let valueEvent = Object.values(this.eventRegister[0])
 
+         valueEvent.forEach(e => {
+            this.items.push(e)
+         })
+      },
+      fetchApi(){
+         if(this.user === null ){
+         this.$router.push({name: 'login'})
+
+            return
+         }
+         return this.printEvent();
+      }
+
+   },
+   computed:{
+      ...mapState('auth',[ 'user']),
+      ...mapState('event',[ 'eventRegister'])
+   },
+   created(){
+
+      this.fetchApi();
    }
 };
 </script>
