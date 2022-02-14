@@ -186,7 +186,7 @@ export default {
          const { monthCurrent, year, month } = getDayMonthYear();
          this.monthLetter = month;
 
-         this.currentMonth = `${year}-${monthCurrent}`;
+         this.currentMonth = `${year}-${monthCurrent.toString().length < 2 ? "0" + monthCurrent : monthCurrent}`;
       },
 
       async loadEvents() {
@@ -201,6 +201,9 @@ export default {
          const eventArray = Object.values(
             this.events
          ); /*Los paso array para eliminar el idToken que crea firebase */
+         console.log(this.events)
+         console.log(eventArray)
+         console.log(this.currentMonth)
          this.filterMonthEvent = eventArray.filter(e =>
             e.date.includes(this.currentMonth)
          );
