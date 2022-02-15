@@ -58,12 +58,20 @@ export default {
 			return new Date(t.getFullYear(), t.getMonth(), d, h || 0, m || 0)
 		},
       printEvent(){
-         console.log(this.eventRegister[0])
-         let valueEvent = Object.values(this.eventRegister[0])
+         if(this.user.email === undefined){
 
-         valueEvent.forEach(e => {
-            this.items.push(e)
-         })
+            this.items.push( this.eventRegister)
+            this.eventRegister.forEach(e => {
+               this.items.push(e)
+            })
+            return this.items
+         }else {
+
+            let valueEvent = Object.values(this.eventRegister[0])
+            valueEvent.forEach(e => {
+               this.items.push(e)
+            })
+         }
       },
       fetchApi(){
          if(this.user === null ){
@@ -71,13 +79,16 @@ export default {
 
             return
          }
-         return this.printEvent();
+         return this.printEvent(this.eventRegister[0]);
       }
 
    },
    computed:{
       ...mapState('auth',[ 'user']),
-      ...mapState('event',[ 'eventRegister'])
+      ...mapState('event',[ 'eventRegister']),
+      checkListEvent(){
+         return this.printEvent(this.eventRegister)
+      }
    },
    created(){
       this.fetchApi();

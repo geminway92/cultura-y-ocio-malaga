@@ -101,3 +101,7 @@ export const loadEventUser = async ({commit}, user) => {
     }
 }
 
+export const loadEventAnonimous = async ({commit}, event) => {
+    commit('LOAD_EVENT_ANONIMOUS', event)
+}
+

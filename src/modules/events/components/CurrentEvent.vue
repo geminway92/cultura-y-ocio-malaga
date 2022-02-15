@@ -50,23 +50,15 @@
                      <h4>+{{ event.joined }}</h4>
                      <h4>Inscritos</h4>
                   </div>
-                  <div v-if="this.user.email" class="container-buttons">
+                  <div class="container-buttons">
                      <button
                         class="button-show"
                         @click="getEventInterested(event)"
                      >
                         Ver
                      </button>
-                     <button class="button-join" @click="joinEvent(event)">
+                     <button class="button-join" @click="checkUser(event)">
                         Unir
-                     </button>
-                  </div>
-                  <div v-else class="container-button--anonimous">
-                     <button
-                        class="button-show"
-                        @click="getEventInterested(event)"
-                     >
-                        Ver
                      </button>
                   </div>
                </div>
@@ -108,11 +100,11 @@ export default {
 
       monthLetter: {
          type: String
-      }
+      },
    },
 
    methods: {
-      ...mapActions('event', ['joinEventAction', 'loadEventAction']),
+      ...mapActions('event', ['joinEventAction', 'loadEventAction','loadEventAnonimous']),
 
       moveSliderRight() {
          if (this.totalClickRight < this.updateEvent.length) {
@@ -208,6 +200,17 @@ export default {
          await this.loadEventAction();
 
          return (event.joined = event.joined + 1);
+      },
+      checkUser(event){
+         if(this.myEvents || this.users === undefined){
+            console.log('soy undefined')
+             const eventUser = {id: 'anonimo' ,startDate: event.date,endDate: event.date,title: event.name,classes: "purple"}
+
+            this.loadEventAnonimous( eventUser)
+            return
+         }else {
+            this.joinEvent();
+         }
       },
 
       checkScreen() {

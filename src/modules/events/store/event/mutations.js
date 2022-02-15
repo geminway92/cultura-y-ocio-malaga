@@ -19,3 +19,8 @@ export const SET_EVENT_USER = (state, myEvents) => {
     state.eventRegister.push(myEvents)
 
 }
+
+export const LOAD_EVENT_ANONIMOUS = (state, myEvents) => {
+    localStorage.setItem("myEvents", JSON.stringify( myEvents ))
+    state.eventRegister.push(myEvents)
+}

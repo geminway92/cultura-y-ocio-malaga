@@ -58,6 +58,7 @@
             :modalNameIsTrue="modalNameIsTrue"
             :filterMonthEvent="filterMonthEvent"
             :monthLetter="monthLetter"
+            :myEvents="myEvents"
          />
       </div>
 
@@ -122,13 +123,15 @@ export default {
          nameRegister: null,
          searchEvent: false,
          textSearch: '',
-         eventFilter: []
+         eventFilter: [],
+         myEvents: [],
+
       };
    },
 
    methods: {
       ...mapActions('auth', ['logout']),
-      ...mapActions('event', ['loadEventAction','loadEventUser']),
+      ...mapActions('event', ['loadEventAction','loadEventUser','loadEventAnonimous']),
 
       openSearchModal() {
          this.searchEvent = !this.searchEvent;
@@ -231,11 +234,25 @@ export default {
          this.nameRegister = name;
       },
       loadEventFirebase(){
-         let userObject = this.user
-         let emailSplit = userObject.email.split('@').shift()
-         this.loadEventUser(emailSplit)
+         if(this.eventRegister === undefined){
 
-      }
+            if( undefined === this.user.email ){
+               this.checkLocalStorage();
+            return
+            }
+            let userObject = this.user
+            let emailSplit = userObject.email.split('@').shift()
+            this.loadEventUser(emailSplit)
+         }
+
+      },
+      checkLocalStorage() {
+         if (localStorage.getItem("myEvents") != null) {
+         this.myEvents = JSON.parse(localStorage.getItem("myEvents"));
+         console.log( this.myEvents)
+            return  this.loadEventAnonimous( this.myEvents);
+         }
+      },
    },
 
    created() {
@@ -246,7 +263,7 @@ export default {
 
    computed: {
       ...mapState('auth', ['user']),
-      ...mapState('event', ['events']),
+      ...mapState('event', ['events', 'eventRegister']),
 
       searchEventFilter() {
          if (this.textSearch.length >= 1) {

@@ -33,21 +33,13 @@
                   </h4>
                   <h4>Inscritos</h4>
                </div>
-               <div v-if="this.user.email" class="container-buttons">
+               <div class="container-buttons">
                   <button @click="showEvent()" class="button-show">Ver</button>
                   <button
                      @click="joinEvent(filterPopularEvent[0])"
                      class="button-join"
                   >
                      Unir
-                  </button>
-               </div>
-               <div v-else class="container-button--anonimous">
-                  <button
-                     class="button-show"
-                     @click="getEventInterested(event)"
-                  >
-                     Ver
                   </button>
                </div>
             </div>
@@ -133,7 +125,7 @@ export default {
 
    computed: {
       ...mapState('auth', ['user'])
-   }
+   },
 };
 </script>
 
