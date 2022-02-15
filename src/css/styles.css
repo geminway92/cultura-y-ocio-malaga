@@ -2,11 +2,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@400;500;600;700&display=swap');
 
 :root{
-    --colorPrimary: #B128C3; 
+    --colorPrimary: #B128C3;
     --colorSecundary: #A4A3A1;
 
 }
 
+@font-face {
+    font-family: 'Montserrat', sans-serif;
+    src: url('/fonts/Montserrat-VariableFont_wght.woff') format('woff'),
+    url('/fonts/Montserrat-VariableFont_wght.ttf') format('truetype');
+}
 body{
     margin: 0;
     font-family: 'Abhaya Libre', serif;
@@ -28,7 +33,7 @@ a{
 }
 
 input:-webkit-autofill,
-input:-webkit-autofill:hover, 
+input:-webkit-autofill:hover,
 input:-webkit-autofill:focus {
   -webkit-box-shadow: 0 0 0px 1000px #F3F3F4 inset;  /*Para cambiar el fondo en chrome cuando tienes autocompletado*/
 }
