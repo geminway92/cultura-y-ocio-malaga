@@ -42,11 +42,15 @@ export const createEvent = async ({commit}, events) => {
 export const loadEventAction = async ({commit}) => {
     try{
         const {data} = await eventApi.get('/events.json')
+        if(data === null){
+            return
+        }else {
+            commit('loadEventMutation', data)
+        }
 
-        commit('loadEventMutation', data)
 
 
-    }catch{
+    }catch(error){
         console.log(error.message)
     }
 }
@@ -93,21 +97,22 @@ export const addEventUser = async ({commit }, myEvents) => {
 }
 
 export const loadEventUser = async ({commit}, user) => {
-    console.log(user)
+
+    let eventsArray = []
     try {
         const {data} = await eventApi.get(`/${user}.json`)
-        console.log(data)
-        let eventsArray = []
-        const value = Object.values(data)
-        value.forEach(e => {
-            eventsArray.push(e)
-        });
+
         if(data === null){
             return
+        }else{
+            const value = Object.values(data)
+            value.forEach(e => {
+                eventsArray.push(e)
+            });
+
+            commit('SET_EVENT_USER', eventsArray)
         }
 
-        // commit('SET_EVENT_USER', data)
-        commit('SET_EVENT_USER', eventsArray)
     }catch(error){
         console.log(error.message)
     }

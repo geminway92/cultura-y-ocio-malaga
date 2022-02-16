@@ -15,32 +15,34 @@
          :nameRegister="nameRegister"
       />
 
-      <h1 class="title">Eventos Populares</h1>
-      <div v-if="filterPopularEvent.length > 1" class="container-card">
-         <div class="container-img">
-            <img :src="filterPopularEvent[0].photo" alt="" />
-         </div>
-         <div class="container-content">
-            <h4>{{ filterPopularEvent[0].date }}</h4>
-            <h2>{{ filterPopularEvent[0].name }}</h2>
-            <p>
-               {{ filterPopularEvent[0].description.substring(0, 27) + '...' }}
-            </p>
-            <div class="container-total-people">
-               <div class="container-count-people">
-                  <h4 @click="showNameRegister()">
-                     +{{ filterPopularEvent[0].joined }}
-                  </h4>
-                  <h4>Inscritos</h4>
-               </div>
-               <div class="container-buttons">
-                  <button @click="showEvent()" class="button-show">Ver</button>
-                  <button
-                     @click="joinEvent(filterPopularEvent[0])"
-                     class="button-join"
-                  >
-                     Unir
-                  </button>
+      <h1  class="title">Eventos Populares</h1>
+      <div class="container-show" v-if="filterPopularEvent.length > 0 " >
+         <div class="container-card" v-for="event in filterPopularEvent" :key="event" >
+            <div class="container-img">
+               <img :src="event.photo" alt="" />
+            </div>
+            <div class="container-content">
+               <h4>{{ event.date }}</h4>
+               <h2>{{ event.name }}</h2>
+               <p>
+                  {{ event.description.substring(0, 27) + '...' }}
+               </p>
+               <div class="container-total-people">
+                  <div class="container-count-people">
+                     <h4 @click="showNameRegister()">
+                        +{{ event.joined }}
+                     </h4>
+                     <h4>Inscritos</h4>
+                  </div>
+                  <div class="container-buttons">
+                     <button @click="getEventInterested(event)" class="button-show">Ver</button>
+                     <button
+                        @click="checkUser(event)"
+                        class="button-join"
+                     >
+                        Unir
+                     </button>
+                  </div>
                </div>
             </div>
          </div>
@@ -83,15 +85,14 @@ export default {
    },
 
    methods: {
-      ...mapActions('event', ['joinEventAction']),
+      ...mapActions('event', ['joinEventAction', 'updateEventAnonimous']),
 
-      showEvent() {
-         this.openPopularModal = !this.openPopularModal;
-         this.event = this.filterPopularEvent[0];
-         console.log('Ha llegado al showEvent', this.openPopularModal);
+      getEventInterested(event) {
+         this.$emit('openModal', event);
       },
 
-      joinEvent(event) {
+      async joinEvent(event) {
+         console.log('entra en populares')
          const dataToSave = {
             id: event.id,
             name: event.name,
@@ -103,28 +104,43 @@ export default {
             register: event.register
          };
 
+         const eventUser = {id: this.user.email ,startDate: dataToSave.date,endDate: dataToSave.date,title: dataToSave.name,classes: "purple",}
          const filter = event.register.filter(e => e === this.user.name);
 
          if (filter.length > 0) {
-            console.error('Ya te has inscrito');
             return;
          }
          dataToSave.joined = event.joined + 1;
          event.register.push(this.user.name);
 
-         this.joinEventAction(dataToSave);
+         await this.joinEventAction({dataToSave, eventUser});
 
          return (event.joined = event.joined + 1);
+      },
+      checkUser(event){
+         if(this.user.email === undefined){
+            const filterEventRepeat = this.eventRegister.filter(e => e.title === event.name )
+
+            if(filterEventRepeat.length === 0){
+               const eventUser = {id: 'anonimo' ,startDate: event.date,endDate: event.date,title: event.name,classes: "purple"}
+               this.updateEventAnonimous(eventUser)
+            }
+
+         }else {
+            this.joinEvent(event);
+         }
       },
 
       showNameRegister() {
          this.openNameRegister = !this.openNameRegister;
          this.nameRegister = this.filterPopularEvent[0].register;
-      }
+      },
+
    },
 
    computed: {
-      ...mapState('auth', ['user'])
+      ...mapState('auth', ['user']),
+      ...mapState('event', ['events', 'eventRegister']),
    },
 };
 </script>
@@ -132,8 +148,16 @@ export default {
 <style scoped>
 .container-popular-event {
    height: min-content;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-direction: column;
 }
 
+.container-show{
+   width: 90%;
+   display: flex;
+}
 .title {
    font-size: 1.5em;
    text-align: start;
@@ -143,6 +167,7 @@ export default {
 
 .container-card {
    background-color: #ffe60015;
+   width: 250px;
    height: min-content;
    margin: 1em;
    display: flex;
@@ -319,7 +344,7 @@ export default {
    font-size: 1em;
    margin: 1em;
    width: 90%;
-   height: min-content;
+   min-height: 300px;
    background-color: #ffe60015;
    justify-content: center;
 }

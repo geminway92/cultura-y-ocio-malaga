@@ -1,13 +1,13 @@
 
 export const createEventMutation = (state, events ) =>{
 
-    state.events = {...events, ...state.events}
+    state.events.push(events)
 
 }
 
 export const loadEventMutation = (state, payload) => {
 
-    state.events = payload
+    state.events = payload;
 
 }
 
