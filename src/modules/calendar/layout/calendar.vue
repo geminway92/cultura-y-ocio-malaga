@@ -62,12 +62,9 @@ export default {
          if(this.user.email === undefined ){
             if(this.items.length === 0){
 
-               this.items.push( this.eventRegister)
-            this.eventRegister.forEach(e => {
-               this.items.push(e)
-            })
-            return this.items
-               }
+               this.items =  this.eventRegister
+               return this.items
+            }
          }else {
             if(this.eventRegister[0]){
 
@@ -92,14 +89,8 @@ export default {
    computed:{
       ...mapState('auth',[ 'user']),
       ...mapState('event',[ 'eventRegister']),
-      checkListEvent(){
-         console.log(this.eventRegister)
-         return this.printEvent(this.eventRegister)
-      }
    },
-   created(){
-      this.fetchApi();
-   },
+
    mounted(){
       this.fetchApi();
       console.log('mounted')

@@ -93,7 +93,7 @@ export const addEventUser = async ({commit }, myEvents) => {
 }
 
 export const loadEventUser = async ({commit}, user) => {
-    console.log((user))
+    console.log(user)
     try {
         const {data} = await eventApi.get(`/${user}.json`)
         console.log(data)
@@ -107,7 +107,14 @@ export const loadEventUser = async ({commit}, user) => {
     }
 }
 
-export const loadEventAnonimous = async ({commit}, event) => {
-    commit('LOAD_EVENT_ANONIMOUS', event)
+export const loadEventAnonimous = async ({commit}) => {
+    commit('LOAD_EVENT_ANONIMOUS')
 }
 
+export const updateEventAnonimous = async ({commit}, event) => {
+    commit('UPDATE_EVENT_ANONIMOUS', event)
+}
+
+export const resetState = async ({commit}) => {
+    commit ('RESET_STATE')
+}

@@ -107,7 +107,7 @@ export default {
    },
 
    methods: {
-      ...mapActions('event', ['joinEventAction', 'loadEventAction','loadEventAnonimous']),
+      ...mapActions('event', ['joinEventAction', 'loadEventAction','updateEventAnonimous']),
 
       moveSliderRight() {
          if (this.totalClickRight < this.updateEvent.length) {
@@ -208,7 +208,7 @@ export default {
          if(this.user.email === undefined){
             console.log('soy undefined')
              const eventUser = {id: 'anonimo' ,startDate: event.date,endDate: event.date,title: event.name,classes: "purple"}
-            this.loadEventAnonimous(eventUser)
+            this.updateEventAnonimous(eventUser)
             return
          }else {
             this.joinEvent(event);

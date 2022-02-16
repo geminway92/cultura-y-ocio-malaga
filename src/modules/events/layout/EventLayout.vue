@@ -131,7 +131,7 @@ export default {
 
    methods: {
       ...mapActions('auth', ['logout']),
-      ...mapActions('event', ['loadEventAction','loadEventUser','loadEventAnonimous']),
+      ...mapActions('event', ['loadEventAction','loadEventUser','loadEventAnonimous', 'updateEventAnonimous', 'resetState']),
 
       openSearchModal() {
          this.searchEvent = !this.searchEvent;
@@ -148,6 +148,7 @@ export default {
 
       onLogout() {
          this.logout();
+         this.resetState();
          this.$router.push({ name: 'login' });
       },
 
@@ -237,37 +238,42 @@ export default {
          if(this.eventRegister.length === 0){
             console.log(this.eventRegister)
 
-            if( this.eventRegister.length === 0 || undefined === this.user.email ){
+            if(  undefined === this.user.email){
                this.checkLocalStorage();
-               console.log('ha entrado siendo usuario')
-            return
+               return
             }
-            let userObject = this.user
-            let emailSplit = userObject.email.split('@').shift()
-            this.loadEventUser(emailSplit)
+            console.log('prueba',this.currentEmail)
+            this.loadEventUser(this.currentEmail)
          }
 
       },
       checkLocalStorage() {
          if (localStorage.getItem("myEvents") != null) {
          const eventsLocalStorage = JSON.parse(localStorage.getItem("myEvents"));
-         console.log(this.myEvents)
-
             return  this.loadEventAnonimous( eventsLocalStorage);
          }
       },
       currentEmailUser(){
-        return  this.currentEmail = localStorage.setItem('currentUser', this.user.email)
+         console.log('currentemail')
+         if(this.user === null){
+            this.currentEmail = localStorage.getItem('currentUser')
+         }else {
+            if(this.user.email === undefined ){
+               this.loadEventFirebase();
+               return
+            }
+            let emailSplit = this.user.email.split('@').shift()
+            localStorage.setItem('currentUser', emailSplit)
+            this.currentEmail = emailSplit
+               this.loadEventFirebase();
+
+         }
       }
    },
 
    created() {
       this.loadEvents();
       this.month();
-      this.loadEventFirebase();
-   },
-   mounted(){
-      this.loadEventFirebase();
       this.currentEmailUser()
    },
 
@@ -291,7 +297,8 @@ export default {
          }
 
          return this.eventFilter;
-      }
+      },
+
    }
 };
 </script>
