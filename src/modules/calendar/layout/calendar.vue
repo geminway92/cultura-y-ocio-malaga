@@ -26,6 +26,7 @@
 </template>
 
 <script>
+import { onMounted } from '@vue/runtime-core';
 import { CalendarView, CalendarViewHeader } from 'vue-simple-calendar';
 import { mapState } from 'vuex';
 import '../../../../node_modules/vue-simple-calendar/dist/style.css';
@@ -58,19 +59,23 @@ export default {
 			return new Date(t.getFullYear(), t.getMonth(), d, h || 0, m || 0)
 		},
       printEvent(){
-         if(this.user.email === undefined){
+         if(this.user.email === undefined ){
+            if(this.items.length === 0){
 
-            this.items.push( this.eventRegister)
+               this.items.push( this.eventRegister)
             this.eventRegister.forEach(e => {
                this.items.push(e)
             })
             return this.items
+               }
          }else {
+            if(this.eventRegister[0]){
 
-            let valueEvent = Object.values(this.eventRegister[0])
+               let valueEvent = Object.values(this.eventRegister[0])
             valueEvent.forEach(e => {
                this.items.push(e)
             })
+               }
          }
       },
       fetchApi(){
@@ -79,6 +84,7 @@ export default {
 
             return
          }
+         console.log(this.eventRegister[0])
          return this.printEvent(this.eventRegister[0]);
       }
 
@@ -87,11 +93,16 @@ export default {
       ...mapState('auth',[ 'user']),
       ...mapState('event',[ 'eventRegister']),
       checkListEvent(){
+         console.log(this.eventRegister)
          return this.printEvent(this.eventRegister)
       }
    },
    created(){
       this.fetchApi();
+   },
+   mounted(){
+      this.fetchApi();
+      console.log('mounted')
    }
 };
 </script>

@@ -20,7 +20,20 @@ export const SET_EVENT_USER = (state, myEvents) => {
 
 }
 
-export const LOAD_EVENT_ANONIMOUS = (state, myEvents) => {
-    localStorage.setItem("myEvents", JSON.stringify( myEvents ))
-    state.eventRegister.push(myEvents)
+export const LOAD_EVENT_ANONIMOUS = (state, myEvents) =>{
+    const eventsArray = [];
+    if(localStorage.getItem("myEvents") != null) {
+        const eventsLocalStorage = JSON.parse(localStorage.getItem("myEvents"));
+        eventsLocalStorage.forEach(e => {
+            eventsArray.push(e)
+        });
+        eventsArray.push(myEvents)
+        localStorage.setItem("myEvents", JSON.stringify(eventsArray))
+        state.eventRegister = eventsArray
+    }else {
+        eventsArray.push(myEvents)
+        localStorage.setItem("myEvents", JSON.stringify(eventsArray))
+        state.eventRegister = myEvents;
+
+    }
 }

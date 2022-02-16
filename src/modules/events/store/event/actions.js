@@ -72,6 +72,9 @@ export const addEventUser = async ({commit }, myEvents) => {
     try{
         const {data} = await eventApi.post(`${emailSplit[0]}.json`, myEvents)
         let eventWithID = {id: data.name,startDate,endDate,title,classes}
+        if(data === null){
+            return
+        }
 
         try{
 
@@ -94,6 +97,9 @@ export const loadEventUser = async ({commit}, user) => {
     try {
         const {data} = await eventApi.get(`/${user}.json`)
         console.log(data)
+        if(data === null){
+            return
+        }
 
         commit('SET_EVENT_USER', data)
     }catch(error){

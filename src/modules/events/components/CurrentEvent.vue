@@ -101,6 +101,9 @@ export default {
       monthLetter: {
          type: String
       },
+      myEvents: {
+         type: Array
+      }
    },
 
    methods: {
@@ -202,14 +205,13 @@ export default {
          return (event.joined = event.joined + 1);
       },
       checkUser(event){
-         if(this.myEvents || this.users === undefined){
+         if(this.user.email === undefined){
             console.log('soy undefined')
              const eventUser = {id: 'anonimo' ,startDate: event.date,endDate: event.date,title: event.name,classes: "purple"}
-
-            this.loadEventAnonimous( eventUser)
+            this.loadEventAnonimous(eventUser)
             return
          }else {
-            this.joinEvent();
+            this.joinEvent(event);
          }
       },
 

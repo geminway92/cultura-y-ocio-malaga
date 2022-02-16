@@ -58,7 +58,6 @@
             :modalNameIsTrue="modalNameIsTrue"
             :filterMonthEvent="filterMonthEvent"
             :monthLetter="monthLetter"
-            :myEvents="myEvents"
          />
       </div>
 
@@ -125,6 +124,7 @@ export default {
          textSearch: '',
          eventFilter: [],
          myEvents: [],
+         currentEmail: '',
 
       };
    },
@@ -234,10 +234,12 @@ export default {
          this.nameRegister = name;
       },
       loadEventFirebase(){
-         if(this.eventRegister === undefined){
+         if(this.eventRegister.length === 0){
+            console.log(this.eventRegister)
 
-            if( undefined === this.user.email ){
+            if( this.eventRegister.length === 0 || undefined === this.user.email ){
                this.checkLocalStorage();
+               console.log('ha entrado siendo usuario')
             return
             }
             let userObject = this.user
@@ -248,17 +250,25 @@ export default {
       },
       checkLocalStorage() {
          if (localStorage.getItem("myEvents") != null) {
-         this.myEvents = JSON.parse(localStorage.getItem("myEvents"));
-         console.log( this.myEvents)
-            return  this.loadEventAnonimous( this.myEvents);
+         const eventsLocalStorage = JSON.parse(localStorage.getItem("myEvents"));
+         console.log(this.myEvents)
+
+            return  this.loadEventAnonimous( eventsLocalStorage);
          }
       },
+      currentEmailUser(){
+        return  this.currentEmail = localStorage.setItem('currentUser', this.user.email)
+      }
    },
 
    created() {
       this.loadEvents();
       this.month();
       this.loadEventFirebase();
+   },
+   mounted(){
+      this.loadEventFirebase();
+      this.currentEmailUser()
    },
 
    computed: {
