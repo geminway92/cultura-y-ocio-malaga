@@ -4,7 +4,7 @@ import authApi from "../../../../api/authApi"
 export const createUser = async ({ commit }, user ) => {
 
     const { name, email, password, photo } = user
-    
+
     try{
         const {data} = await authApi.post(':signUp', { email, password, returnSecureToken: true })
         const { idToken, refreshToken } = data
@@ -18,8 +18,8 @@ export const createUser = async ({ commit }, user ) => {
 
     }catch (error){
         return { ok: false, message: error.response.data.error.errors[0].message }
-        
-    }   
+
+    }
 }
 
 export const signInUser = async ({commit}, user) =>{
@@ -70,9 +70,9 @@ export const checkAuth = async ({commit}) => {
         return {ok: true }
 
     }catch(error){
-        commit('logout')   
+        commit('logout')
         return {ok: false, message: error.response.data.error.errors[0].message}
-        
+
     }
 }
 
@@ -92,13 +92,14 @@ export const userAnonimous = async ({commit}) =>{
     try{
         const {data} = await authApi.post(':signUp',{returnSecureToken: true})
         const {idToken, refreshToken} = data
-        
+
         commit('loginUser',{ idToken, refreshToken})
+
         return {ok: true}
 
     }catch(error){
 
-        return {ok: false, message: error.response}        
+        return {ok: false, message: error.response}
     }
 }
 

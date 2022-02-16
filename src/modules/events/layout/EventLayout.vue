@@ -237,14 +237,14 @@ export default {
       },
       loadEventFirebase(){
          if(this.eventRegister.length === 0){
-            console.log(this.eventRegister)
 
-            if(  undefined === this.user.email){
+            if(this.user.email === undefined){
+               console.log('considera que es anonimo')
                this.checkLocalStorage();
                return
             }
-            console.log('prueba',this.currentEmail)
-            this.loadEventUser(this.currentEmail)
+               console.log('prueba',this.currentEmail)
+               this.loadEventUser(this.currentEmail)
          }
 
       },

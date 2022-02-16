@@ -60,7 +60,8 @@ export default {
 			return new Date(t.getFullYear(), t.getMonth(), d, h || 0, m || 0)
 		},
       printEvent(){
-         if(this.user.email === undefined ){
+         const idToken = localStorage.getItem('idToken')
+         if(!idToken ){
             if(this.items.length === 0){
 
                this.items =  this.eventRegister

@@ -97,12 +97,17 @@ export const loadEventUser = async ({commit}, user) => {
     try {
         const {data} = await eventApi.get(`/${user}.json`)
         console.log(data)
+        let eventsArray = []
+        const value = Object.values(data)
+        value.forEach(e => {
+            eventsArray.push(e)
+        });
         if(data === null){
             return
         }
 
         // commit('SET_EVENT_USER', data)
-        commit('LOAD_EVENT_ANONIMOUS')
+        commit('SET_EVENT_USER', eventsArray)
     }catch(error){
         console.log(error.message)
     }
