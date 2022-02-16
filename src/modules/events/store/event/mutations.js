@@ -34,7 +34,7 @@ export const UPDATE_EVENT_ANONIMOUS = (state, myEvents) =>{
     }else {
         eventsArray.push(myEvents)
         localStorage.setItem("myEvents", JSON.stringify(eventsArray))
-        state.eventRegister = myEvents;
+        state.eventRegister.push( myEvents);
 
     }
 }

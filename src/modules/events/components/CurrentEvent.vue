@@ -205,10 +205,13 @@ export default {
       },
       checkUser(event){
          if(this.user.email === undefined){
-            console.log('soy undefined')
-             const eventUser = {id: 'anonimo' ,startDate: event.date,endDate: event.date,title: event.name,classes: "purple"}
-            this.updateEventAnonimous(eventUser)
-            return
+            const filterEventRepeat = this.eventRegister.filter(e => e.title === event.name )
+
+            if(filterEventRepeat.length === 0){
+               const eventUser = {id: 'anonimo' ,startDate: event.date,endDate: event.date,title: event.name,classes: "purple"}
+               this.updateEventAnonimous(eventUser)
+            }
+
          }else {
             this.joinEvent(event);
          }
@@ -237,7 +240,7 @@ export default {
 
    computed: {
       ...mapState('auth', ['user']),
-      ...mapState('event', ['events']),
+      ...mapState('event', ['events', 'eventRegister']),
 
       updateEvent() {
          if (this.filterMonthEvent.length <= 1) this.arrowRightActive = false;
