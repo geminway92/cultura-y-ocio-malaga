@@ -58,6 +58,7 @@
             :modalNameIsTrue="modalNameIsTrue"
             :filterMonthEvent="filterMonthEvent"
             :monthLetter="monthLetter"
+            :currentEmail="currentEmail"
          />
       </div>
 

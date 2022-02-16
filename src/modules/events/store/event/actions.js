@@ -53,13 +53,13 @@ export const loadEventAction = async ({commit}) => {
 
 export const joinEventAction = async ({commit,dispatch }, {dataToSave, eventUser}) => {
     const {id} = dataToSave
-    console.log('llega', id)
+
     dispatch('addEventUser',eventUser)
     try{
 
         const {data} = await eventApi.put(`/events/${id}.json`, dataToSave)
         console.log(data)
-        commit('joinEventMutation', dataToSave)
+        commit('joinEventMutation', eventUser)
 
     }catch(error){
         console.log(error.message)
@@ -101,7 +101,8 @@ export const loadEventUser = async ({commit}, user) => {
             return
         }
 
-        commit('SET_EVENT_USER', data)
+        // commit('SET_EVENT_USER', data)
+        commit('LOAD_EVENT_ANONIMOUS')
     }catch(error){
         console.log(error.message)
     }

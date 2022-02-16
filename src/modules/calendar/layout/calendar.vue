@@ -44,6 +44,7 @@ export default {
          showDate: new Date(),
          items: [],
          startingDayOfWeek: 1,
+         eventRegisterData: this.checkEventRegister
       }
    },
    methods: {
@@ -66,9 +67,10 @@ export default {
                return this.items
             }
          }else {
-            if(this.eventRegister[0]){
+            if(this.eventRegister.length > 0){
+               console.log(this.eventRegister)
 
-               let valueEvent = Object.values(this.eventRegister[0])
+               let valueEvent = Object.values(this.eventRegister)
             valueEvent.forEach(e => {
                this.items.push(e)
             })
@@ -76,6 +78,7 @@ export default {
          }
       },
       fetchApi(){
+
          if(this.user === null ){
          this.$router.push({name: 'login'})
 
@@ -85,10 +88,17 @@ export default {
          return this.printEvent(this.eventRegister[0]);
       }
 
+
    },
    computed:{
       ...mapState('auth',[ 'user']),
       ...mapState('event',[ 'eventRegister']),
+
+      checkEventRegister(){
+         this.printEvent(this.eventRegister[0])
+         console.log(computada)
+         return this.eventRegister[0]
+      }
    },
 
    mounted(){

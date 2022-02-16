@@ -200,7 +200,6 @@ export default {
          event.register.push(this.user.name);
 
          await this.joinEventAction({dataToSave, eventUser});
-         await this.loadEventAction();
 
          return (event.joined = event.joined + 1);
       },

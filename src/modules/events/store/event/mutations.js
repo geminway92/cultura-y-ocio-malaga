@@ -12,7 +12,8 @@ export const loadEventMutation = (state, payload) => {
 }
 
 export const joinEventMutation = (state, payload) => {
-    state. events = payload
+    state.events = payload
+    state.eventRegister.push(payload)
 }
 
 export const SET_EVENT_USER = (state, myEvents) => {
