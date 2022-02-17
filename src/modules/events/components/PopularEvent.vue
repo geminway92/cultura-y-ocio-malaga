@@ -59,6 +59,7 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 import { defineAsyncComponent } from 'vue';
+import Swal from 'sweetalert2';
 
 export default {
    components: {
@@ -113,8 +114,18 @@ export default {
          dataToSave.joined = event.joined + 1;
          event.register.push(this.user.name);
 
-         await this.joinEventAction({dataToSave, eventUser});
-
+         const resp = await this.joinEventAction({dataToSave, eventUser});
+            if(!resp.ok)Swal.fire({
+               icon: 'error',
+               title: resp.message,
+               confirmButtonColor: '#B128C3',
+            })
+            else {
+            Swal.fire({
+               icon: 'success',
+               title: resp.message,
+               confirmButtonColor: '#B128C3'
+            })}
          return (event.joined = event.joined + 1);
       },
       checkUser(event){
@@ -124,7 +135,11 @@ export default {
             if(filterEventRepeat.length === 0){
                const eventUser = {id: 'anonimo' ,startDate: event.date,endDate: event.date,title: event.name,classes: "purple"}
                this.updateEventAnonimous(eventUser)
-            }
+               Swal.fire({
+               icon: 'success',
+               title: 'Añadido al evento',
+               confirmButtonColor: '#B128C3',
+            })}
 
          }else {
             this.joinEvent(event);

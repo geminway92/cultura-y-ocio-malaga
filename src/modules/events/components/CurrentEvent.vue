@@ -213,8 +213,7 @@ export default {
                icon: 'success',
                title: resp.message,
                confirmButtonColor: '#B128C3'
-            });
-            }
+            })}
 
          return (event.joined = event.joined + 1);
       },
@@ -226,7 +225,11 @@ export default {
             if(filterEventRepeat.length === 0){
                const eventUser = {id: 'anonimo' ,startDate: event.date,endDate: event.date,title: event.name,classes: "purple"}
                this.updateEventAnonimous(eventUser)
-            }
+               Swal.fire({
+               icon: 'success',
+               title: 'Añadido al calendario',
+               confirmButtonColor: '#B128C3',
+            })}
 
          }else {
             this.joinEvent(event);
