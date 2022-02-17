@@ -1,5 +1,5 @@
 
 export default () => ({
-    events: [],
-    eventRegister: [],
+  events: [],
+  eventRegister: []
 })

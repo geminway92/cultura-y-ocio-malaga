@@ -57,107 +57,109 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
-import { defineAsyncComponent } from 'vue';
-import Swal from 'sweetalert2';
+import { mapActions, mapState } from 'vuex'
+import { defineAsyncComponent } from 'vue'
+import Swal from 'sweetalert2'
 
 export default {
-   components: {
-      PopularModal: defineAsyncComponent(() =>
-         import('../components/PopularModal.vue')
-      ),
-      ModalNameRegisterInPopularEvent: defineAsyncComponent(() =>
-         import('../components/ModalNameRegisterInPopularEvent.vue')
-      )
-   },
-   data() {
-      return {
-         openPopularModal: false,
-         openNameRegister: false,
-         event: [],
-         nameRegister: {}
-      };
-   },
+  components: {
+    PopularModal: defineAsyncComponent(() =>
+      import('../components/PopularModal.vue')
+    ),
+    ModalNameRegisterInPopularEvent: defineAsyncComponent(() =>
+      import('../components/ModalNameRegisterInPopularEvent.vue')
+    )
+  },
+  data () {
+    return {
+      openPopularModal: false,
+      openNameRegister: false,
+      event: [],
+      nameRegister: {}
+    }
+  },
 
-   props: {
-      filterPopularEvent: {
-         type: Array
+  props: {
+    filterPopularEvent: {
+      type: Array
+    }
+  },
+
+  methods: {
+    ...mapActions('event', ['joinEventAction', 'updateEventAnonimous']),
+
+    getEventInterested (event) {
+      this.$emit('openModal', event)
+    },
+
+    async joinEvent (event) {
+      console.log('entra en populares')
+      const dataToSave = {
+        id: event.id,
+        name: event.name,
+        schedule: event.schedule,
+        date: event.date,
+        description: event.description,
+        photo: event.photo,
+        joined: event.joined,
+        register: event.register
       }
-   },
 
-   methods: {
-      ...mapActions('event', ['joinEventAction', 'updateEventAnonimous']),
+      const eventUser = { id: this.user.email, startDate: dataToSave.date, endDate: dataToSave.date, title: dataToSave.name, classes: 'purple' }
+      const filter = event.register.filter(e => e === this.user.name)
 
-      getEventInterested(event) {
-         this.$emit('openModal', event);
-      },
+      if (filter.length > 0) {
+        return
+      }
+      dataToSave.joined = event.joined + 1
+      event.register.push(this.user.name)
 
-      async joinEvent(event) {
-         console.log('entra en populares')
-         const dataToSave = {
-            id: event.id,
-            name: event.name,
-            schedule: event.schedule,
-            date: event.date,
-            description: event.description,
-            photo: event.photo,
-            joined: event.joined,
-            register: event.register
-         };
+      const resp = await this.joinEventAction({ dataToSave, eventUser })
+      if (!resp.ok) {
+        Swal.fire({
+          icon: 'error',
+          title: resp.message,
+          confirmButtonColor: '#B128C3'
+        })
+      } else {
+        Swal.fire({
+          icon: 'success',
+          title: resp.message,
+          confirmButtonColor: '#B128C3'
+        })
+      }
+      return (event.joined = event.joined + 1)
+    },
+    checkUser (event) {
+      if (this.user.email === undefined) {
+        const filterEventRepeat = this.eventRegister.filter(e => e.title === event.name)
 
-         const eventUser = {id: this.user.email ,startDate: dataToSave.date,endDate: dataToSave.date,title: dataToSave.name,classes: "purple",}
-         const filter = event.register.filter(e => e === this.user.name);
+        if (filterEventRepeat.length === 0) {
+          const eventUser = { id: 'anonimo', startDate: event.date, endDate: event.date, title: event.name, classes: 'purple' }
+          this.updateEventAnonimous(eventUser)
+          Swal.fire({
+            icon: 'success',
+            title: 'Añadido al evento',
+            confirmButtonColor: '#B128C3'
+          })
+        }
+      } else {
+        this.joinEvent(event)
+      }
+    },
 
-         if (filter.length > 0) {
-            return;
-         }
-         dataToSave.joined = event.joined + 1;
-         event.register.push(this.user.name);
+    showNameRegister () {
+      this.openNameRegister = !this.openNameRegister
+      this.nameRegister = this.filterPopularEvent[0].register
+    }
 
-         const resp = await this.joinEventAction({dataToSave, eventUser});
-            if(!resp.ok)Swal.fire({
-               icon: 'error',
-               title: resp.message,
-               confirmButtonColor: '#B128C3',
-            })
-            else {
-            Swal.fire({
-               icon: 'success',
-               title: resp.message,
-               confirmButtonColor: '#B128C3'
-            })}
-         return (event.joined = event.joined + 1);
-      },
-      checkUser(event){
-         if(this.user.email === undefined){
-            const filterEventRepeat = this.eventRegister.filter(e => e.title === event.name )
+  },
 
-            if(filterEventRepeat.length === 0){
-               const eventUser = {id: 'anonimo' ,startDate: event.date,endDate: event.date,title: event.name,classes: "purple"}
-               this.updateEventAnonimous(eventUser)
-               Swal.fire({
-               icon: 'success',
-               title: 'Añadido al evento',
-               confirmButtonColor: '#B128C3',
-            })}
-
-         }else {
-            this.joinEvent(event);
-         }
-      },
-
-      showNameRegister() {
-         this.openNameRegister = !this.openNameRegister;
-         this.nameRegister = this.filterPopularEvent[0].register;
-      },
-
-   },
-
-   computed: {
-      ...mapState('auth', ['user']),
-      ...mapState('event', ['events', 'eventRegister']),
-   },
-};
+  computed: {
+    ...mapState('auth', ['user']),
+    ...mapState('event', ['events', 'eventRegister'])
+  }
+}
 </script>
 
 <style scoped>

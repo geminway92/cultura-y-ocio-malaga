@@ -15,64 +15,65 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
-import Swal from 'sweetalert2';
-import getUpdatePhoto from '../helper/getUpdatePhoto';
+import { mapActions, mapState } from 'vuex'
+import Swal from 'sweetalert2'
+import getUpdatePhoto from '../helper/getUpdatePhoto'
 
 export default {
-   data() {
-      return {
-         picture: ''
-      };
-   },
+  data () {
+    return {
+      picture: ''
+    }
+  },
 
-   props: {
-      openModalPhoto: {
-         type: Boolean,
-         default: false
+  props: {
+    openModalPhoto: {
+      type: Boolean,
+      default: false
+    }
+  },
+
+  methods: {
+    ...mapActions('updateStore', ['updateUserAction']),
+
+    async onSelectImage (event) {
+      const file = event.target.files[0]
+      const resp = await getUpdatePhoto(file)
+
+      this.picture = resp
+    },
+
+    async updatePhoto () {
+      const updateUser = this.user
+
+      updateUser.idToken = this.idToken
+      updateUser.profilePicture = this.picture
+
+      const resp = await this.updateUserAction(updateUser)
+      if (!resp.ok) {
+        Swal.fire({
+          icon: 'error',
+          title: resp.message,
+          confirmButtonColor: '#B128C3'
+        })
+      } else {
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: 'Cambio exitoso',
+          showConfirmButton: false,
+          timer: 1500
+        })
       }
-   },
 
-   methods: {
-      ...mapActions('updateStore', ['updateUserAction']),
+      this.$emit('changePhoto')
+    }
+  },
 
-      async onSelectImage(event) {
-         const file = event.target.files[0];
-         const resp = await getUpdatePhoto(file);
-
-         this.picture = resp;
-      },
-
-      async updatePhoto() {
-         const updateUser = this.user;
-
-         updateUser.idToken = this.idToken;
-         updateUser.profilePicture = this.picture;
-
-         const resp = await this.updateUserAction(updateUser);
-         if (!resp.ok)
-            Swal.fire({
-               icon: 'error',
-               title: resp.message,
-               confirmButtonColor: '#B128C3'
-            });
-         else
-            Swal.fire({
-               position: 'center',
-               icon: 'success',
-               title: 'Cambio exitoso',
-               showConfirmButton: false,
-               timer: 1500
-            });
-
-         this.$emit('changePhoto');
-      }
-   },
-
-   computed: {
-      ...mapState('auth', ['user', 'idToken'])
-   }
-};
+  computed: {
+    ...mapState('auth', ['user', 'idToken'])
+  }
+}
 </script>
 
 <style scoped>

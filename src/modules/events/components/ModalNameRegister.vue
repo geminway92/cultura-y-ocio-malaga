@@ -14,17 +14,16 @@
 
 <script>
 export default {
-    props:{
-        modalNameIsTrue:{
-            type: Boolean,
-            default: false
-        },
-        nameRegister:{
-            type: Array
-        }
-        
+  props: {
+    modalNameIsTrue: {
+      type: Boolean,
+      default: false
     },
-    
+    nameRegister: {
+      type: Array
+    }
+
+  }
 
 }
 </script>
@@ -44,7 +43,7 @@ h1{
 .container-modal{
     background-color: rgba(116, 111, 111, 0.295);
     position: absolute;
-    top: 0; 
+    top: 0;
     width: 100vw;
     height: 640px;
     z-index: 3;
@@ -82,8 +81,6 @@ h1{
     }
 }
 
-
-
 .modal::-webkit-scrollbar{
     width: 10px;
 }
@@ -105,6 +102,5 @@ h1{
 .container-description li{
     list-style: none;
 }
-
 
 </style>

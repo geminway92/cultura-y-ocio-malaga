@@ -26,87 +26,84 @@
 </template>
 
 <script>
-import { onMounted } from '@vue/runtime-core';
-import { CalendarView, CalendarViewHeader } from 'vue-simple-calendar';
-import { mapState } from 'vuex';
-import '../../../../node_modules/vue-simple-calendar/dist/style.css';
-import "../../../../node_modules/vue-simple-calendar/static/css/default.css"
-import "../../../../node_modules/vue-simple-calendar/static/css/holidays-us.css"
+import { onMounted } from '@vue/runtime-core'
+import { CalendarView, CalendarViewHeader } from 'vue-simple-calendar'
+import { mapState } from 'vuex'
+import '../../../../node_modules/vue-simple-calendar/dist/style.css'
+import '../../../../node_modules/vue-simple-calendar/static/css/default.css'
+import '../../../../node_modules/vue-simple-calendar/static/css/holidays-us.css'
 
 export default {
-   name: 'calendar',
-   components: {
-      CalendarView,
-      CalendarViewHeader
-   },
-   data(){
-      return{
-         showDate: new Date(),
-         items: [],
-         startingDayOfWeek: 1,
-         eventRegisterData: this.checkEventRegister
+  name: 'calendar',
+  components: {
+    CalendarView,
+    CalendarViewHeader
+  },
+  data () {
+    return {
+      showDate: new Date(),
+      items: [],
+      startingDayOfWeek: 1,
+      eventRegisterData: this.checkEventRegister
+    }
+  },
+  methods: {
+
+    setShowDate (d) {
+      this.showDate = d
+    },
+    onClickDate (...params) {
+      console.log(params)
+    },
+    thisMonth (d, h, m) {
+      const t = new Date()
+      return new Date(t.getFullYear(), t.getMonth(), d, h || 0, m || 0)
+    },
+    printEvent () {
+      const idToken = localStorage.getItem('idToken')
+      if (!idToken) {
+        if (this.items.length === 0) {
+          this.items = this.eventRegister
+          return this.items
+        }
+      } else {
+        if (this.eventRegister.length > 0) {
+          console.log(this.eventRegister)
+
+          const valueEvent = Object.values(this.eventRegister)
+          valueEvent.forEach(e => {
+            this.items.push(e)
+          })
+        }
       }
-   },
-   methods: {
+    },
+    fetchApi () {
+      if (this.user === null) {
+        this.$router.push({ name: 'login' })
 
-      setShowDate(d){
-         this.showDate = d;
-      },
-      onClickDate(...params){
-         console.log(params)
-      },
-      thisMonth(d, h, m) {
-			const t = new Date()
-			return new Date(t.getFullYear(), t.getMonth(), d, h || 0, m || 0)
-		},
-      printEvent(){
-         const idToken = localStorage.getItem('idToken')
-         if(!idToken ){
-            if(this.items.length === 0){
-
-               this.items =  this.eventRegister
-               return this.items
-            }
-         }else {
-            if(this.eventRegister.length > 0){
-               console.log(this.eventRegister)
-
-               let valueEvent = Object.values(this.eventRegister)
-            valueEvent.forEach(e => {
-               this.items.push(e)
-            })
-               }
-         }
-      },
-      fetchApi(){
-
-         if(this.user === null ){
-         this.$router.push({name: 'login'})
-
-            return
-         }
-         console.log(this.eventRegister[0])
-         return this.printEvent(this.eventRegister[0]);
+        return
       }
+      console.log(this.eventRegister[0])
+      return this.printEvent(this.eventRegister[0])
+    }
 
+  },
+  computed: {
+    ...mapState('auth', ['user']),
+    ...mapState('event', ['eventRegister']),
 
-   },
-   computed:{
-      ...mapState('auth',[ 'user']),
-      ...mapState('event',[ 'eventRegister']),
+    checkEventRegister () {
+      this.printEvent(this.eventRegister[0])
+      console.log(computada)
+      return this.eventRegister[0]
+    }
+  },
 
-      checkEventRegister(){
-         this.printEvent(this.eventRegister[0])
-         console.log(computada)
-         return this.eventRegister[0]
-      }
-   },
-
-   mounted(){
-      this.fetchApi();
-      console.log('mounted')
-   }
-};
+  mounted () {
+    this.fetchApi()
+    console.log('mounted')
+  }
+}
 </script>
 
 <style>
@@ -153,4 +150,3 @@ export default {
 	min-height: 6rem;
 }
 </style>
-

@@ -17,17 +17,16 @@
 
 <script>
 export default {
-    props:{
-        openPopularModal:{
-            type: Boolean,
-            default: false
-        },
-        event:{
-            type: Object
-        }
-        
+  props: {
+    openPopularModal: {
+      type: Boolean,
+      default: false
     },
-    
+    event: {
+      type: Object
+    }
+
+  }
 
 }
 </script>
@@ -45,7 +44,6 @@ p{
     font-size: .9em;
     font-weight: 500;
 }
-
 
 .container-modal{
     background-color: rgba(116, 111, 111, 0.295);

@@ -4,24 +4,24 @@
       <form @submit.prevent="onSubmit()" autocomplete="off">
         <div class="container-input">
           <h1>Nombre</h1>
-          <input 
-            type="text" 
-            placeholder="Escribe su nombre" 
+          <input
+            type="text"
+            placeholder="Escribe su nombre"
             v-model.trim="userForm.name"
             required
           >
           <h1>E-mail</h1>
-          <input 
-            type="email" 
-            placeholder="Escribe su email" 
-            v-model.trim="userForm.email" 
+          <input
+            type="email"
+            placeholder="Escribe su email"
+            v-model.trim="userForm.email"
             required
           >
           <h1>Contraseña</h1>
-          <input 
-            type="password" 
-            placeholder="Escriba la contraseña" 
-            v-model.trim="userForm.password" 
+          <input
+            type="password"
+            placeholder="Escriba la contraseña"
+            v-model.trim="userForm.password"
             required
           >
         </div>
@@ -33,14 +33,14 @@
 </template>
 
 <script>
-import {mapActions} from 'vuex'
+import { mapActions } from 'vuex'
 import Swal from 'sweetalert2'
 
 export default {
   name: 'register',
-  emits:['changeTextIntro','changeTitleIntro'],
-  data(){
-    return{
+  emits: ['changeTextIntro', 'changeTitleIntro'],
+  data () {
+    return {
       textIntro: 'Crea una cuenta con nosotros y disfruta de todos nuestros emocionantes eventos',
       titleIntro: 'Regístrate en ',
       userForm: {
@@ -52,50 +52,48 @@ export default {
     }
   },
 
-  methods:{
+  methods: {
     ...mapActions('auth', ['createUser']),
 
-    onSubmit(){
+    onSubmit () {
       this.registerUser(this.userForm)
-
     },
 
-    async registerUser(user){
+    async registerUser (user) {
       const resp = await this.createUser(user)
 
-      /*Cambiar el texto de la resp.message */
-      if(resp.message === 'EMAIL_EXISTS'){
+      /* Cambiar el texto de la resp.message */
+      if (resp.message === 'EMAIL_EXISTS') {
         resp.message = 'La dirección de correo eléctronico ya está en uso'
-
-      } else if(resp.message === 'OPERATION_NOT_ALLOWED'){
+      } else if (resp.message === 'OPERATION_NOT_ALLOWED') {
         this.message = 'El inicio de sesión con contraseña está desactivado para este proyecto'
-      
-      } else if(resp.message === 'TOO_MANY_ATTEMPTS_TRY_LATER'){
+      } else if (resp.message === 'TOO_MANY_ATTEMPTS_TRY_LATER') {
         resp.message = 'Hemos bloqueado todas las solicitudes de este dispositivo debido a una actividad inusual. Vuelve a intentarlo más tarde'
-      
-      } else if(resp.message === 'INVALID_EMAIL'){
+      } else if (resp.message === 'INVALID_EMAIL') {
         resp.message = 'El correo eléctronico no es correcto'
       }
 
-      if(resp.ok)Swal.fire({
-        position: 'center',
-        icon: 'success',
-        title: 'Registrado correctamente',
-        showConfirmButton: false,
-        timer: 1500
-      })
-      else Swal.fire({
-        icon: 'error',
-        title: resp.message,
-        confirmButtonColor: '#B128C3',
-      })
+      if (resp.ok) {
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: 'Registrado correctamente',
+          showConfirmButton: false,
+          timer: 1500
+        })
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: resp.message,
+          confirmButtonColor: '#B128C3'
+        })
+      }
 
       this.resetUserForm()
-      this.$router.push({name: 'eventlayout'})
+      this.$router.push({ name: 'eventlayout' })
     },
 
-    resetUserForm(){
-      
+    resetUserForm () {
       this.userForm = {
         name: '',
         email: '',
@@ -105,14 +103,12 @@ export default {
     }
   },
 
-
-  mounted(){
+  mounted () {
     this.$emit('changeTextIntro', this.textIntro)
     this.$emit('changeTitleIntro', this.titleIntro)
-  } 
-  
-}
+  }
 
+}
 
 </script>
 
@@ -132,7 +128,6 @@ input{
   margin: 1.1em auto .5em;
   padding-left: 1.3em;
 }
-
 
 h1{
   padding-left: 1em;

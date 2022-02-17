@@ -14,17 +14,16 @@
 
 <script>
 export default {
-    props:{
-        openNameRegister:{
-            type: Boolean,
-            default: false
-        },
-        nameRegister:{
-            type: Object
-        }
-        
+  props: {
+    openNameRegister: {
+      type: Boolean,
+      default: false
     },
-    
+    nameRegister: {
+      type: Object
+    }
+
+  }
 
 }
 </script>
@@ -88,7 +87,6 @@ h1{
     }
 }
 
-
 .modal::-webkit-scrollbar{
     width: 10px;
 }
@@ -110,6 +108,5 @@ h1{
 .container-description li{
     list-style: none;
 }
-
 
 </style>

@@ -72,213 +72,217 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
-import Swal from 'sweetalert2';
+import { mapActions, mapState } from 'vuex'
+import Swal from 'sweetalert2'
 
 export default {
-   data() {
-      return {
-         slider: null,
-         width: null,
-         resetWidth: null,
-         eventsCurrent: '',
-         Categoria: null,
-         arrowLeftActive: false,
-         arrowRightActive: true,
-         filterEvents: null,
-         totalClickRight: 0
-      };
-   },
+  data () {
+    return {
+      slider: null,
+      width: null,
+      resetWidth: null,
+      eventsCurrent: '',
+      Categoria: null,
+      arrowLeftActive: false,
+      arrowRightActive: true,
+      filterEvents: null,
+      totalClickRight: 0
+    }
+  },
 
-   props: {
-      openModalIsTrue: {
-         type: Boolean,
-         default: false
-      },
-      filterMonthEvent: {
-         type: Array
-      },
+  props: {
+    openModalIsTrue: {
+      type: Boolean,
+      default: false
+    },
+    filterMonthEvent: {
+      type: Array
+    },
 
-      monthLetter: {
-         type: String
-      },
-      myEvents: {
-         type: Array
+    monthLetter: {
+      type: String
+    },
+    myEvents: {
+      type: Array
+    }
+  },
+
+  methods: {
+    ...mapActions('event', ['joinEventAction', 'loadEventAction', 'updateEventAnonimous']),
+
+    moveSliderRight () {
+      if (this.totalClickRight < this.updateEvent.length) {
+        /* -1 porque al empezar en 0 el length no contabiliza bien */
+        this.totalClickRight++
+        this.arrowLeftActive = true
+
+        if (this.totalClickRight === this.updateEvent.length) {
+          this.arrowRightActive = false
+        }
+
+        this.slider.scrollTo({
+          left: this.width * 1,
+          behavior: 'smooth'
+        })
+
+        this.width = this.width + this.resetWidth
+        if (this.width < this.resetWidth) {
+          return (this.width = this.resetWidth)
+        }
       }
-   },
+    },
 
-   methods: {
-      ...mapActions('event', ['joinEventAction', 'loadEventAction','updateEventAnonimous']),
-
-      moveSliderRight() {
-         if (this.totalClickRight < this.updateEvent.length) {
-            /*-1 porque al empezar en 0 el length no contabiliza bien */
-            this.totalClickRight++;
-            this.arrowLeftActive = true;
-
-            if (this.totalClickRight === this.updateEvent.length) {
-               this.arrowRightActive = false;
-            }
-
-            this.slider.scrollTo({
-               left: this.width * 1,
-               behavior: 'smooth'
-            });
-
-            this.width = this.width + this.resetWidth;
-            if (this.width < this.resetWidth) {
-               return (this.width = this.resetWidth);
-            }
-         } else return;
-      },
-
-      moveSliderLeft() {
-         if (this.totalClickRight > 0) {
-            this.arrowLeftActive = true;
-            this.arrowRightActive = true;
-            this.totalClickRight--;
-            this.width =
+    moveSliderLeft () {
+      if (this.totalClickRight > 0) {
+        this.arrowLeftActive = true
+        this.arrowRightActive = true
+        this.totalClickRight--
+        this.width =
                this.width -
-               this.resetWidth; /*Resta para moverse a la izquierda */
+               this.resetWidth /* Resta para moverse a la izquierda */
 
-            if (this.totalClickRight <= 1) {
-               this.arrowLeftActive = false;
-            }
+        if (this.totalClickRight <= 1) {
+          this.arrowLeftActive = false
+        }
 
-            this.slider.scrollTo({
-               left: this.width - this.resetWidth,
-               behavior: 'smooth'
-            });
-            if (this.width < this.resetWidth) {
-               return (this.width = this.resetWidth);
-            }
+        this.slider.scrollTo({
+          left: this.width - this.resetWidth,
+          behavior: 'smooth'
+        })
+        if (this.width < this.resetWidth) {
+          return (this.width = this.resetWidth)
+        }
 
-            if (screen.width < 700 && this.totalClickRight <= 1) {
-               this.arrowRightActive = false;
-            } else if (
-               screen.width > 700 &&
+        if (screen.width < 700 && this.totalClickRight <= 1) {
+          this.arrowRightActive = false
+        } else if (
+          screen.width > 700 &&
                screen.width < 1200 &&
                this.totalClickRight <= 2
-            ) {
-               //* Al añadirle totalclickRight 1 en mounted necesita hacer esta correción para que se desactive el boton */
-               this.arrowLeftActive = false;
-            } else if (screen.width > 1200 && this.totalClickRight <= 4) {
-               this.arrowLeftActive = false;
-            }
-         }
-         return;
-      },
-
-      checkTotalEvent() {
-         this.updateEvent.length <= this.totalClickRight
-            ? (this.arrowRightActive = false)
-            : (this.arrowRightActive = true);
-      },
-
-      getEventInterested(event) {
-         this.$emit('openModal', event);
-      },
-
-      async joinEvent(event) {
-         const dataToSave = {
-            id: event.id,
-            name: event.name,
-            schedule: event.schedule,
-            date: event.date,
-            description: event.description,
-            photo: event.photo,
-            joined: event.joined,
-            register: event.register
-         };
-
-         event.register[0] === '' ? event.register.shift() : event.register
-
-         const eventUser = {id: this.user.email ,startDate: dataToSave.date,endDate: dataToSave.date,title: dataToSave.name,classes: "purple",}
-         const filter = event.register.filter(e => e === this.user.name);
-
-         if (filter.length > 0) {
-            return;
-         }
-         dataToSave.joined = event.joined + 1;
-         event.register.push(this.user.name);
-
-           const resp = await this.joinEventAction({dataToSave, eventUser});
-            if(!resp.ok)Swal.fire({
-               icon: 'error',
-               title: resp.message,
-               confirmButtonColor: '#B128C3',
-            })
-            else {
-            Swal.fire({
-               icon: 'success',
-               title: resp.message,
-               confirmButtonColor: '#B128C3'
-            })}
-
-         return (event.joined = event.joined + 1);
-      },
-
-      checkUser(event){
-         if(this.user.email === undefined){
-            const filterEventRepeat = this.eventRegister.filter(e => e.title === event.name )
-
-            if(filterEventRepeat.length === 0){
-               const eventUser = {id: 'anonimo' ,startDate: event.date,endDate: event.date,title: event.name,classes: "purple"}
-               this.updateEventAnonimous(eventUser)
-               Swal.fire({
-               icon: 'success',
-               title: 'Añadido al calendario',
-               confirmButtonColor: '#B128C3',
-            })}
-
-         }else {
-            this.joinEvent(event);
-         }
-      },
-
-      checkScreen() {
-         this.slider = this.$refs.slider;
-         this.width = this.slider.offsetWidth;
-         this.resetWidth = this.width;
-
-         if (screen.width < 700) {
-            this.totalClickRight = 1;
-         } else if (screen.width > 700 && screen.width < 1100) {
-            this.width = this.width / 2;
-            this.resetWidth = this.width;
-
-            this.totalClickRight = 2;
-         } else if (screen.width > 1200) {
-            this.width = this.width / 4;
-            this.resetWidth = this.width;
-
-            this.totalClickRight = 4;
-         }
+        ) {
+          //* Al añadirle totalclickRight 1 en mounted necesita hacer esta correción para que se desactive el boton */
+          this.arrowLeftActive = false
+        } else if (screen.width > 1200 && this.totalClickRight <= 4) {
+          this.arrowLeftActive = false
+        }
       }
-   },
+    },
 
-   computed: {
-      ...mapState('auth', ['user']),
-      ...mapState('event', ['events', 'eventRegister']),
+    checkTotalEvent () {
+      this.updateEvent.length <= this.totalClickRight
+        ? (this.arrowRightActive = false)
+        : (this.arrowRightActive = true)
+    },
 
-      updateEvent() {
-         if (this.filterMonthEvent.length <= 1) this.arrowRightActive = false;
-         /*Comprobar longitud para bloquear o activar botón */ else
-            this.arrowRightActive = true;
+    getEventInterested (event) {
+      this.$emit('openModal', event)
+    },
 
-         return this.filterMonthEvent; /*Para que actualice el filtro de eventos por mes si se registra uno */
+    async joinEvent (event) {
+      const dataToSave = {
+        id: event.id,
+        name: event.name,
+        schedule: event.schedule,
+        date: event.date,
+        description: event.description,
+        photo: event.photo,
+        joined: event.joined,
+        register: event.register
       }
-   },
 
-   mounted() {
-      this.checkScreen();
-      this.checkTotalEvent();
-   },
+      event.register[0] = (event.register[0] === '' ? event.register.shift() : event.register)
 
-   beforeUpdate() {
-      this.checkTotalEvent();
-   }
-};
+      const eventUser = { id: this.user.email, startDate: dataToSave.date, endDate: dataToSave.date, title: dataToSave.name, classes: 'purple' }
+      const filter = event.register.filter(e => e === this.user.name)
+
+      if (filter.length > 0) {
+        return
+      }
+      dataToSave.joined = event.joined + 1
+      event.register.push(this.user.name)
+
+      const resp = await this.joinEventAction({ dataToSave, eventUser })
+      if (!resp.ok) {
+        Swal.fire({
+          icon: 'error',
+          title: resp.message,
+          confirmButtonColor: '#B128C3'
+        })
+      } else {
+        Swal.fire({
+          icon: 'success',
+          title: resp.message,
+          confirmButtonColor: '#B128C3'
+        })
+      }
+
+      event.joined = event.joined + 1
+    },
+
+    checkUser (event) {
+      if (this.user.email === undefined) {
+        const filterEventRepeat = this.eventRegister.filter(e => e.title === event.name)
+
+        if (filterEventRepeat.length === 0) {
+          const eventUser = { id: 'anonimo', startDate: event.date, endDate: event.date, title: event.name, classes: 'purple' }
+          this.updateEventAnonimous(eventUser)
+          Swal.fire({
+            icon: 'success',
+            title: 'Añadido al calendario',
+            confirmButtonColor: '#B128C3'
+          })
+        }
+      } else {
+        this.joinEvent(event)
+      }
+    },
+
+    checkScreen () {
+      this.slider = this.$refs.slider
+      this.width = this.slider.offsetWidth
+      this.resetWidth = this.width
+
+      if (screen.width < 700) {
+        this.totalClickRight = 1
+      } else if (screen.width > 700 && screen.width < 1100) {
+        this.width = this.width / 2
+        this.resetWidth = this.width
+
+        this.totalClickRight = 2
+      } else if (screen.width > 1200) {
+        this.width = this.width / 4
+        this.resetWidth = this.width
+
+        this.totalClickRight = 4
+      }
+    },
+    checkFilterMonthLengt () {
+      if (this.filterMonthEvent.length <= 1) this.arrowRightActive = false
+      else { this.arrowRightActive = true }
+    }
+
+  },
+
+  computed: {
+    ...mapState('auth', ['user']),
+    ...mapState('event', ['events', 'eventRegister']),
+
+    updateEvent () {
+      this.checkFilterMonthLengt()
+
+      return this.filterMonthEvent /* Para que actualice el filtro de eventos por mes si se registra uno */
+    }
+  },
+
+  mounted () {
+    this.checkScreen()
+    this.checkTotalEvent()
+  },
+
+  beforeUpdate () {
+    this.checkTotalEvent()
+  }
+}
 </script>
 
 <style scoped>

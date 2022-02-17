@@ -10,8 +10,8 @@
           <h1>Contraseña</h1>
           <input type="password" placeholder="Escribe la contraseña" v-model="userForm.password">
         </div>
-        <router-link 
-          class="routerlink-password" 
+        <router-link
+          class="routerlink-password"
           :to="{name: 'forgetpassword'}">
             Olvidé la contraseña
           </router-link>
@@ -31,9 +31,9 @@ import Swal from 'sweetalert2'
 
 export default {
   name: 'login',
-  emits: ['changeTextIntro','changeTitleIntro'],
-  data(){
-    return{
+  emits: ['changeTextIntro', 'changeTitleIntro'],
+  data () {
+    return {
       textIntro: 'Inicia sesión para ver tus eventos o entra en anónimo si solo deseas ver lo que hay',
       titleIntro: 'Bienvenido a ',
       userForm: {
@@ -41,54 +41,47 @@ export default {
         password: ''
       }
     }
-
   },
-  
-  methods:{
-    ...mapActions('auth',['signInUser','checkAuth','userAnonimous']),
 
-    async loginUser(){
+  methods: {
+    ...mapActions('auth', ['signInUser', 'checkAuth', 'userAnonimous']),
+
+    async loginUser () {
       const resp = await this.signInUser(this.userForm)
-      
-      if(resp.message === 'INVALID_PASSWORD'){
+
+      if (resp.message === 'INVALID_PASSWORD') {
         resp.message = 'Contraseña Incorrecta'
-      
-      } else if(resp.message === 'TOO_MANY_ATTEMPTS_TRY_LATER : Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later.'){
+      } else if (resp.message === 'TOO_MANY_ATTEMPTS_TRY_LATER : Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later.') {
         resp.message = 'El acceso a esta cuenta se ha desactivado temporalmente debido a muchos intentos fallidos de inicio de sesión. Puede restablecerlo inmediatamente restableciendo su contraseña o puede volver a intentarlo más tarde.'
-      
-      }else if(resp.message === 'EMAIL_NOT_FOUND'){
+      } else if (resp.message === 'EMAIL_NOT_FOUND') {
         resp.message = ''
-      
-      }else if(resp.message === 'MISSING_PASSWORD'){
+      } else if (resp.message === 'MISSING_PASSWORD') {
         resp.message = 'Rellene la contraseña'
       }
 
-      if(!resp.ok)Swal.fire({
-        icon: 'error',
-        title: resp.message,
-        confirmButtonColor: '#B128C3',
-      })
-      else {
-        this.$router.push({name: 'eventlayout'})
+      if (!resp.ok) {
+        Swal.fire({
+          icon: 'error',
+          title: resp.message,
+          confirmButtonColor: '#B128C3'
+        })
+      } else {
+        this.$router.push({ name: 'eventlayout' })
       }
-
     },
 
-    async loginAnonimous(){
+    async loginAnonimous () {
       await this.userAnonimous()
-  
-      return this.$router.push({name: 'eventlayout'})
-    }
 
+      return this.$router.push({ name: 'eventlayout' })
+    }
 
   },
 
-  created(){
+  created () {
     this.$emit('changeTextIntro', this.textIntro)
     this.$emit('changeTitleIntro', this.titleIntro)
   }
-  
-
 
 }
 </script>
@@ -166,7 +159,7 @@ input{
 .button-anonymous:active,
 .button-login:active {
   box-shadow: -3px 4px 3px hsla(0, 0%, 0%, 0.25) inset, 2px -2px 3px rgba(0,0,0, 0.25) inset;
-} 
+}
 
 .button-anonymous i {
   margin-right: .5em;

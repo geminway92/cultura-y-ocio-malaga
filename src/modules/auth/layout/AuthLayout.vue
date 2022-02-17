@@ -16,24 +16,24 @@
 
 <script>
 export default {
-   name: 'authlayout',
-   data() {
-      return {
-         textIntro: '',
-         titleIntro: ''
-      };
-   },
+  name: 'authlayout',
+  data () {
+    return {
+      textIntro: '',
+      titleIntro: ''
+    }
+  },
 
-   methods: {
-      changeTextIntro(text) {
-         this.textIntro = text;
-      },
+  methods: {
+    changeTextIntro (text) {
+      this.textIntro = text
+    },
 
-      changeTitleIntro(title) {
-         this.titleIntro = title;
-      }
-   }
-};
+    changeTitleIntro (title) {
+      this.titleIntro = title
+    }
+  }
+}
 </script>
 
 <style scoped>
