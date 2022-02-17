@@ -1,5 +1,5 @@
 
 export default () => ({
-    events: null,
+    events: [],
     eventRegister: [],
 })

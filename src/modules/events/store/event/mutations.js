@@ -1,7 +1,8 @@
 
 export const createEventMutation = (state, events ) =>{
 
-    state.events.push(events)
+    state.events = [events, state.events]
+    console.log(state.events)
 
 }
 
@@ -53,6 +54,6 @@ export const LOAD_EVENT_ANONIMOUS = (state) =>{
 export const RESET_STATE = (state) => {
 
     state.eventRegister = []
-    state.events = null
+    state.events = []
 
 }

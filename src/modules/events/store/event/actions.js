@@ -20,14 +20,14 @@ export const createEvent = async ({commit}, events) => {
 
 
         try{
-          const resp =  await eventApi.put(`/events/${data.name}.json`, dataToSave)
-            console.log(resp)
+          await eventApi.put(`/events/${data.name}.json`, dataToSave)
+
         }catch (error){
             return {ok: false, message: error.message}
         }
 
-        commit('createEventMutation', dataToSave)
 
+        commit('createEventMutation', dataToSave)
         return {ok: true , message: 'Evento creado correctamente'}
 
 
@@ -75,16 +75,15 @@ export const addEventUser = async ({commit }, myEvents) => {
          console.log(emailSplit)
     try{
         const {data} = await eventApi.post(`${emailSplit[0]}.json`, myEvents)
-        let eventWithID = {id: data.name,startDate,endDate,title,classes}
+        myEvents.id =  data.name;
+
         if(data === null){
             return
         }
 
         try{
-
-        const {data} = await eventApi.put(`/eventsUsers/${data.name}.json`,eventWithID)
-        console.log(data,'llega esto de addEventUser')
-        commit('SET_EVENT_USER', myEvents)
+            await eventApi.put(`/eventsUsers/${data.name}.json`,myEvents)
+            commit('SET_EVENT_USER', myEvents)
         }catch(error){
             console.log(error.message)
         }

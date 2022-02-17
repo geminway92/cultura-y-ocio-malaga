@@ -190,6 +190,9 @@ export default {
             register: event.register
          };
 
+         event.register[0] === '' ? event.register.shift() : event.register
+         console.log("🚀 ~ file: CurrentEvent.vue ~ line 194 ~ joinEvent ~ checkRegisterDemo", dataToSave)
+
          const eventUser = {id: this.user.email ,startDate: dataToSave.date,endDate: dataToSave.date,title: dataToSave.name,classes: "purple",}
          const filter = event.register.filter(e => e === this.user.name);
 
@@ -203,6 +206,7 @@ export default {
 
          return (event.joined = event.joined + 1);
       },
+
       checkUser(event){
          if(this.user.email === undefined){
             const filterEventRepeat = this.eventRegister.filter(e => e.title === event.name )

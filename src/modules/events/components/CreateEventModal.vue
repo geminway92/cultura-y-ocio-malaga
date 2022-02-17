@@ -62,7 +62,7 @@ export default {
             description: '',
             photo: '',
             joined: 0,
-            register: ['Venom']
+            register: ['']
          }
       };
    },
