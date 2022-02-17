@@ -73,6 +73,7 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
+import Swal from 'sweetalert2';
 
 export default {
    data() {
@@ -191,7 +192,6 @@ export default {
          };
 
          event.register[0] === '' ? event.register.shift() : event.register
-         console.log("🚀 ~ file: CurrentEvent.vue ~ line 194 ~ joinEvent ~ checkRegisterDemo", dataToSave)
 
          const eventUser = {id: this.user.email ,startDate: dataToSave.date,endDate: dataToSave.date,title: dataToSave.name,classes: "purple",}
          const filter = event.register.filter(e => e === this.user.name);
@@ -202,7 +202,19 @@ export default {
          dataToSave.joined = event.joined + 1;
          event.register.push(this.user.name);
 
-         await this.joinEventAction({dataToSave, eventUser});
+           const resp = await this.joinEventAction({dataToSave, eventUser});
+            if(!resp.ok)Swal.fire({
+               icon: 'error',
+               title: resp.message,
+               confirmButtonColor: '#B128C3',
+            })
+            else {
+            Swal.fire({
+               icon: 'success',
+               title: resp.message,
+               confirmButtonColor: '#B128C3'
+            });
+            }
 
          return (event.joined = event.joined + 1);
       },

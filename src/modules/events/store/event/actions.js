@@ -64,9 +64,11 @@ export const joinEventAction = async ({commit,dispatch }, {dataToSave, eventUser
         const {data} = await eventApi.put(`/events/${id}.json`, dataToSave)
         console.log(data)
         commit('joinEventMutation', eventUser)
+        return {ok: true, message: 'Añadido al evento'};
 
     }catch(error){
         console.log(error.message)
+        return {ok: false, message: error.message}
     }
 }
 
