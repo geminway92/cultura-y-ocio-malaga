@@ -13,23 +13,23 @@
 
 <script>
 export default {
-   props: {
-      showCreateModal: {
-         type: Boolean,
-         default: false
-      }
-   },
-   methods: {
-      openProfile() {
-         this.$router.push({ name: 'profileUser' });
-         console.log('ha llegado');
-      },
+  props: {
+    showCreateModal: {
+      type: Boolean,
+      default: false
+    }
+  },
+  methods: {
+    openProfile () {
+      this.$router.push({ name: 'profileUser' })
+      console.log('ha llegado')
+    },
 
-      goRouteCalendar() {
-         this.$router.push({ name: 'calendar' });
-      }
-   }
-};
+    goRouteCalendar () {
+      this.$router.push({ name: 'calendar' })
+    }
+  }
+}
 </script>
 
 <style scoped>

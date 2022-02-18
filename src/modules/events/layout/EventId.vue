@@ -33,67 +33,67 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
+import { mapActions, mapState } from 'vuex'
 export default {
-   name: 'event-id',
-   data() {
-      return {
-         eventID: {}
-      };
-   },
+  name: 'event-id',
+  data () {
+    return {
+      eventID: {}
+    }
+  },
 
-   props: {
-      id: {
-         type: String,
-         required: true
+  props: {
+    id: {
+      type: String,
+      required: true
+    }
+  },
+
+  methods: {
+    ...mapActions('event', ['loadEventAction', 'joinEventAction']),
+
+    async eventId () {
+      await this.loadEventAction()
+      const eventNotID = Object.values(this.events)
+
+      this.eventID = eventNotID.find(e => e.id == this.id)
+    },
+
+    joinEvent () {
+      const dataToSave = {
+        id: this.eventID.id,
+        name: this.eventID.name,
+        schedule: this.eventID.schedule,
+        date: this.eventID.date,
+        description: this.eventID.description,
+        photo: this.eventID.photo,
+        joined: this.eventID.joined,
+        register: this.eventID.register
       }
-   },
 
-   methods: {
-      ...mapActions('event', ['loadEventAction', 'joinEventAction']),
+      const filter = this.eventID.register.filter(e => e === this.user.name)
 
-      async eventId() {
-         await this.loadEventAction();
-         const eventNotID = Object.values(this.events);
-
-         this.eventID = eventNotID.find(e => e.id == this.id);
-      },
-
-      joinEvent() {
-         const dataToSave = {
-            id: this.eventID.id,
-            name: this.eventID.name,
-            schedule: this.eventID.schedule,
-            date: this.eventID.date,
-            description: this.eventID.description,
-            photo: this.eventID.photo,
-            joined: this.eventID.joined,
-            register: this.eventID.register
-         };
-
-         const filter = this.eventID.register.filter(e => e === this.user.name);
-
-         if (filter.length > 0) {
-            return;
-         }
-
-         dataToSave.joined = this.eventID.joined + 1;
-         this.eventID.register.push(this.user.name);
-
-         this.joinEventAction(dataToSave);
-         return (this.eventID.joined = this.eventID.joined + 1);
+      if (filter.length > 0) {
+        return
       }
-   },
 
-   created() {
-      this.eventId();
-   },
+      dataToSave.joined = this.eventID.joined + 1
+      this.eventID.register.push(this.user.name)
 
-   computed: {
-      ...mapState('event', ['events']),
-      ...mapState('auth', ['user'])
-   }
-};
+      this.joinEventAction(dataToSave)
+      return (this.eventID.joined = this.eventID.joined + 1)
+    }
+  },
+
+  created () {
+    this.eventId()
+  },
+
+  computed: {
+    ...mapState('event', ['events']),
+    ...mapState('auth', ['user'])
+  }
+}
 </script>
 
 <style scoped>

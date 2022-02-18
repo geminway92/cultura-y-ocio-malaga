@@ -58,12 +58,14 @@
             :modalNameIsTrue="modalNameIsTrue"
             :filterMonthEvent="filterMonthEvent"
             :monthLetter="monthLetter"
+            :currentEmail="currentEmail"
          />
       </div>
 
       <!-- Popular Event -->
       <div class="container-slider-2">
-         <PopularEvent :filterPopularEvent="filterPopularEvent" />
+         <PopularEvent :filterPopularEvent="filterPopularEvent"
+         @openModal="openModal"/>
       </div>
 
       <div class="container-bar">
@@ -76,188 +78,220 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
-import { defineAsyncComponent } from 'vue';
-import getDayMonthYear from '../helpers/getMonthYear';
-import Swal from 'sweetalert2';
+import { mapActions, mapState } from 'vuex'
+import { defineAsyncComponent } from 'vue'
+import getDayMonthYear from '../helpers/getMonthYear'
+import Swal from 'sweetalert2'
 
 export default {
-   name: 'eventlayout',
-   components: {
-      CurrentEvent: defineAsyncComponent(() =>
-         import('../components/CurrentEvent.vue')
-      ),
-      PopularEvent: defineAsyncComponent(() =>
-         import('../components/PopularEvent.vue')
-      ),
-      BarBotton: defineAsyncComponent(() =>
-         import('../components/BarBotton.vue')
-      ),
-      EventModal: defineAsyncComponent(() =>
-         import('../components/EventModal.vue')
-      ),
-      CreateEventModal: defineAsyncComponent(() =>
-         import('../components/CreateEventModal.vue')
-      ),
-      ModalNameRegister: defineAsyncComponent(() =>
-         import('../components/ModalNameRegister.vue')
-      ),
-      ListEventsModal: defineAsyncComponent(() =>
-         import('../components/ListEventsModal.vue')
+  name: 'eventlayout',
+  components: {
+    CurrentEvent: defineAsyncComponent(() =>
+      import('../components/CurrentEvent.vue')
+    ),
+    PopularEvent: defineAsyncComponent(() =>
+      import('../components/PopularEvent.vue')
+    ),
+    BarBotton: defineAsyncComponent(() =>
+      import('../components/BarBotton.vue')
+    ),
+    EventModal: defineAsyncComponent(() =>
+      import('../components/EventModal.vue')
+    ),
+    CreateEventModal: defineAsyncComponent(() =>
+      import('../components/CreateEventModal.vue')
+    ),
+    ModalNameRegister: defineAsyncComponent(() =>
+      import('../components/ModalNameRegister.vue')
+    ),
+    ListEventsModal: defineAsyncComponent(() =>
+      import('../components/ListEventsModal.vue')
+    )
+  },
+
+  data () {
+    return {
+      openModalIsTrue: false,
+      eventForModal: null,
+      showCreateModal: false,
+      filterMonthEvent: [],
+      currentMonth: null,
+      monthLetter: null,
+      newEvent: null,
+      filterPopularEvent: [],
+      modalNameIsTrue: false,
+      openModalSearch: false,
+      nameRegister: null,
+      searchEvent: false,
+      textSearch: '',
+      eventFilter: [],
+      myEvents: [],
+      currentEmail: ''
+
+    }
+  },
+
+  methods: {
+    ...mapActions('auth', ['logout']),
+    ...mapActions('event', ['loadEventAction', 'loadEventUser', 'loadEventAnonimous', 'updateEventAnonimous', 'resetState']),
+
+    openSearchModal () {
+      this.searchEvent = !this.searchEvent
+      if (this.searchEvent) {
+        if (this.openModalSearch && !this.searchEvent) {
+          this.openModalIsTrue = true
+        } else {
+          this.textSearch = ''
+        }
+      } else {
+        this.textSearch = ''
+      }
+    },
+
+    onLogout () {
+      this.logout()
+      this.resetState()
+      this.$router.push({ name: 'login' })
+    },
+
+    openModal (event) {
+      this.openModalIsTrue = !this.openModalIsTrue
+      this.eventForModal = event
+    },
+
+    openModalCreateEvent () {
+      this.showCreateModal = !this.showCreateModal
+      this.searchEvent = true //* I strengthen the true to close and reset the input.
+      this.openSearchModal()
+    },
+
+    async createNewEvent (events) {
+      this.newEvent = events
+      const { ok, message } = await this.$store.dispatch(
+        'event/createEvent',
+        this.newEvent
       )
-   },
 
-   data() {
-      return {
-         openModalIsTrue: false,
-         eventForModal: null,
-         showCreateModal: false,
-         filterMonthEvent: [],
-         currentMonth: null,
-         monthLetter: null,
-         newEvent: null,
-         filterPopularEvent: [],
-         modalNameIsTrue: false,
-         openModalSearch: false,
-         nameRegister: null,
-         searchEvent: false,
-         textSearch: '',
-         eventFilter: []
-      };
-   },
-
-   methods: {
-      ...mapActions('auth', ['logout']),
-      ...mapActions('event', ['loadEventAction']),
-
-      openSearchModal() {
-         this.searchEvent = !this.searchEvent;
-         if (this.searchEvent) {
-            if (this.openModalSearch && !this.searchEvent) {
-               this.openModalIsTrue = true;
-            } else {
-               this.textSearch = '';
-            }
-         } else {
-            this.textSearch = '';
-         }
-      },
-
-      onLogout() {
-         this.logout();
-         this.$router.push({ name: 'login' });
-      },
-
-      openModal(event) {
-         this.openModalIsTrue = !this.openModalIsTrue;
-         this.eventForModal = event;
-      },
-
-      openModalCreateEvent() {
-         this.showCreateModal = !this.showCreateModal;
-         this.searchEvent = true; //* I strengthen the true to close and reset the input.
-         this.openSearchModal();
-      },
-
-      async createNewEvent(events) {
-         this.newEvent = events;
-         const { ok, message } = await this.$store.dispatch(
-            'event/createEvent',
-            this.newEvent
-         );
-
-         if (ok)
-            Swal.fire({
-               icon: 'success',
-               title: message,
-               confirmButtonColor: '#B128C3'
-            });
-         else
-            Swal.fire({
-               icon: 'error',
-               title: message,
-               confirmButtonColor: '#B128C3'
-            });
-
-         this.loadEvents();
-      },
-
-      month() {
-         const { monthCurrent, year, month } = getDayMonthYear();
-         this.monthLetter = month;
-
-         this.currentMonth = `${year}-${monthCurrent}`;
-      },
-
-      async loadEvents() {
-         await this.loadEventAction();
-
-         this.filterForCurrentMonth();
-      },
-
-      filterForCurrentMonth() {
-         if (null === this.events)
-            return; /*Al estilo yoda así por error no se cambia de valor */
-         const eventArray = Object.values(
-            this.events
-         ); /*Los paso array para eliminar el idToken que crea firebase */
-         this.filterMonthEvent = eventArray.filter(e =>
-            e.date.includes(this.currentMonth)
-         );
-
-         this.filterForPopularEvent(this.filterMonthEvent);
-      },
-
-      filterForPopularEvent(event) {
-         const mapJoined = this.filterMonthEvent.map(
-            e => e.joined
-         ); /*Mapeamos todos los inscritos */
-         mapJoined.sort(
-            (a, b) => b - a
-         ); /*Ordanamos los inscritos de mayor a menor */
-         const [
-            pos1,
-            ...other
-         ] = mapJoined; /*destructuramos el primero que nos interesa por ser el más grande */
-
-         this.filterPopularEvent = event.filter(
-            e => e.joined === pos1
-         ); /*Filtramos el que coincide con el mayor de todos */
-      },
-
-      openModalName(name) {
-         this.modalNameIsTrue = !this.modalNameIsTrue;
-         this.nameRegister = name;
+      if (ok) {
+        Swal.fire({
+          icon: 'success',
+          title: message,
+          confirmButtonColor: '#B128C3'
+        })
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: message,
+          confirmButtonColor: '#B128C3'
+        })
       }
-   },
-   created() {
-      this.loadEvents();
-      this.month();
-   },
 
-   computed: {
-      ...mapState('auth', ['user']),
-      ...mapState('event', ['events']),
+      this.loadEvents()
+    },
 
-      searchEventFilter() {
-         if (this.textSearch.length >= 1) {
-            this.openModalSearch = true;
-            const eventArray = Object.values(this.events); //* Convert to array to remove id
+    month () {
+      const { monthCurrent, year, month } = getDayMonthYear()
+      this.monthLetter = month
 
-            this.eventFilter = eventArray.filter(e =>
-               e.name
-                  .toLowerCase()
-                  .includes(this.textSearch.toLocaleLowerCase())
-            );
-         } else if (this.textSearch == 0) {
-            this.openModalSearch = false;
-            return (this.eventFilter = []);
-         }
+      this.currentMonth = `${year}-${monthCurrent.toString().length < 2 ? '0' + monthCurrent : monthCurrent}`
+    },
 
-         return this.eventFilter;
+    async loadEvents () {
+      await this.loadEventAction()
+
+      this.filterForCurrentMonth()
+    },
+
+    filterForCurrentMonth () {
+      if (this.events === null) { return } /* Al estilo yoda así por error no se cambia de valor */
+      const eventArray = Object.values(
+        this.events
+      ) /* Los paso array para eliminar el idToken que crea firebase */
+
+      this.filterMonthEvent = eventArray.filter(e =>
+        e.date.includes(this.currentMonth)
+      )
+      this.filterForPopularEvent(this.filterMonthEvent)
+    },
+
+    filterForPopularEvent (event) {
+      /* Buscar los que tienen más de 0 joined */
+      const filterEventJoined = event.filter(e => e.joined > 0)
+      console.log(filterEventJoined)
+      if (filterEventJoined.length > 0) {
+        this.filterPopularEvent = filterEventJoined.sort((a, b) => b.joined - a.joined);
+        (this.filterPopularEvent = filterEventJoined.length > 2 ? this.filterPopularEvent.splice(0, 2) : this.filterPopularEvent)
       }
-   }
-};
+    },
+
+    openModalName (name) {
+      this.modalNameIsTrue = !this.modalNameIsTrue
+      this.nameRegister = name
+    },
+    loadEventFirebase () {
+      if (this.eventRegister.length === 0) {
+        if (this.user.email === undefined) {
+          console.log('considera que es anonimo')
+          this.checkLocalStorage()
+          return
+        }
+        console.log('prueba', this.currentEmail)
+        this.loadEventUser(this.currentEmail)
+      }
+    },
+    checkLocalStorage () {
+      if (localStorage.getItem('myEvents') != null) {
+        const eventsLocalStorage = JSON.parse(localStorage.getItem('myEvents'))
+        return this.loadEventAnonimous(eventsLocalStorage)
+      }
+    },
+    currentEmailUser () {
+      console.log('currentemail')
+      if (this.user === null) {
+        this.currentEmail = localStorage.getItem('currentUser')
+      } else {
+        if (this.user.email === undefined) {
+          this.loadEventFirebase()
+          return
+        }
+        const emailSplit = this.user.email.split('@').shift()
+        localStorage.setItem('currentUser', emailSplit)
+        this.currentEmail = emailSplit
+        this.loadEventFirebase()
+      }
+    }
+  },
+
+  created () {
+    this.loadEvents()
+    this.month()
+    this.currentEmailUser()
+  },
+
+  computed: {
+    ...mapState('auth', ['user']),
+    ...mapState('event', ['events', 'eventRegister']),
+
+    searchEventFilter () {
+      if (this.textSearch.length >= 1) {
+        this.openModalSearch = true
+        const eventArray = Object.values(this.events) //* Convert to array to remove id
+
+        this.eventFilter = eventArray.filter(e =>
+          e.name
+            .toLowerCase()
+            .includes(this.textSearch.toLocaleLowerCase())
+        )
+      } else if (this.textSearch == 0) {
+        this.openModalSearch = false
+        return (this.eventFilter = [])
+      }
+
+      return this.eventFilter
+    }
+
+  }
+}
 </script>
 
 <style scoped>

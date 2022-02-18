@@ -6,26 +6,26 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
-   data() {
-      return {};
-   },
+  data () {
+    return {}
+  },
 
-   methods: {
-      ...mapActions('auth', ['checkAuth']),
+  methods: {
+    ...mapActions('auth', ['checkAuth']),
 
-      async checkStatus() {
-         const resp = await this.checkAuth();
-         return resp;
-      }
-   },
+    async checkStatus () {
+      const resp = await this.checkAuth()
+      return resp
+    }
+  },
 
-   computed: {
-      ...mapGetters('auth', ['currentState'])
-   }
-};
+  computed: {
+    ...mapGetters('auth', ['currentState'])
+  }
+}
 </script>
 
 <style>

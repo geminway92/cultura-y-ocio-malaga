@@ -24,61 +24,62 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
-import Swal from 'sweetalert2';
+import { mapActions, mapState } from 'vuex'
+import Swal from 'sweetalert2'
 
 export default {
-   data() {
-      return {
-         newPassword: ''
-      };
-   },
+  data () {
+    return {
+      newPassword: ''
+    }
+  },
 
-   props: {
-      openModalNewPassword: {
-         type: Boolean,
-         default: false
+  props: {
+    openModalNewPassword: {
+      type: Boolean,
+      default: false
+    }
+  },
+
+  methods: {
+    ...mapActions('updateStore', [
+      'changeNameAction',
+      'changePasswordAction'
+    ]),
+
+    async updatePassword () {
+      const updateUser = this.user
+      updateUser.password = this.newPassword
+      updateUser.idToken = this.idToken
+      console.log(updateUser)
+
+      //* Make http request for change name
+      const resp = await this.changePasswordAction(updateUser)
+
+      if (!resp.ok) {
+        Swal.fire({
+          icon: 'error',
+          title: resp.message,
+          confirmButtonColor: '#B128C3'
+        })
+      } else {
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: 'Cambio exitoso',
+          showConfirmButton: false,
+          timer: 1500
+        })
       }
-   },
 
-   methods: {
-      ...mapActions('updateStore', [
-         'changeNameAction',
-         'changePasswordAction'
-      ]),
+      this.$emit('changePassword')
+    }
+  },
 
-      async updatePassword() {
-         const updateUser = this.user;
-         updateUser.password = this.newPassword;
-         updateUser.idToken = this.idToken;
-         console.log(updateUser);
-
-         //* Make http request for change name
-         const resp = await this.changePasswordAction(updateUser);
-
-         if (!resp.ok)
-            Swal.fire({
-               icon: 'error',
-               title: resp.message,
-               confirmButtonColor: '#B128C3'
-            });
-         else
-            Swal.fire({
-               position: 'center',
-               icon: 'success',
-               title: 'Cambio exitoso',
-               showConfirmButton: false,
-               timer: 1500
-            });
-
-         this.$emit('changePassword');
-      }
-   },
-
-   computed: {
-      ...mapState('auth', ['user', 'idToken'])
-   }
-};
+  computed: {
+    ...mapState('auth', ['user', 'idToken'])
+  }
+}
 </script>
 
 <style scoped>

@@ -49,75 +49,75 @@
 </template>
 
 <script>
-import uploadImage from '../helpers/updatePhoto';
+import uploadImage from '../helpers/updatePhoto'
 
 export default {
-   data() {
-      return {
-         newEvent: {
-            id: '',
-            name: '',
-            schedule: '',
-            date: '',
-            description: '',
-            photo: '',
-            joined: 0,
-            register: ['Venom']
-         }
-      };
-   },
-
-   props: {
-      showCreateModal: {
-         type: Boolean,
-         default: false
+  data () {
+    return {
+      newEvent: {
+        id: '',
+        name: '',
+        schedule: '',
+        date: '',
+        description: '',
+        photo: '',
+        joined: 0,
+        register: ['']
       }
-   },
+    }
+  },
 
-   methods: {
-      async onSubmit() {
-         const date = new Date(); /*Fecha actual */
-         const id = date.getTime(); /*se usa para crear una id única */
+  props: {
+    showCreateModal: {
+      type: Boolean,
+      default: false
+    }
+  },
 
-         this.newEvent.id = id;
-         this.newEvent.photo = this.file; /*Pasamos el valor de la url */
+  methods: {
+    async onSubmit () {
+      const date = new Date() /* Fecha actual */
+      const id = date.getTime() /* se usa para crear una id única */
 
-         this.$emit(
-            'createNewEvent',
-            this.newEvent
-         ); /*Envia los datos del form a otro método  que dispara la acción */
-         this.$emit('openModalCreateEvent'); /*Cierra modal */
+      this.newEvent.id = id
+      this.newEvent.photo = this.file /* Pasamos el valor de la url */
 
-         /*Resetea formulario */
-         this.newEvent = {
-            id: '',
-            name: '',
-            schedule: '',
-            date: '',
-            description: '',
-            photo: '',
-            joined: 0,
-            register: []
-         };
-      },
+      this.$emit(
+        'createNewEvent',
+        this.newEvent
+      ) /* Envia los datos del form a otro método  que dispara la acción */
+      this.$emit('openModalCreateEvent') /* Cierra modal */
 
-      async onSelectedImage(event) {
-         const file = event.target.files[0]; /*Localiza la foto selecionada */
-         if (!file) {
-            this.file = null;
-            return;
-         }
-
-         this.file = file; /*Cambiamos el valor de file de la data con la foto selecionada */
-
-         const picture = await uploadImage(
-            this.file
-         ); /*Petición para subir el archivo a cloudinary */
-
-         this.file = picture; /*Cambiamos el valor de file por el url que nos ha devuelto en el paso anterior */
+      /* Resetea formulario */
+      this.newEvent = {
+        id: '',
+        name: '',
+        schedule: '',
+        date: '',
+        description: '',
+        photo: '',
+        joined: 0,
+        register: []
       }
-   }
-};
+    },
+
+    async onSelectedImage (event) {
+      const file = event.target.files[0] /* Localiza la foto selecionada */
+      if (!file) {
+        this.file = null
+        return
+      }
+
+      this.file = file /* Cambiamos el valor de file de la data con la foto selecionada */
+
+      const picture = await uploadImage(
+        this.file
+      ) /* Petición para subir el archivo a cloudinary */
+
+      this.file = picture /* Cambiamos el valor de file por el url que nos ha devuelto en el paso anterior */
+    }
+  }
+}
 </script>
 
 <style scoped>
@@ -151,6 +151,7 @@ button {
    width: 60px;
    margin: 1em auto;
    color: #ffffff;
+   cursor: pointer;
 }
 
 .container-modal {

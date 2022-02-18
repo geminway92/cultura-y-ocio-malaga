@@ -4,14 +4,12 @@ import * as actions from './actions'
 import * as getters from './getters'
 import * as mutations from './mutations'
 
-
 const eventStore = {
-    namespaced: true,
-    actions,
-    getters,
-    mutations,
-    state
+  namespaced: true,
+  actions,
+  getters,
+  mutations,
+  state
 }
-
 
 export default eventStore

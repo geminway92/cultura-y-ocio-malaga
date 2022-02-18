@@ -56,68 +56,68 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
-import { defineAsyncComponent } from 'vue';
+import { mapActions, mapState } from 'vuex'
+import { defineAsyncComponent } from 'vue'
 
 export default {
-   name: 'profileUser',
-   components: {
-      UpdateNameModal: defineAsyncComponent(() =>
-         import(
-            /*webpackChunckName: "updateNameModal" */ '../components/UpdateNameModal.vue'
-         )
-      ),
-      UpdatePhotoModal: defineAsyncComponent(() =>
-         import(
-            /*webpackChunkName: "updatePhotoModal" */ '../components/UpdatePhotoModal.vue'
-         )
-      ),
-      UpdatePasswordModal: defineAsyncComponent(() =>
-         import(
-            /*webpackChunkName: "updatePasswordName" */ '../components/UpdatePasswordModal.vue'
-         )
+  name: 'profileUser',
+  components: {
+    UpdateNameModal: defineAsyncComponent(() =>
+      import(
+        /* webpackChunckName: "updateNameModal" */ '../components/UpdateNameModal.vue'
       )
-   },
+    ),
+    UpdatePhotoModal: defineAsyncComponent(() =>
+      import(
+        /* webpackChunkName: "updatePhotoModal" */ '../components/UpdatePhotoModal.vue'
+      )
+    ),
+    UpdatePasswordModal: defineAsyncComponent(() =>
+      import(
+        /* webpackChunkName: "updatePasswordName" */ '../components/UpdatePasswordModal.vue'
+      )
+    )
+  },
 
-   data() {
-      return {
-         userName: '',
-         openModalNewName: false,
-         openModalPhoto: false,
-         openModalNewPassword: false,
-         file: ''
-      };
-   },
+  data () {
+    return {
+      userName: '',
+      openModalNewName: false,
+      openModalPhoto: false,
+      openModalNewPassword: false,
+      file: ''
+    }
+  },
 
-   methods: {
-      ...mapActions('auth', ['logout']),
+  methods: {
+    ...mapActions('auth', ['logout']),
 
-      goRouteCurrentEvent() {
-         this.$router.push({ name: 'eventlayout' });
-      },
+    goRouteCurrentEvent () {
+      this.$router.push({ name: 'eventlayout' })
+    },
 
-      onLogout() {
-         this.logout();
-         this.$router.push({ name: 'login' });
-      },
+    onLogout () {
+      this.logout()
+      this.$router.push({ name: 'login' })
+    },
 
-      changeName() {
-         this.openModalNewName = !this.openModalNewName;
-      },
+    changeName () {
+      this.openModalNewName = !this.openModalNewName
+    },
 
-      changePhoto() {
-         this.openModalPhoto = !this.openModalPhoto;
-      },
+    changePhoto () {
+      this.openModalPhoto = !this.openModalPhoto
+    },
 
-      changePassword() {
-         this.openModalNewPassword = !this.openModalNewPassword;
-      }
-   },
+    changePassword () {
+      this.openModalNewPassword = !this.openModalNewPassword
+    }
+  },
 
-   computed: {
-      ...mapState('auth', ['user'])
-   }
-};
+  computed: {
+    ...mapState('auth', ['user'])
+  }
+}
 </script>
 
 <style scoped>

@@ -25,58 +25,59 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
-import Swal from 'sweetalert2';
+import { mapActions, mapState } from 'vuex'
+import Swal from 'sweetalert2'
 
 export default {
-   data() {
-      return {
-         newName: ''
-      };
-   },
+  data () {
+    return {
+      newName: ''
+    }
+  },
 
-   props: {
-      openModalNewName: {
-         type: Boolean,
-         default: false
+  props: {
+    openModalNewName: {
+      type: Boolean,
+      default: false
+    }
+  },
+
+  methods: {
+    ...mapActions('updateStore', ['changeNameAction']),
+
+    async updateName () {
+      const updateUser = this.user
+      updateUser.name = this.newName
+      updateUser.idToken = this.idToken
+      console.log(updateUser)
+
+      //* Make http request for change name
+      const resp = await this.changeNameAction(updateUser)
+
+      if (!resp.ok) {
+        Swal.fire({
+          icon: 'error',
+          title: resp.message,
+          confirmButtonColor: '#B128C3'
+        })
+      } else {
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: 'Cambio exitoso',
+          showConfirmButton: false,
+          timer: 1500
+        })
       }
-   },
 
-   methods: {
-      ...mapActions('updateStore', ['changeNameAction']),
+      this.$emit('changeName')
+    }
+  },
 
-      async updateName() {
-         const updateUser = this.user;
-         updateUser.name = this.newName;
-         updateUser.idToken = this.idToken;
-         console.log(updateUser);
-
-         //* Make http request for change name
-         const resp = await this.changeNameAction(updateUser);
-
-         if (!resp.ok)
-            Swal.fire({
-               icon: 'error',
-               title: resp.message,
-               confirmButtonColor: '#B128C3'
-            });
-         else
-            Swal.fire({
-               position: 'center',
-               icon: 'success',
-               title: 'Cambio exitoso',
-               showConfirmButton: false,
-               timer: 1500
-            });
-
-         this.$emit('changeName');
-      }
-   },
-
-   computed: {
-      ...mapState('auth', ['user', 'idToken'])
-   }
-};
+  computed: {
+    ...mapState('auth', ['user', 'idToken'])
+  }
+}
 </script>
 
 <style scoped>

@@ -1,14 +1,14 @@
-import state from './state';
-import * as mutations from './mutations';
-import * as actions from './actions';
-import * as getters from './getters';
+import state from './state'
+import * as mutations from './mutations'
+import * as actions from './actions'
+import * as getters from './getters'
 
 const updateStore = {
-   namespaced: true,
-   state,
-   mutations,
-   actions,
-   getters
-};
+  namespaced: true,
+  state,
+  mutations,
+  actions,
+  getters
+}
 
-export default updateStore;
+export default updateStore

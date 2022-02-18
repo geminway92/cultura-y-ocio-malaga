@@ -10,12 +10,12 @@
 
 <script>
 export default {
-    name: 'page404',
-    methods:{
-        goRouteLogin(){
-            this.$router.push({name: 'login'})
-        }
+  name: 'pageError404',
+  methods: {
+    goRouteLogin () {
+      this.$router.push({ name: 'login' })
     }
+  }
 }
 </script>
 
@@ -53,7 +53,5 @@ button:active{
 .container{
     margin: auto;
 }
-
-
 
 </style>

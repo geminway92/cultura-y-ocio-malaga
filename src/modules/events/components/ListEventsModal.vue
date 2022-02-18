@@ -15,27 +15,27 @@
 
 <script>
 export default {
-   props: {
-      openModalSearch: {
-         type: Boolean,
-         default: false
-      },
+  props: {
+    openModalSearch: {
+      type: Boolean,
+      default: false
+    },
 
-      searchEventFilter: {
-         type: Array
-      }
-   },
+    searchEventFilter: {
+      type: Array
+    }
+  },
 
-   methods: {
-      openEvent(event) {
-         console.log(event);
-         this.$router.push({
-            name: 'event-id',
-            params: { id: event.id }
-         });
-      }
-   }
-};
+  methods: {
+    openEvent (event) {
+      console.log(event)
+      this.$router.push({
+        name: 'event-id',
+        params: { id: event.id }
+      })
+    }
+  }
+}
 </script>
 
 <style scoped>
