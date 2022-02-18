@@ -28,6 +28,16 @@ const routes = [
          };
       }
    },
+
+   {
+      path: '/calendar',
+      name: 'calendar',
+      component: () =>
+         import(
+            /*webpackChunkName: "calendar" */ './../modules/calendar/layout/calendar.vue'
+         )
+   },
+
    {
       path: '/profile-user',
       name: 'profileUser',
@@ -37,6 +47,7 @@ const routes = [
             /*webpackChunkName: "profileUser" */ '../modules/updateProfile/layout/ProfileUser.vue'
          )
    },
+
    {
       path: '/:pathMatch(.*)*',
       name: 'page404',

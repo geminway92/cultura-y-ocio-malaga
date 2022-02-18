@@ -11,15 +11,17 @@
    "dependencies": {
       "@fortawesome/fontawesome-free": "^5.15.4",
       "@fortawesome/fontawesome-svg-core": "^1.2.36",
-      "axios": "^0.23.0",
-      "core-js": "^3.6.5",
-      "espree": "^9.0.0",
+      "axios": "^0.24.0",
+      "core-js": "^3.19.3",
+      "espree": "^9.2.0",
       "font-awesome": "^4.7.0",
       "fontawesome-5-icons-list": "^1.0.1",
       "nodejs": "0.0.0",
-      "sweetalert2": "^11.1.9",
-      "vue": "^3.0.0",
+      "sweetalert2": "^11.3.0",
+      "vue": "^3.2.24",
+      "vue-cal": "^3.10.1",
       "vue-router": "^4.0.0-0",
+      "vue-simple-calendar": "^6.0.3",
       "vuex": "^4.0.0-0"
    },
    "devDependencies": {
@@ -27,13 +29,13 @@
       "@vue/cli-plugin-router": "~4.5.0",
       "@vue/cli-plugin-vuex": "~4.5.0",
       "@vue/cli-service": "~4.5.0",
-      "@vue/compiler-sfc": "^3.0.0",
+      "@vue/compiler-sfc": "^3.2.24",
       "eslint": "^7.32.0",
       "eslint-config-standard": "^16.0.3",
       "eslint-plugin-import": "^2.25.2",
       "eslint-plugin-node": "^11.1.0",
       "eslint-plugin-promise": "^5.1.1",
-      "eslint-plugin-vue": "^8.0.3"
+      "eslint-plugin-vue": "^8.2.0"
    },
    "description": "```\r Proyecto que tiene como finalidad encontrar los eventos que hay en Málaga.",
    "main": "babel.config.js",
