@@ -68,12 +68,6 @@ export const addEventUser = async ({ commit }, myEvents) => {
       return
     }
 
-    try {
-      await eventApi.put(`/eventsUsers/${data.name}.json`, myEvents)
-      commit('SET_EVENT_USER', myEvents)
-    } catch (error) {
-      console.error(error.message)
-    }
   } catch (error) {
     console.error(error.message)
   }
