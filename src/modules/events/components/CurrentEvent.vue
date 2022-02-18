@@ -121,6 +121,7 @@ export default {
       dataToSave.joined = event.joined + 1
       event.register.push(this.user.name)
 
+      event.register[0] === '' ? event.register.shift() : event.register
       const resp = await this.joinEventAction({ dataToSave, eventUser })
       if (!resp.ok) {
         Swal.fire({
