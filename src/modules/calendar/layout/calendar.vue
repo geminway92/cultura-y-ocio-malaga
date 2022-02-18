@@ -13,7 +13,6 @@
          :starting-day-of-week="startingDayOfWeek"
          display-period-uom="month"
          class="theme-default holiday-us-traditional holiday-us-official"
-         @click-date="onClickDate"
       >
          <template #header="{ headerProps }">
             <calendar-view-header
@@ -26,7 +25,7 @@
 </template>
 
 <script>
-import { onMounted } from '@vue/runtime-core'
+
 import { CalendarView, CalendarViewHeader } from 'vue-simple-calendar'
 import { mapState } from 'vuex'
 import '../../../../node_modules/vue-simple-calendar/dist/style.css'
@@ -52,9 +51,6 @@ export default {
     setShowDate (d) {
       this.showDate = d
     },
-    onClickDate (...params) {
-      console.log(params)
-    },
     thisMonth (d, h, m) {
       const t = new Date()
       return new Date(t.getFullYear(), t.getMonth(), d, h || 0, m || 0)
@@ -68,8 +64,6 @@ export default {
         }
       } else {
         if (this.eventRegister.length > 0) {
-          console.log(this.eventRegister)
-
           const valueEvent = Object.values(this.eventRegister)
           valueEvent.forEach(e => {
             this.items.push(e)
@@ -83,7 +77,7 @@ export default {
 
         return
       }
-      console.log(this.eventRegister[0])
+
       return this.printEvent(this.eventRegister[0])
     }
 
@@ -94,14 +88,12 @@ export default {
 
     checkEventRegister () {
       this.printEvent(this.eventRegister[0])
-      console.log(computada)
       return this.eventRegister[0]
     }
   },
 
   mounted () {
     this.fetchApi()
-    console.log('mounted')
   }
 }
 </script>

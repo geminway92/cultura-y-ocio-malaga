@@ -49,7 +49,6 @@ export default {
       const updateUser = this.user
       updateUser.name = this.newName
       updateUser.idToken = this.idToken
-      console.log(updateUser)
 
       //* Make http request for change name
       const resp = await this.changeNameAction(updateUser)

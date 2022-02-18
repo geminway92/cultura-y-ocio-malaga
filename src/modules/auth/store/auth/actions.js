@@ -8,7 +8,7 @@ export const createUser = async ({ commit }, user) => {
     const { idToken, refreshToken } = data
 
     const resp = await authApi.post(':update', { idToken, refreshToken, photoUrl: photo, displayName: name })
-    console.log(resp.date)
+
 
     delete user.password
     commit('loginUser', { user, idToken, refreshToken })
@@ -26,7 +26,7 @@ export const signInUser = async ({ commit }, user) => {
     const { idToken, refreshToken, displayName, profilePicture } = data
     user.name = displayName
     user.photo = profilePicture
-    console.log(data)
+
 
     delete user.password
     commit('loginUser', { user, idToken, refreshToken })
@@ -65,7 +65,6 @@ export const checkAuth = async ({ commit }) => {
 }
 
 export const changePassword = async ({ commit }, email) => {
-  console.log(email)
   try {
     const { data } = await authApi.post(':sendOobCode', { email, requestType: 'PASSWORD_RESET' })
     return { ok: true }

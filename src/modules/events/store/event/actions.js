@@ -4,7 +4,6 @@ export const createEvent = async ({ commit }, events) => {
   const { name, description, date, joined, photo, schedule, register } = events
   try {
     const { data } = await eventApi.post('events.json', events)
-    console.log(data, 'es la data')
 
     const dataToSave = {
       id: data.name,
@@ -39,7 +38,7 @@ export const loadEventAction = async ({ commit }) => {
       commit('loadEventMutation', data)
     }
   } catch (error) {
-    console.log(error.message)
+    console.error(error.message)
   }
 }
 
@@ -49,18 +48,18 @@ export const joinEventAction = async ({ commit, dispatch }, { dataToSave, eventU
   dispatch('addEventUser', eventUser)
   try {
     const { data } = await eventApi.put(`/events/${id}.json`, dataToSave)
-    console.log(data)
+
     commit('joinEventMutation', eventUser)
     return { ok: true, message: 'Añadido al evento' }
   } catch (error) {
-    console.log(error.message)
+    console.error(error.message)
     return { ok: false, message: error.message }
   }
 }
 
 export const addEventUser = async ({ commit }, myEvents) => {
   const emailSplit = { ...myEvents.id.split('@') }
-  console.log(emailSplit)
+
   try {
     const { data } = await eventApi.post(`${emailSplit[0]}.json`, myEvents)
     myEvents.id = data.name
@@ -73,10 +72,10 @@ export const addEventUser = async ({ commit }, myEvents) => {
       await eventApi.put(`/eventsUsers/${data.name}.json`, myEvents)
       commit('SET_EVENT_USER', myEvents)
     } catch (error) {
-      console.log(error.message)
+      console.error(error.message)
     }
   } catch (error) {
-    console.log(error.message)
+    console.error(error.message)
   }
 }
 
@@ -96,7 +95,7 @@ export const loadEventUser = async ({ commit }, user) => {
       commit('SET_EVENT_USER', eventsArray)
     }
   } catch (error) {
-    console.log(error.message)
+    console.error(error.message)
   }
 }
 

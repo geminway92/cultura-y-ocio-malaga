@@ -1,16 +1,46 @@
-# cultura-y-ocio
+# Cultura y Ocio
 
-## [En desarrollo]
+Proyecto que tiene como finalidad crear y ver los eventos que hay en Málaga.
+Está pensando para poner en práctica petición con axios, usar la CRUD alojada la base de dato en firebase y la autenticación de usuario.
 
+Se añadió un calendario y es funcional tanto si eres usuario registrado o entras como anónimo, en este último caso estará guardado en localstorage.
+
+## Tabla de contenidos
+- [Vista general](#vista-general)
+  - [Enlace a la web](#enlace-a-la-web)
+  - [Capturas en ordenador](#capturas-en-ordenador)
+  - [Capturas en móvil](#capturas-en-móvil)
+- [Desarrollo](#desarrollo)
+  - [Tecnologías](#tecnologías)
+  - [Reproducir en local](#reproducir-en-local)
+- [Autor](#autor)
+## Vista General
+### Enlace a la web
+Descubre Cultura y Ocio en:
+https://cultura-y-ocio.netlify.app/#/
+
+## Capturas en ordenador
+![Captura de pantalla en el ordenador](ruta)
+
+
+### Reproducir en local
+Clona el proyecto
 ```
-Proyecto que tiene como finalidad encontrar los eventos que hay en Málaga.
-
-Tiene completa la funcionalidad de Registrar, iniciar sesión y el logout.
-El módulo event está todavía en construcción.
-
-
-## NEW Updated
--[x]  Input with supported images
--[x]  Corrected that when opening the create event modal, the event browser remained open.
--[x]  Fixed When I click on join it does not let me search for events until I refresh the page.
+  git clone https://github.com/geminway92/cultura-y-ocio-malaga.git
+```
+Entra en la carpeta
+```
+  cd cultura-y-ocio-malaga
+```
+Instala las dependencias del proyecto
+```
+  npm install
+```
+Construye el proyecto
+```
+  npm run build
+```
+Inicia el proyecto en local
+```
+  npm run serve
 ```

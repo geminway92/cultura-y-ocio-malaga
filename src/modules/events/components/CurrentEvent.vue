@@ -4,22 +4,6 @@
          <h1>
             Próximos Eventos en <span>{{ monthLetter }}</span>
          </h1>
-         <div class="container-arrow-slider">
-            <div
-               @click="moveSliderLeft()"
-               class="container-arrow--left"
-               :class="arrowLeftActive ? 'arrow-purple' : 'arrow-grey'"
-            >
-               <i class="fas fa-arrow-left"></i>
-            </div>
-            <div
-               @click="moveSliderRight()"
-               class="container-arrow--right"
-               :class="arrowRightActive ? 'arrow-purple' : 'arrow-grey'"
-            >
-               <i class="fas fa-arrow-right"></i>
-            </div>
-         </div>
       </div>
       <div class="container-slider" ref="slider">
          <div
@@ -110,70 +94,6 @@ export default {
   methods: {
     ...mapActions('event', ['joinEventAction', 'loadEventAction', 'updateEventAnonimous']),
 
-    moveSliderRight () {
-      if (this.totalClickRight < this.updateEvent.length) {
-        /* -1 porque al empezar en 0 el length no contabiliza bien */
-        this.totalClickRight++
-        this.arrowLeftActive = true
-
-        if (this.totalClickRight === this.updateEvent.length) {
-          this.arrowRightActive = false
-        }
-
-        this.slider.scrollTo({
-          left: this.width * 1,
-          behavior: 'smooth'
-        })
-
-        this.width = this.width + this.resetWidth
-        if (this.width < this.resetWidth) {
-          return (this.width = this.resetWidth)
-        }
-      }
-    },
-
-    moveSliderLeft () {
-      if (this.totalClickRight > 0) {
-        this.arrowLeftActive = true
-        this.arrowRightActive = true
-        this.totalClickRight--
-        this.width =
-               this.width -
-               this.resetWidth /* Resta para moverse a la izquierda */
-
-        if (this.totalClickRight <= 1) {
-          this.arrowLeftActive = false
-        }
-
-        this.slider.scrollTo({
-          left: this.width - this.resetWidth,
-          behavior: 'smooth'
-        })
-        if (this.width < this.resetWidth) {
-          return (this.width = this.resetWidth)
-        }
-
-        if (screen.width < 700 && this.totalClickRight <= 1) {
-          this.arrowRightActive = false
-        } else if (
-          screen.width > 700 &&
-               screen.width < 1200 &&
-               this.totalClickRight <= 2
-        ) {
-          //* Al añadirle totalclickRight 1 en mounted necesita hacer esta correción para que se desactive el boton */
-          this.arrowLeftActive = false
-        } else if (screen.width > 1200 && this.totalClickRight <= 4) {
-          this.arrowLeftActive = false
-        }
-      }
-    },
-
-    checkTotalEvent () {
-      this.updateEvent.length <= this.totalClickRight
-        ? (this.arrowRightActive = false)
-        : (this.arrowRightActive = true)
-    },
-
     getEventInterested (event) {
       this.$emit('openModal', event)
     },
@@ -237,25 +157,6 @@ export default {
       }
     },
 
-    checkScreen () {
-      this.slider = this.$refs.slider
-      this.width = this.slider.offsetWidth
-      this.resetWidth = this.width
-
-      if (screen.width < 700) {
-        this.totalClickRight = 1
-      } else if (screen.width > 700 && screen.width < 1100) {
-        this.width = this.width / 2
-        this.resetWidth = this.width
-
-        this.totalClickRight = 2
-      } else if (screen.width > 1200) {
-        this.width = this.width / 4
-        this.resetWidth = this.width
-
-        this.totalClickRight = 4
-      }
-    },
     checkFilterMonthLengt () {
       if (this.filterMonthEvent.length <= 1) this.arrowRightActive = false
       else { this.arrowRightActive = true }
@@ -273,15 +174,6 @@ export default {
       return this.filterMonthEvent /* Para que actualice el filtro de eventos por mes si se registra uno */
     }
   },
-
-  mounted () {
-    this.checkScreen()
-    this.checkTotalEvent()
-  },
-
-  beforeUpdate () {
-    this.checkTotalEvent()
-  }
 }
 </script>
 
@@ -303,23 +195,29 @@ p {
    }
 }
 
+
 .container-next-event--header {
    display: flex;
    justify-content: space-between;
    margin: 0.5em 0.2em 0em 0.1em;
+}
+.container-slider::-webkit-scrollbar-track {
+    height: 5px;
+    background-color: #f2f2f2;
+    margin: 1em;
+}
+.container-slider::-webkit-scrollbar {
+    height: 10px;
+}
+.container-slider::-webkit-scrollbar-thumb {
+    background-color: #B128C3; /* color of the scroll thumb */
+    border-radius: 20px; /* roundness of the scroll thumb */
 }
 
 @media screen and (min-width: 730px) {
    .container-next-event {
       top: -3em;
       position: relative;
-   }
-}
-
-@media screen and (min-width: 1200px) {
-   .container-next-event--header {
-      position: relative;
-      top: 3em;
    }
 }
 
@@ -331,57 +229,22 @@ p {
    margin-left: 0.5em;
 }
 
-.container-arrow-slider {
-   display: flex;
-   gap: 1em;
-   margin: 0.5em 1em;
-}
-
-.container-arrow--left,
-.container-arrow--right {
-   background-color: #f3f3f4;
-   width: 40px;
-   height: 40px;
-   border-radius: 100%;
-   display: flex;
-   justify-content: center;
-   flex-direction: column;
-}
-
-.arrow-grey {
-   border: 2px solid var(--colorSecundary);
-   color: var(--colorSecundary);
-   cursor: pointer;
-}
-
-.arrow-purple {
-   color: var(--colorPrimary);
-   border: 2px solid var(--colorPrimary);
-   cursor: pointer;
-}
-
 .container-slider {
    width: 90%;
    display: flex;
-   overflow: scroll;
-   overflow-y: hidden;
-   overflow-x: hidden;
-   margin: auto;
-}
-
-@media screen and (min-width: 730px) {
-   .container-slider {
-      top: 2em;
-      width: 700px;
-      position: relative;
-   }
+   overflow-x: scroll;
+   margin: auto ;
+   gap: 1em;
 }
 
 @media screen and (min-width: 1200px) {
+   .container-next-event--header {
+      position: relative;
+      top: 3em;
+   }
+
    .container-slider {
       top: 2em;
-      width: 1400px;
-      height: 200px;
       position: relative;
    }
 }
@@ -389,12 +252,6 @@ p {
 .container-card {
    display: flex;
    width: 250px;
-}
-
-@media screen and (min-width: 730px) {
-   .container-card {
-      margin: 1em;
-   }
 }
 
 img {
@@ -414,16 +271,11 @@ img {
 .container-flex {
    display: flex;
    flex-direction: column;
-   width: 400px;
+   width: 300px;
    background-color: #ffe60015;
    text-align: start;
 }
 
-@media screen and (min-width: 730px) {
-   .container-flex {
-      width: min-content;
-   }
-}
 
 .subtitle-date {
    margin: 0;

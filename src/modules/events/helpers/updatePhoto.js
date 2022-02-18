@@ -14,7 +14,6 @@ const uploadImage = async (file) => { // Necesito el file(el archivo a subir)
     return data.secure_url
   } catch (error) {
     console.error('Error al cargar la imagen, revisar logs')
-    console.log(error)
     return null
   }
 }

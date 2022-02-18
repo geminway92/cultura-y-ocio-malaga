@@ -93,7 +93,6 @@ export default {
     },
 
     async joinEvent (event) {
-      console.log('entra en populares')
       const dataToSave = {
         id: event.id,
         name: event.name,
@@ -174,7 +173,22 @@ export default {
 .container-show{
    width: 90%;
    display: flex;
+   overflow-x: scroll;
 }
+
+.container-show::-webkit-scrollbar-track {
+    height: 5px;
+    background-color: #f2f2f2;
+    margin: 1em;
+}
+.container-show::-webkit-scrollbar {
+    height: 10px;
+}
+.container-show::-webkit-scrollbar-thumb {
+    background-color: #B128C3; /* color of the scroll thumb */
+    border-radius: 20px; /* roundness of the scroll thumb */
+}
+
 .title {
    font-size: 1.5em;
    text-align: start;
@@ -184,31 +198,28 @@ export default {
 
 .container-card {
    background-color: #ffe60015;
-   width: 250px;
+   width: 100%;
    height: min-content;
-   margin: 1em;
+   margin: 0 1em;
    display: flex;
-}
-@media screen and (width: 375px) {
-   .container-card {
-      margin: 0 1em;
-   }
-}
-
-@media screen and (width: 320px) {
-   .container-card {
-      height: 150px;
-   }
 }
 
 @media screen and (min-width: 730px) {
    .container-card {
-      width: 500px;
-      margin: auto;
-      margin-top: 2em;
+      width: 50%;
    }
 }
 
+@media screen and (min-width: 1000px) {
+   .container-card {
+      width: 400px;
+   }
+
+   .container-show{
+      overflow-x: initial;
+      justify-content: center;
+   }
+}
 @media screen and (min-width: 1800px) {
    .container-card {
       width: 400px;
@@ -340,12 +351,6 @@ export default {
    gap: 1em;
    justify-content: center;
    margin-bottom: 0.5em;
-}
-
-.container-button--anonimous {
-   margin: auto;
-   margin-bottom: 0.3em;
-   width: min-content;
 }
 
 @media screen and (width: 320px) {

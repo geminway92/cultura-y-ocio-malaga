@@ -51,7 +51,6 @@ export default {
       const updateUser = this.user
       updateUser.password = this.newPassword
       updateUser.idToken = this.idToken
-      console.log(updateUser)
 
       //* Make http request for change name
       const resp = await this.changePasswordAction(updateUser)

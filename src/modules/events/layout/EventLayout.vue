@@ -217,7 +217,6 @@ export default {
     filterForPopularEvent (event) {
       /* Buscar los que tienen más de 0 joined */
       const filterEventJoined = event.filter(e => e.joined > 0)
-      console.log(filterEventJoined)
       if (filterEventJoined.length > 0) {
         this.filterPopularEvent = filterEventJoined.sort((a, b) => b.joined - a.joined);
         (this.filterPopularEvent = filterEventJoined.length > 2 ? this.filterPopularEvent.splice(0, 2) : this.filterPopularEvent)
@@ -231,11 +230,11 @@ export default {
     loadEventFirebase () {
       if (this.eventRegister.length === 0) {
         if (this.user.email === undefined) {
-          console.log('considera que es anonimo')
+
           this.checkLocalStorage()
           return
         }
-        console.log('prueba', this.currentEmail)
+
         this.loadEventUser(this.currentEmail)
       }
     },
@@ -246,7 +245,6 @@ export default {
       }
     },
     currentEmailUser () {
-      console.log('currentemail')
       if (this.user === null) {
         this.currentEmail = localStorage.getItem('currentUser')
       } else {

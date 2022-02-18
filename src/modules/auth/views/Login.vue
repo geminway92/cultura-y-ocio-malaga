@@ -4,11 +4,11 @@
       <form @submit.prevent="loginUser()">
         <div class="container-email">
           <h1>E-mail</h1>
-          <input type="email" placeholder="Escribe su email" v-model="userForm.email">
+          <input autocomplete="username" type="email" placeholder="Escribe su email" v-model="userForm.email">
         </div>
         <div class="container-password">
           <h1>Contraseña</h1>
-          <input type="password" placeholder="Escribe la contraseña" v-model="userForm.password">
+          <input autocomplete="current-password" type="password" placeholder="Escribe la contraseña" v-model="userForm.password">
         </div>
         <router-link
           class="routerlink-password"

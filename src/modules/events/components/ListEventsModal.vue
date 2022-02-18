@@ -28,7 +28,6 @@ export default {
 
   methods: {
     openEvent (event) {
-      console.log(event)
       this.$router.push({
         name: 'event-id',
         params: { id: event.id }
