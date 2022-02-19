@@ -110,18 +110,19 @@ export default {
         register: event.register
       }
 
-      event.register[0] = (event.register[0] === '' ? event.register.shift() : event.register)
-
       const eventUser = { id: this.user.email, startDate: `${dataToSave.date} ${dataToSave.schedule}:00`, endDate: `${dataToSave.date} ${dataToSave.schedule}:00`, title: dataToSave.name, classes: 'purple' }
-      const filter = event.register.filter(e => e === this.user.name)
+      const registerUserValue =  Object.values(dataToSave.register)
+      const filter = registerUserValue.filter(e => e === this.user.name)
+
+      typeof(dataToSave.register)
 
       if (filter.length > 0) {
         return
       }
+
       dataToSave.joined = event.joined + 1
       event.register.push(this.user.name)
 
-      event.register[0] === '' ? event.register.shift() : event.register
       const resp = await this.joinEventAction({ dataToSave, eventUser })
       if (!resp.ok) {
         Swal.fire({
