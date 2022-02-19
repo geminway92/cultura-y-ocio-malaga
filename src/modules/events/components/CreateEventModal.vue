@@ -29,7 +29,7 @@
             <input
                type="file"
                @change="onSelectedImage"
-               accept="image/png, image/jpeg image/jpg"
+               accept="image/*"
                required
             />
 

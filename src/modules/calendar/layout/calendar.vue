@@ -11,6 +11,7 @@
          :show-date="showDate"
          :items="items"
          :starting-day-of-week="startingDayOfWeek"
+         @click-item="onClickItem"
          display-period-uom="month"
          class="theme-default holiday-us-traditional holiday-us-official"
       >
@@ -21,6 +22,7 @@
             />
          </template>
       </calendar-view>
+      <div v-if="message" class="notification is-success">{{ message }}</div>
    </div>
 </template>
 
@@ -43,7 +45,8 @@ export default {
       showDate: new Date(),
       items: [],
       startingDayOfWeek: 1,
-      eventRegisterData: this.checkEventRegister
+      eventRegisterData: this.checkEventRegister,
+      message: ''
     }
   },
   methods: {
@@ -71,6 +74,12 @@ export default {
         }
       }
     },
+
+    onClickItem(e) {
+      let hours = e.startDate.getHours()
+      let minutes = e.startDate.getMinutes()
+			this.message = `Evento clickeado: ${e.title} a las ${hours}: ${minutes = minutes <= 9 ? `0${minutes}` : minutes }`
+		},
     fetchApi () {
       if (this.user === null) {
         this.$router.push({ name: 'login' })
@@ -140,5 +149,17 @@ export default {
 }
 .cv-week{
 	min-height: 6rem;
+}
+.cv-item {
+  cursor:pointer
+}
+.notification{
+  display: flex;
+  background-color: #23d160;
+  color: #fff;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5em;
+  height: 50px;
 }
 </style>

@@ -134,7 +134,7 @@ export default {
         const filterEventRepeat = this.eventRegister.filter(e => e.title === event.name)
 
         if (filterEventRepeat.length === 0) {
-          const eventUser = { id: 'anonimo', startDate: event.date, endDate: event.date, title: event.name, classes: 'purple' }
+          const eventUser = { id: 'anonimo', startDate: `${dataToSave.date} ${dataToSave.schedule}:00`, endDate: `${dataToSave.date} ${dataToSave.schedule}:00`, title: event.name, classes: 'purple' }
           this.updateEventAnonimous(eventUser)
           Swal.fire({
             icon: 'success',
@@ -202,6 +202,15 @@ export default {
    height: min-content;
    margin: 0 1em;
    display: flex;
+}
+
+.container-content h4 {
+   font-size: 1em;
+}
+
+.container-content h2 {
+   font-size: 1.4em;
+
 }
 
 @media screen and (min-width: 730px) {
@@ -277,7 +286,6 @@ export default {
 }
 
 .container-content h2 {
-   font-size: 1em;
    position: relative;
    bottom: 0.5em;
    width: 150px;
@@ -333,7 +341,7 @@ export default {
    width: 50px;
    border: none;
    color: #ffffffea;
-   font-weight: lighter;
+   font-weight: bolder;
    padding: 0.5em;
    cursor: pointer;
 }

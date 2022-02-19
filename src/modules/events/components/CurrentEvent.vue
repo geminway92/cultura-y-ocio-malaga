@@ -9,7 +9,7 @@
          <div
             v-for="event in updateEvent"
             :key="event"
-            class="container-card slide"
+            class="container-card"
          >
             <div class="container-img">
                <img v-if="event.photo" :src="event.photo" alt="" />
@@ -112,7 +112,7 @@ export default {
 
       event.register[0] = (event.register[0] === '' ? event.register.shift() : event.register)
 
-      const eventUser = { id: this.user.email, startDate: dataToSave.date, endDate: dataToSave.date, title: dataToSave.name, classes: 'purple' }
+      const eventUser = { id: this.user.email, startDate: `${dataToSave.date} ${dataToSave.schedule}:00`, endDate: `${dataToSave.date} ${dataToSave.schedule}:00`, title: dataToSave.name, classes: 'purple' }
       const filter = event.register.filter(e => e === this.user.name)
 
       if (filter.length > 0) {
@@ -182,6 +182,7 @@ export default {
 p {
    margin: 0.3em;
    width: 280px;
+   font-size: 1em;
 }
 
 @media screen and (width: 320px) {
@@ -243,16 +244,20 @@ p {
       position: relative;
       top: 3em;
    }
-
+   .container-slider::-webkit-scrollbar-track {
+      background-color: transparent;
+   }
    .container-slider {
       top: 2em;
       position: relative;
+      display: flex;
+      justify-content: center;
    }
 }
 
 .container-card {
    display: flex;
-   width: 250px;
+   width: min-content;
 }
 
 img {
@@ -264,9 +269,10 @@ img {
 
 .container-card h2 {
    width: 200px;
-   font-size: 0.9em;
+   font-size: 1.2em;
    text-align: start;
    margin-left: 0.5em;
+   margin-top: 0;
 }
 
 .container-flex {
@@ -280,16 +286,11 @@ img {
 
 .subtitle-date {
    margin: 0;
-   font-size: 0.9em;
+   font-size: 1em;
    color: var(--colorSecundary);
    margin: 0.2em 0.6em;
 }
 
-.slide {
-   width: 100%;
-   background-color: #fefbf5;
-   border-radius: 15px;
-}
 
 .container-total-people {
    display: flex;
@@ -322,7 +323,7 @@ img {
    width: 50px;
    border: none;
    color: #ffffffea;
-   font-weight: lighter;
+   font-weight: bolder;
    padding: 0.5em;
    cursor: pointer;
 }
@@ -346,6 +347,8 @@ img {
 }
 
 .button-show {
+   font-weight: bold;
+   font-size: 1em;
    background-color: var(--colorSecundary);
 }
 
