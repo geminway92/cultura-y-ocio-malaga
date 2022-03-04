@@ -19,9 +19,22 @@ Se añadió un calendario y es funcional tanto si eres usuario registrado o entr
 Descubre Cultura y Ocio en:
 https://cultura-y-ocio.netlify.app/#/
 
-## Capturas en ordenador
-![Captura de pantalla en el ordenador](ruta)
+### Capturas en ordenador
+![Captura de pantalla en el ordenador](./public/images/Captura-eventlayout.png)
 
+Captura en ordenador del calendario:
+![Captura de pantalla del calendario](./public/images/Captura-calendar.png)
+
+### Capturas en móvil
+![Captura de pantalla en móvil](./public/images/Captura-eventlayout-movil.png)
+
+## Desarrollo
+### Tecnologías
+- Maquetación: HTML5
+- Estilos: CSS
+- Funcionalidad: VueJS, Vue Router y VueX
+- Empaquetador: webpack
+- Librerias: Vue simple cal y fontawesome
 
 ### Reproducir en local
 Clona el proyecto
@@ -44,3 +57,8 @@ Inicia el proyecto en local
 ```
   npm run serve
 ```
+
+## Autor
+- [Gema Martín](https://github.com/geminway92)
+
+
