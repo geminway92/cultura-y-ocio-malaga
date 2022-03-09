@@ -41,6 +41,14 @@ h2 {
    font-size: 1em;
    font-weight: 500;
    opacity: 0.4;
+   width: 80%;
+
+}
+
+.container-intro{
+   display: flex;
+   flex-direction: column;
+   align-items: center;
 }
 
 .container-layout {

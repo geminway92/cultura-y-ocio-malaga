@@ -34,7 +34,7 @@ Captura en ordenador del calendario:
 - Estilos: CSS
 - Funcionalidad: VueJS, Vue Router y VueX
 - Empaquetador: webpack
-- Librerias: Vue simple cal y fontawesome
+- Librerias: Vue Simple Cal y Fontawesome
 
 ### Reproducir en local
 Clona el proyecto
