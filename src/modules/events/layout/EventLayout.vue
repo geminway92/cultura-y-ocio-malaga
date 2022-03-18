@@ -27,7 +27,7 @@
          <div @click="this.openSearchModal()" class="container-search">
             <i class="fas fa-search"></i>
          </div>
-         <img v-if="user.profilePicture" :src="user.profilePicture" alt="" />
+         <img v-if="user.profilePicture" :src="user.profilePicture" alt="Foto perfil" />
          <img v-else src="" alt="" />
          <div class="container-logout">
             <i @click="onLogout" class="fas fa-sign-out-alt"></i>
@@ -315,10 +315,10 @@ i {
 .container-header {
    width: 100vw;
    display: flex;
-   /* position: fixed; */
    top: 0;
+   align-items: center;
    justify-content: space-between;
-   padding: 0.5em 0;
+   padding: 0.3em 0;
    z-index: 3;
 }
 

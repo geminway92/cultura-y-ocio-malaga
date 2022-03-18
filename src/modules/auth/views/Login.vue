@@ -3,12 +3,12 @@
     <div class="container-form">
       <form @submit.prevent="loginUser()">
         <div class="container-email">
-          <h1>E-mail</h1>
-          <input autocomplete="username" type="email" placeholder="Escribe su email" v-model="userForm.email">
+          <label for="email-input">E-mail</label>
+          <input autocomplete="username" id="email-input" type="email" placeholder="Escribe su email" v-model="userForm.email">
         </div>
         <div class="container-password">
-          <h1>Contraseña</h1>
-          <input autocomplete="current-password" type="password" placeholder="Escribe la contraseña" v-model="userForm.password">
+          <label for="password-input">Contraseña</label>
+          <input autocomplete="current-password" id="password-input" type="password" placeholder="Escribe la contraseña" v-model="userForm.password">
         </div>
         <router-link
           class="routerlink-password"
@@ -49,13 +49,13 @@ export default {
     async loginUser () {
       const resp = await this.signInUser(this.userForm)
 
-      if (resp.message === 'INVALID_PASSWORD') {
+      if ('INVALID_PASSWORD' === resp.message) {
         resp.message = 'Contraseña Incorrecta'
-      } else if (resp.message === 'TOO_MANY_ATTEMPTS_TRY_LATER : Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later.') {
+      } else if ('TOO_MANY_ATTEMPTS_TRY_LATER : Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later.' === resp.message) {
         resp.message = 'El acceso a esta cuenta se ha desactivado temporalmente debido a muchos intentos fallidos de inicio de sesión. Puede restablecerlo inmediatamente restableciendo su contraseña o puede volver a intentarlo más tarde.'
-      } else if (resp.message === 'EMAIL_NOT_FOUND') {
+      } else if ('EMAIL_NOT_FOUND' === resp.message) {
         resp.message = ''
-      } else if (resp.message === 'MISSING_PASSWORD') {
+      } else if ('MISSING_PASSWORD' === resp.message ) {
         resp.message = 'Rellene la contraseña'
       }
 
@@ -115,8 +115,9 @@ input{
   }
 }
 
-.container-email h1,
-.container-password h1 {
+.container-email label,
+.container-password label {
+  display: flex;
   font-size: 1.1em;
   color: #AAAAAC;
   font-weight: 400;

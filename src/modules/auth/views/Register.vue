@@ -13,6 +13,7 @@
           <h1>E-mail</h1>
           <input
             type="email"
+            autocomplete="username"
             placeholder="Escribe su email"
             v-model.trim="userForm.email"
             required
@@ -20,6 +21,7 @@
           <h1>Contraseña</h1>
           <input
             type="password"
+            autocomplete="current-password"
             placeholder="Escriba la contraseña"
             v-model.trim="userForm.password"
             required
@@ -62,14 +64,13 @@ export default {
     async registerUser (user) {
       const resp = await this.createUser(user)
 
-      /* Cambiar el texto de la resp.message */
-      if (resp.message === 'EMAIL_EXISTS') {
+      if ('EMAIL_EXISTS' === resp.message) {
         resp.message = 'La dirección de correo eléctronico ya está en uso'
-      } else if (resp.message === 'OPERATION_NOT_ALLOWED') {
+      } else if ('OPERATION_NOT_ALLOWED' === resp.message) {
         this.message = 'El inicio de sesión con contraseña está desactivado para este proyecto'
-      } else if (resp.message === 'TOO_MANY_ATTEMPTS_TRY_LATER') {
+      } else if ('TOO_MANY_ATTEMPTS_TRY_LATER' === resp.message ) {
         resp.message = 'Hemos bloqueado todas las solicitudes de este dispositivo debido a una actividad inusual. Vuelve a intentarlo más tarde'
-      } else if (resp.message === 'INVALID_EMAIL') {
+      } else if ('INVALID_EMAIL' === resp.message) {
         resp.message = 'El correo eléctronico no es correcto'
       }
 
