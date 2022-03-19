@@ -124,7 +124,6 @@ export default {
 header {
    background-color: #b128c3;
    color: white;
-   width: 100vw;
    height: 80px;
    display: flex;
    justify-content: flex-end;
@@ -138,7 +137,10 @@ hr {
    background-color: #b128c3;
    width: 80%;
 }
-
+h4{
+   padding: 1em;
+   height: min-content;
+}
 button {
    background-color: #b128c3;
    border: none;
@@ -153,6 +155,14 @@ button:active {
    background-color: #8e239c;
 }
 
+.container-profile-user{
+   display: flex;
+   height: 100%;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+}
+
 @media screen and (min-width: 360px) {
    button {
       margin-top: 3em;
@@ -164,8 +174,7 @@ button:active {
       font-size: 1em;
       width: 140px;
       padding: 1em;
-      margin: auto;
-      margin-top: 3em;
+      margin-top: 1em;
    }
 }
 
@@ -187,17 +196,18 @@ button:active {
 
 @media screen and (min-width: 700px) {
    .container-profile-user {
-      height: 85vh;
-      display: flex;
-      flex-direction: column;
+      height: 100%;
    }
 }
 
 @media screen and (min-width: 360px) {
    .container-top {
       font-size: 1.2em;
-      height: 200px;
       margin-bottom: 1em;
+   }
+
+   .container-top h4 {
+      margin: 0;
    }
 }
 
@@ -226,7 +236,6 @@ button:active {
 
 .container-ul {
    width: max-content;
-   margin: auto;
 }
 
 @media screen and (min-width: 700px) {
