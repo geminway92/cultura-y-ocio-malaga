@@ -134,7 +134,7 @@ export default {
         const filterEventRepeat = this.eventRegister.filter(e => e.title === event.name)
 
         if (filterEventRepeat.length === 0) {
-          const eventUser = { id: 'anonimo', startDate: `${dataToSave.date} ${dataToSave.schedule}:00`, endDate: `${dataToSave.date} ${dataToSave.schedule}:00`, title: event.name, classes: 'purple' }
+          const eventUser = { id: 'anonimo', startDate: `${event.date} ${event.schedule}:00`, endDate: `${event.date} ${event.schedule}:00`, title: event.name, classes: 'purple' }
           this.updateEventAnonimous(eventUser)
           Swal.fire({
             icon: 'success',

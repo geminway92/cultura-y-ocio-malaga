@@ -5,7 +5,7 @@
             Crear evento
          </button>
          <i @click="goRouteCalendar()" class="far fa-calendar-alt"></i>
-         <i @click="openProfile()" class="fas fa-user"></i>
+         <i v-if="userLogin.name" @click="openProfile()" class="fas fa-user"></i>
       </div>
    </div>
 </template>
@@ -16,6 +16,9 @@ export default {
     showCreateModal: {
       type: Boolean,
       default: false
+    },
+    userLogin: {
+       type: Object
     }
   },
   methods: {

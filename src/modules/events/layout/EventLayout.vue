@@ -72,6 +72,7 @@
          <BarBotton
             @openModalCreateEvent="openModalCreateEvent"
             :showCreateModal="showCreateModal"
+            :userLogin="user"
          />
       </div>
    </div>
