@@ -176,4 +176,12 @@ input{
   color: var(--colorPrimary);
   cursor: pointer;
 }
+
+@media screen and (min-width: 700px) {
+  input,
+  .container-email label,
+  .container-password label {
+    width:40%;
+  }
+}
 </style>
