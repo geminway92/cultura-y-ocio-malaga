@@ -7,7 +7,7 @@
       <div class="modal">
          <form @submit.prevent="this.updatePhoto()">
             <h1>Actualizar foto</h1>
-            <input class="input-photo" type="file" @change="onSelectImage" />
+            <input class="input-photo" type="file" accept="image/*" @change="onSelectImage" />
             <input class="button-submit" type="submit" value="Cambiar" />
          </form>
       </div>
