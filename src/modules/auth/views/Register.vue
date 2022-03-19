@@ -3,14 +3,14 @@
     <div class="container-form">
       <form @submit.prevent="onSubmit()" autocomplete="off">
         <div class="container-input">
-          <h1>Nombre</h1>
+          <label>Nombre</label>
           <input
             type="text"
             placeholder="Escribe su nombre"
             v-model.trim="userForm.name"
             required
           >
-          <h1>E-mail</h1>
+          <label>E-mail</label>
           <input
             type="email"
             autocomplete="username"
@@ -18,7 +18,7 @@
             v-model.trim="userForm.email"
             required
           >
-          <h1>Contraseña</h1>
+          <label>Contraseña</label>
           <input
             type="password"
             autocomplete="current-password"
@@ -130,9 +130,10 @@ input{
   padding-left: 1.3em;
 }
 
-h1{
+label{
   padding-left: 1em;
-  margin: .3em 0;
+  width: 100%;
+  font-size: 18px;
 }
 .register{
   width: 100%;
@@ -152,12 +153,16 @@ h1{
 }
 
 .container-input{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   width: 95%;
   font-size: .9em;
   color: #AAAAAC;
   font-weight: 400;
   text-align: start;
-  margin: auto;
+  /* margin: auto; */
 }
 
 .button-register{
@@ -185,5 +190,12 @@ h1{
 .link{
   color: var(--colorPrimary);
   cursor: pointer;
+}
+
+@media screen and (min-width: 700px) {
+  input,
+  label{
+    width: 40%;
+  }
 }
 </style>

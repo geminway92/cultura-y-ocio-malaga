@@ -118,7 +118,7 @@ input{
 .container-email label,
 .container-password label {
   display: flex;
-  font-size: 1.1em;
+  font-size: 18px;
   color: #AAAAAC;
   font-weight: 400;
   text-align: start;
