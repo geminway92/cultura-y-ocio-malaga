@@ -23,8 +23,8 @@
    <body>
       <div class="container-profile-user">
          <div class="container-top">
-            <h1 class="title-name">Hola {{ this.user.name }}</h1>
-            <img
+            <h1 class="title-name">Hola {{ this.user.name || "Anónim@" }}</h1>
+            <img v-if="this.user.profilePicture"
                class="profile-photo"
                :src="this.user.profilePicture"
                alt="foto de usuario"
