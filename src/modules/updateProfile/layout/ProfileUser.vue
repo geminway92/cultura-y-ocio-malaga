@@ -145,10 +145,11 @@ button {
    background-color: #b128c3;
    border: none;
    border-radius: 15px;
-   padding: 0.7em;
+   padding: 1em;
    margin-top: 0.5em;
    color: white;
    cursor: pointer;
+   font-size: 0.9em;
 }
 
 button:active {
