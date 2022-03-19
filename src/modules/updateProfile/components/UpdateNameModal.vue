@@ -43,7 +43,7 @@ export default {
   },
 
   methods: {
-    ...mapActions('updateStore', ['changeNameAction']),
+    ...mapActions('updateStore', ['updateUserAction']),
 
     async updateName () {
       const updateUser = this.user
@@ -51,7 +51,7 @@ export default {
       updateUser.idToken = this.idToken
 
       //* Make http request for change name
-      const resp = await this.changeNameAction(updateUser)
+      const resp = await this.updateUserAction(updateUser)
 
       if (!resp.ok) {
         Swal.fire({
