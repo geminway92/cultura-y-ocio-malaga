@@ -47,6 +47,7 @@ export default {
     ...mapActions('auth', ['signInUser', 'checkAuth', 'userAnonimous']),
 
     async loginUser () {
+
       const resp = await this.signInUser(this.userForm)
 
       if ('INVALID_PASSWORD' === resp.message) {
@@ -72,7 +73,6 @@ export default {
 
     async loginAnonimous () {
       await this.userAnonimous()
-
       return this.$router.push({ name: 'eventlayout' })
     }
 

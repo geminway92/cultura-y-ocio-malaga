@@ -21,19 +21,20 @@
             <summary>Nombres Inscritos</summary>
             <ul>
                <li v-for="event in this.eventID.register" :key="event">
-                  <span class="far fa-smile-beam"></span>
                   {{ event }}
                </li>
             </ul>
          </details>
       </div>
       <p class="description-event">{{ this.eventID.description }}</p>
-      <button @click="this.joinEvent()">Unirse</button>
+      <button @click="this.checkUser(eventID)">Unirse</button>
    </article>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex'
+import Swal from 'sweetalert2'
+
 export default {
   name: 'event-id',
   data () {
@@ -59,30 +60,62 @@ export default {
       this.eventID = eventNotID.find(e => e.id == this.id)
     },
 
-    joinEvent () {
+    async joinEvent (event) {
+
       const dataToSave = {
-        id: this.eventID.id,
-        name: this.eventID.name,
-        schedule: this.eventID.schedule,
-        date: this.eventID.date,
-        description: this.eventID.description,
-        photo: this.eventID.photo,
-        joined: this.eventID.joined,
-        register: this.eventID.register
+        id: event.id,
+        name: event.name,
+        schedule: event.schedule,
+        date: event.date,
+        description: event.description,
+        photo: event.photo,
+        joined: event.joined,
+        register: event.register
       }
 
-      const filter = this.eventID.register.filter(e => e === this.user.name)
+      const eventUser = { id: this.user.email, startDate: dataToSave.date, endDate: dataToSave.date, title: dataToSave.name, classes: 'purple' }
+      const filter = event.register.filter(e => e === this.user.name)
 
       if (filter.length > 0) {
         return
       }
+      dataToSave.joined = event.joined + 1
+      event.register.push(this.user.name)
 
-      dataToSave.joined = this.eventID.joined + 1
-      this.eventID.register.push(this.user.name)
+      const resp = await this.joinEventAction({ dataToSave, eventUser })
+      if (!resp.ok) {
+        Swal.fire({
+          icon: 'error',
+          title: resp.message,
+          confirmButtonColor: '#B128C3'
+        })
+      } else {
+        Swal.fire({
+          icon: 'success',
+          title: resp.message,
+          confirmButtonColor: '#B128C3'
+        })
+      }
+      return (event.joined = event.joined + 1)
+    },
 
-      this.joinEventAction(dataToSave)
-      return (this.eventID.joined = this.eventID.joined + 1)
-    }
+    checkUser (event) {
+      if (this.user.email === undefined) {
+        const filterEventRepeat = this.eventRegister.filter(e => e.title === event.name)
+
+        if (filterEventRepeat.length === 0) {
+          const eventUser = { id: 'anonimo', startDate: `${event.date} ${event.schedule}:00`, endDate: `${event.date} ${event.schedule}:00`, title: event.name, classes: 'purple' }
+          this.updateEventAnonimous(eventUser)
+          Swal.fire({
+            icon: 'success',
+            title: 'Añadido al evento',
+            confirmButtonColor: '#B128C3'
+          })
+        }
+      } else {
+        this.joinEvent(event)
+      }
+    },
   },
 
   created () {
@@ -110,10 +143,8 @@ details {
    color: #b865c3;
 }
 
-details ul,
-.fa-smile-beam {
-   color: black;
-   margin: 0.5em 0 0;
+details ul{
+   list-style: none;
 }
 
 button {

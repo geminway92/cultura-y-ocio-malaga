@@ -17,7 +17,7 @@ const routes = [
   },
   {
     name: 'event-id',
-    path: '/:id',
+    path: '/event-id/:id',
     component: () =>
       import(
         /* webpackChunkName: "event-id" */ '../modules/events/layout/EventId.vue'
