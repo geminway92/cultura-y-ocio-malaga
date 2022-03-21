@@ -3,23 +3,26 @@
     <div class="container-form">
       <form @submit.prevent="onSubmit()" autocomplete="off">
         <div class="container-input">
-          <label>Nombre</label>
+          <label for="name-input">Nombre</label>
           <input
+          id="name-input"
             type="text"
             placeholder="Escribe su nombre"
             v-model.trim="userForm.name"
             required
           >
-          <label>E-mail</label>
+          <label for="email-input">E-mail</label>
           <input
+          id="email-input"
             type="email"
             autocomplete="username"
             placeholder="Escribe su email"
             v-model.trim="userForm.email"
             required
           >
-          <label>Contraseña</label>
+          <label for="password-input">Contraseña</label>
           <input
+          id="password-input"
             type="password"
             autocomplete="current-password"
             placeholder="Escriba la contraseña"
