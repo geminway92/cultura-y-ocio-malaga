@@ -8,6 +8,7 @@
             v-for="event in updateEvent"
             :key="event"
             class="container-card"
+            data-testid="container-event"
          >
             <div class="container-img">
                <img v-if="event.photo" :src="event.photo" alt="" />
@@ -69,10 +70,6 @@ export default {
   },
 
   props: {
-    openModalIsTrue: {
-      type: Boolean,
-      default: false
-    },
     filterMonthEvent: {
       type: Array
     },
@@ -82,8 +79,8 @@ export default {
     },
     myEvents: {
       type: Array
-    }
-  },
+    },
+   },
 
   methods: {
     ...mapActions('event', ['joinEventAction', 'loadEventAction', 'updateEventAnonimous']),

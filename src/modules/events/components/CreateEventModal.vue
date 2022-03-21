@@ -1,5 +1,5 @@
 <template>
-   <div
+   <div v-if="showCreateModal"
       @click.self="this.$emit('openModalCreateEvent')"
       class="container-modal"
    >

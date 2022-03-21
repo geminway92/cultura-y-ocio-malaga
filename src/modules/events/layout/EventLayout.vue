@@ -3,13 +3,12 @@
       <!-- Modal de event -->
       <EventModal
          @openModal="openModal"
-         v-if="openModalIsTrue"
+         :openModalIsTrue="openModalIsTrue"
          :eventForModal="eventForModal"
       />
 
       <!-- Modal Create event -->
       <CreateEventModal
-         v-if="showCreateModal"
          @openModalCreateEvent="openModalCreateEvent"
          :showCreateModal="showCreateModal"
          @createNewEvent="createNewEvent"
@@ -17,7 +16,6 @@
 
       <!-- Modal Ver Evento del mes -->
       <ModalNameRegister
-         v-if="modalNameIsTrue"
          @openModalName="openModalName"
          :modalNameIsTrue="modalNameIsTrue"
          :nameRegister="nameRegister"
@@ -127,8 +125,7 @@ export default {
       textSearch: '',
       eventFilter: [],
       myEvents: [],
-      currentEmail: ''
-
+      currentEmail: '',
     }
   },
 

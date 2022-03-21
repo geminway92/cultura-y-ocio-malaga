@@ -6,9 +6,8 @@ import userEvent from '@testing-library/user-event'
 import CurrentEvent from '../../../../../src/modules/events/components/CurrentEvent.vue'
 
 describe('<CurrentEvent/>', () => {
-
-  test('debe renderizar todos los eventos que recibe como props ', () => {
-    const {getAllByRole} = render(CurrentEvent, {
+  beforeEach(() => {
+    render(CurrentEvent, {
       props: {
         filterMonthEvent: [
           {
@@ -30,13 +29,23 @@ describe('<CurrentEvent/>', () => {
             photo: "https://res.cloudinary.com/ddn278n2q/image/upload/v1647812521/photoEvent/rhpqjlqth9m1gz4kmehh.jpg",
             register: ["", "Gema"]
           },
-        ]
+        ],
       }
 
     })
-    const buttonWatch = getAllByRole('button', {name: 'Ver'})
-    expect(buttonWatch.length).toBe(2)
+  })
 
+  test('debe renderizar todos los eventos que recibe como props ', () => {
+    const selectComponent = screen.getAllByTestId('container-event')
+    expect(selectComponent.length).toBe(2)
+
+  }),
+
+  test('al clickear el botón de ver debe aparecer un modal con los nombres de los registrados', async () => {
+    const buttonWatch = screen.getAllByRole('button', {name: 'Ver'})
+
+    await userEvent.click(buttonWatch[0])
+    expect(screen.getByRole('h5', {name: 'Horario:'}))
   })
 
 })

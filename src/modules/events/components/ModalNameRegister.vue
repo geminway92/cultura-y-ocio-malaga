@@ -1,5 +1,5 @@
 <template>
-    <div @click.self="this.$emit('openModalName')" class="container-modal">
+    <div v-if="modalNameIsTrue" @click.self="this.$emit('openModalName')" class="container-modal">
         <div class="modal">
                 <div class="container-description">
                     <h1>Inscritos en el evento</h1>
