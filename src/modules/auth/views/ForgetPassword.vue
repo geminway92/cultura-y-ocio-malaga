@@ -83,7 +83,7 @@ export default {
 <style scoped>
 
 input{
-  width: 85%;
+  width: 100%;
   height: 30px;
   border-radius: 10px;
   background-color: #F3F3F4;
@@ -99,7 +99,11 @@ input{
 }
 
 .container-form{
-  width: 85%;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+  width: 40%;
   margin: 3em auto;
 }
 
