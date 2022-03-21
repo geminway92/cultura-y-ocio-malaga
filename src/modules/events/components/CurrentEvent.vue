@@ -1,11 +1,9 @@
 <template>
    <div class="container-next-event">
-      <div class="container-next-event--header">
-         <h1>
+         <h1 class="title">
             Próximos Eventos en <span>{{ monthLetter }}</span>
          </h1>
-      </div>
-      <div class="container-slider" ref="slider">
+      <div class="container-slider">
          <div
             v-for="event in updateEvent"
             :key="event"
@@ -62,15 +60,11 @@ import Swal from 'sweetalert2'
 export default {
   data () {
     return {
-      slider: null,
       width: null,
       resetWidth: null,
       eventsCurrent: '',
       Categoria: null,
-      arrowLeftActive: false,
-      arrowRightActive: true,
       filterEvents: null,
-      totalClickRight: 0
     }
   },
 
@@ -158,12 +152,6 @@ export default {
         this.joinEvent(event)
       }
     },
-
-    checkFilterMonthLengt () {
-      if (this.filterMonthEvent.length <= 1) this.arrowRightActive = false
-      else { this.arrowRightActive = true }
-    }
-
   },
 
   computed: {
@@ -171,8 +159,6 @@ export default {
     ...mapState('event', ['events', 'eventRegister']),
 
     updateEvent () {
-      this.checkFilterMonthLengt()
-
       return this.filterMonthEvent /* Para que actualice el filtro de eventos por mes si se registra uno */
     }
   },
@@ -198,12 +184,20 @@ p {
    }
 }
 
-
-.container-next-event--header {
+.container-next-event{
    display: flex;
-   justify-content: space-between;
-   margin: 0.5em 0.2em 0em 0.1em;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
 }
+
+.title {
+   font-size: 1.5em;
+   text-align: start;
+   width: 200px;
+   margin: 0 1em;
+}
+
 .container-slider::-webkit-scrollbar-track {
     height: 5px;
     background-color: #f2f2f2;
@@ -216,20 +210,11 @@ p {
     background-color: #B128C3; /* color of the scroll thumb */
     border-radius: 20px; /* roundness of the scroll thumb */
 }
-
-@media screen and (min-width: 730px) {
-   .container-next-event {
-      top: -3em;
-      position: relative;
-   }
-}
-
-.container-next-event--header h1 {
-   width: 200px;
-   font-weight: 600;
-   font-size: 1.5em;
-   text-align: start;
-   margin-left: 0.5em;
+.container-next-event{
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
 }
 
 .container-slider {
@@ -241,10 +226,6 @@ p {
 }
 
 @media screen and (min-width: 1200px) {
-   .container-next-event--header {
-      position: relative;
-      top: 3em;
-   }
    .container-slider::-webkit-scrollbar-track {
       background-color: transparent;
    }

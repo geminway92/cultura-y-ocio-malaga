@@ -177,15 +177,15 @@ export default {
 }
 
 .container-show::-webkit-scrollbar-track {
-    height: 5px;
+   height: 5px;
     background-color: #f2f2f2;
     margin: 1em;
 }
 .container-show::-webkit-scrollbar {
-    height: 10px;
+   height: 10px;
 }
 .container-show::-webkit-scrollbar-thumb {
-    background-color: #B128C3; /* color of the scroll thumb */
+   background-color: #B128C3; /* color of the scroll thumb */
     border-radius: 20px; /* roundness of the scroll thumb */
 }
 
@@ -194,6 +194,7 @@ export default {
    text-align: start;
    width: 200px;
    margin: 0 1em;
+
 }
 
 .container-card {
