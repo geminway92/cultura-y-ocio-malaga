@@ -1,13 +1,11 @@
 import { screen, render } from '@testing-library/vue'
 import '@testing-library/jest-dom'
-import {getByRole, waitFor} from '@testing-library/dom'
+import { waitFor} from '@testing-library/dom'
 import userEvent from '@testing-library/user-event'
 
-import { createRouter, createWebHashHistory, createWebHistory, } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import { createStore } from 'vuex'
 
-import { defineComponent } from 'vue'
-import App from '../../../../../src/App.vue'
 import Login from '../../../../../src/modules/auth/views/Login.vue'
 import Register from '../../../../../src/modules/auth/views/Register.vue'
 import eventLayout from '../../../../../src/modules/events/layout/EventLayout.vue'
@@ -15,26 +13,6 @@ import eventLayout from '../../../../../src/modules/events/layout/EventLayout.vu
 import ForgetPassword from '../../../../../src/modules/auth/views/ForgetPassword.vue'
 
 import {store} from '../../../../../src/modules/auth/store/auth/index'
-
-
-describe('Login.vue', () => {
-
-  test('should find a label E-mail', () => {
-    render(Login)
-    const emailInput = screen.getByLabelText('E-mail')
-
-    expect(emailInput).toBeVisible()
-  })
-
-  test('should find a label Contraseña', () => {
-    render(Login)
-    const passwordInput = screen.getByLabelText('Contraseña')
-
-    expect(passwordInput).toBeVisible()
-  })
-
-
-})
 
 
 describe('<Login.vue/>', () => {
@@ -64,7 +42,6 @@ describe('<Login.vue/>', () => {
       {
         path: '/:pathMatch(.*)*',
         name: 'page404',
-        //
       }
     ]
   })
@@ -142,5 +119,20 @@ describe('<Login.vue/>', () => {
 
     test.todo('"Anónimo" debe ir a /eventlayout')
   })
+
+  test('should find a label E-mail', () => {
+    render(Login)
+    const emailInput = screen.getByLabelText('E-mail')
+
+    expect(emailInput).toBeVisible()
+  })
+
+  test('should find a label Contraseña', () => {
+    render(Login)
+    const passwordInput = screen.getByLabelText('Contraseña')
+
+    expect(passwordInput).toBeVisible()
+  })
+
 
 })
