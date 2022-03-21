@@ -349,19 +349,25 @@ i {
    margin: 0.5em 0;
 }
 
-@media screen and (min-width: 700px) and (max-width: 900px) {
-   .container-header--search {
-      margin-bottom: 1em;
-      min-height: 70px;
+.container-header--search input{
+  width: 300px;
+  height: 40px;
+  border-radius: 5px;
+  border: 2px solid #a4a3a1;
+  padding: 0.5em;
+}
+
+@media screen and (min-width: 500px) {
+   .container-header--search input{
+      width: 50%;
    }
 }
 
-.container-header--search input {
-   width: 300px;
-   height: 40px;
-   border-radius: 5px;
-   border: 2px solid #a4a3a1;
-   padding: 0.5em;
+@media screen and (min-width: 700px) and (max-width: 900px) {
+   .container-header--search {
+     margin-bottom: 1em;
+      min-height: 70px;
+   }
 }
 
 .container-header--search input:focus {

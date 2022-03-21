@@ -44,6 +44,7 @@ export default {
    min-height: min-content;
    max-height: 500px;
    overflow: scroll;
+   overflow: hidden;
    background-color: #ffffff;
    box-shadow: 0px 0px 5px grey;
    top: 3em;
@@ -74,6 +75,7 @@ li {
    display: flex;
    justify-content: center;
    align-items: center;
+   text-align: start;
 }
 
 img {
@@ -83,5 +85,11 @@ img {
    position: relative;
    right: 2em;
    border-radius: 5px;
+}
+
+@media screen and (min-width: 500px) {
+   .container-modal{
+      width: 50%;
+   }
 }
 </style>

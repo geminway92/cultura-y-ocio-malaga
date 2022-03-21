@@ -225,9 +225,10 @@ p {
    gap: 1em;
 }
 
-@media screen and (min-width: 1200px) {
+@media screen and (min-width: 1000px) {
    .container-slider::-webkit-scrollbar-track {
       background-color: transparent;
+      overflow-x: initial;
    }
    .container-slider {
       top: 2em;
