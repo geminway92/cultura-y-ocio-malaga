@@ -48,6 +48,9 @@ p{
 .container-modal{
     background-color: rgba(116, 111, 111, 0.295);
     position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 100vw;
     height: 650px;
     z-index: 3;
@@ -65,14 +68,13 @@ p{
     background-color: #ffffff;
     width: 90%;
     height: 300px;
-    margin: auto;
     border-radius: 15px;
     box-shadow: 4px 3px 4px #746f6f4b;
     overflow: scroll;
     overflow-x: hidden;
 }
 
-@media screen and (min-width: 1200px) {
+@media screen and (min-width: 700px) {
     .modal{
         width: 600px;
         height: 400px;
