@@ -5,6 +5,7 @@ export default {
       /* webpackChunkName: "eventlayout" */ '../../events/layout/EventLayout.vue'
     ),
   children: [
+
     {
       path: '/:pathMatch(.*)*',
       redirect: { name: 'eventlayout' }

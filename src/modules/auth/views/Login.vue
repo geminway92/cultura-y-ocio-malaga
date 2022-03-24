@@ -55,12 +55,13 @@ export default {
       } else if ('TOO_MANY_ATTEMPTS_TRY_LATER : Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later.' === resp.message) {
         resp.message = 'El acceso a esta cuenta se ha desactivado temporalmente debido a muchos intentos fallidos de inicio de sesión. Puede restablecerlo inmediatamente restableciendo su contraseña o puede volver a intentarlo más tarde.'
       } else if ('EMAIL_NOT_FOUND' === resp.message) {
-        resp.message = ''
+        resp.message = 'Compruebe los datos'
       } else if ('MISSING_PASSWORD' === resp.message ) {
         resp.message = 'Rellene la contraseña'
       }
 
       if (!resp.ok) {
+
         Swal.fire({
           icon: 'error',
           title: resp.message,

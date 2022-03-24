@@ -1,6 +1,6 @@
 import { screen, render } from '@testing-library/vue'
 import '@testing-library/jest-dom'
-import { waitFor} from '@testing-library/dom'
+import { getByRole, waitFor} from '@testing-library/dom'
 import userEvent from '@testing-library/user-event'
 
 import { createRouter, createWebHashHistory } from 'vue-router'
@@ -12,8 +12,7 @@ import eventLayout from '../../../../../src/modules/events/layout/EventLayout.vu
 
 import ForgetPassword from '../../../../../src/modules/auth/views/ForgetPassword.vue'
 
-import {store} from '../../../../../src/modules/auth/store/auth/index'
-
+import routerReal from '../../../../../src/modules/events/router/index'
 
 describe('<Login.vue/>', () => {
   const router = createRouter({
@@ -92,32 +91,187 @@ describe('<Login.vue/>', () => {
         expect(router.options.history.state.current).toBe('/forgetpassword')
       )
 
-      //reiniciar router para siguiente test
-      router.options.history.push('/')
     })
 
-    test.todo('"Iniciar sesión" debe ir a /eventlayout si los campos están rellenos ')
-    test('"Iniciar sesión" debe seguir en la ruta / si los campos de form están vacios', async () => {
-      const storeInstance = createStore(store)
-      const resp = {ok: true}
+    test('"Iniciar sesión" debe ir a /eventlayout si los campos están rellenos ', async () => {
+      const storeInstance = createStore({
+        modules: {
+          auth: {
+            namespaced: true,
+            actions: {
+              signInUser() {
+                return {ok: true,}
+              }
+            }
+          }
+        }
+      })
 
-      jest.spyOn(Login.methods, 'signInUser').mockResolvedValueOnce(resp)
+      const mockRouter = {
+        push: jest.fn()
+      }
 
-      const {findByText, getByText, getByRole} = render(Login, {
-
-        global: {
-          plugins: [router, storeInstance],
+      const { getByRole, getByLabelText} = render(Login, {
+        data(){
+          return{
+            userForm: {
+              email: '',
+              password: ''
+            }
+          }
         },
+        global: {
+          plugins: [storeInstance],
+          mocks: {
+            $router: mockRouter
+          }
+        },
+
+      })
+      const inputEmail = await getByLabelText('E-mail')
+      const inputpassword = await getByLabelText('Contraseña')
+      await userEvent.type(inputEmail, 'geminway@live.com')
+      await userEvent.type(inputpassword, '123456')
+      const buttonLogin = await getByRole('button', {name: 'Iniciar Sesión'})
+
+      await userEvent.click(buttonLogin)
+      await waitFor(() => {
+        expect(mockRouter.push).toHaveBeenCalledWith({"name": "eventlayout"})
+      })
+
+
+
+
+    })
+    test('"Iniciar sesión" debe mostrar el error de swal si los campos de form están vacios', async () => {
+
+      const storeInstance = createStore({
+        modules: {
+          auth: {
+            namespaced: true,
+            actions: {
+              signInUser() {
+                return {ok: false, message: 'EMAIL_NOT_FOUND'}
+              }
+            }
+          }
+        }
+      })
+
+      const mockRouter = {
+        push: jest.fn()
+      }
+
+      const {findByText, getByRole} = render(Login, {
+        data(){
+          return{
+            userForm: {
+              email: '',
+              password: ''
+            }
+          }
+        },
+        global: {
+          plugins: [storeInstance],
+          mocks: {
+            $router: mockRouter,
+          }
+        },
+
       })
 
 
       const buttonLogin = await getByRole('button', {name: 'Iniciar Sesión'})
 
-      // await userEvent.click(buttonLogin)
+      await userEvent.click(buttonLogin)
+      const swalTitle =  await findByText('Compruebe los datos')
+
+      await waitFor(() =>
+      expect(swalTitle).toBeVisible()
+      )
 
     })
 
-    test.todo('"Anónimo" debe ir a /eventlayout')
+    test('"Iniciar sesión" debe no llamar al router ', async () => {
+
+      const storeInstance = createStore({
+        modules: {
+          auth: {
+            namespaced: true,
+            actions: {
+              signInUser() {
+                return {ok: false, message: 'EMAIL_NOT_FOUND'}
+              }
+            }
+          }
+        }
+      })
+
+      const mockRouter = {
+        push: jest.fn()
+      }
+
+      const { getByRole} = render(Login, {
+        data(){
+          return{
+            userForm: {
+              email: '',
+              password: ''
+            }
+          }
+        },
+        global: {
+          plugins: [storeInstance],
+          mocks: {
+            $router: mockRouter,
+          }
+        },
+
+      })
+
+
+      const buttonLogin = await getByRole('button', {name: 'Iniciar Sesión'})
+      await userEvent.click(buttonLogin)
+
+      await waitFor(() =>
+        expect(mockRouter.push).toHaveBeenCalledTimes(0)
+      )
+    })
+
+    test('"Anónimo" debe enviar en mock.push como parámetro { name: "eventlayout" }', async () => {
+
+      const storeInstance = createStore({
+        modules: {
+          auth: {
+            namespaced: true,
+            actions: {
+              userAnonimous() {}
+
+            }
+          }
+        }
+      })
+
+      const mockRouter = {
+        push: jest.fn()
+      }
+
+      const { getByRole} = render(Login, {
+        global: {
+          plugins: [storeInstance],
+          mocks: {
+            $router: mockRouter,
+          }
+        },
+
+      })
+
+      const buttonAnonimous = await getByRole('button', {name: 'Anónimo'})
+      await userEvent.click(buttonAnonimous)
+      await waitFor(() => {
+        expect(mockRouter.push).toHaveBeenCalledWith({"name": "eventlayout"})
+      })
+    })
   })
 
   test('should find a label E-mail', () => {
