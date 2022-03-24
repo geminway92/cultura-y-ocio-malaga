@@ -29,6 +29,7 @@
                      @click="this.$emit('openModalName', event.register)"
                      v-if="event.joined > 0"
                      class="container-count-people"
+                     data-testid="container-name-register"
                   >
                      <h4>+{{ event.joined }}</h4>
                      <h4>Inscritos</h4>
@@ -36,7 +37,7 @@
                   <div class="container-buttons">
                      <button
                         class="button-show"
-                        @click="getEventInterested(event)"
+                        @click="this.$emit('openModal', event)"
                      >
                         Ver
                      </button>
@@ -61,11 +62,6 @@ import Swal from 'sweetalert2'
 export default {
   data () {
     return {
-      width: null,
-      resetWidth: null,
-      eventsCurrent: '',
-      Categoria: null,
-      filterEvents: null,
     }
   },
 
@@ -77,17 +73,10 @@ export default {
     monthLetter: {
       type: String
     },
-    myEvents: {
-      type: Array
-    },
    },
 
   methods: {
     ...mapActions('event', ['joinEventAction', 'loadEventAction', 'updateEventAnonimous']),
-
-    getEventInterested (event) {
-      this.$emit('openModal', event)
-    },
 
     async joinEvent (event) {
       const dataToSave = {
@@ -108,13 +97,19 @@ export default {
       typeof(dataToSave.register)
 
       if (filter.length > 0) {
+         Swal.fire({
+          icon: 'error',
+          title: 'Estabas inscrito',
+          confirmButtonColor: '#B128C3'
+        })
+
         return
       }
-
       dataToSave.joined = event.joined + 1
       event.register.push(this.user.name)
 
       const resp = await this.joinEventAction({ dataToSave, eventUser })
+
       if (!resp.ok) {
         Swal.fire({
           icon: 'error',
@@ -124,9 +119,10 @@ export default {
       } else {
         Swal.fire({
           icon: 'success',
-          title: resp.message,
+          title: 'Añadido al calendario',
           confirmButtonColor: '#B128C3'
         })
+
       }
 
       event.joined = event.joined + 1
@@ -134,16 +130,25 @@ export default {
 
     checkUser (event) {
       if (this.user.email === undefined) {
+
         const filterEventRepeat = this.eventRegister.filter(e => e.title === event.name)
 
         if (filterEventRepeat.length === 0) {
-          const eventUser = { id: 'anonimo', startDate: event.date, endDate: event.date, title: event.name, classes: 'purple' }
+
+           const eventUser = { id: 'anonimo', startDate: event.date, endDate: event.date, title: event.name, classes: 'purple' }
           this.updateEventAnonimous(eventUser)
+
           Swal.fire({
-            icon: 'success',
+             icon: 'success',
             title: 'Añadido al calendario',
             confirmButtonColor: '#B128C3'
           })
+        }else {
+         Swal.fire({
+          icon: 'error',
+          title: 'Estabas inscrito',
+          confirmButtonColor: '#B128C3'
+        })
         }
       } else {
         this.joinEvent(event)
