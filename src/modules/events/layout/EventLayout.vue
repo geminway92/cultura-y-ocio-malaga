@@ -50,6 +50,18 @@
 
       <!-- Slider -->
       <div class="container-slider">
+      <h2 class="title">Próximos Eventos en <span>{{monthLetter}}</span></h2>
+         <CurrentEvent
+            @openModal="openModal"
+            @openModalName="openModalName"
+            :modalNameIsTrue="modalNameIsTrue"
+            :filterMonthEvent="filterMonthEvent"
+            :currentEmail="currentEmail"
+         />
+      </div>
+
+      <div class="container-slider">
+      <h2 class="title">Eventos Populares</h2>
          <CurrentEvent
             @openModal="openModal"
             @openModalName="openModalName"
@@ -58,12 +70,6 @@
             :monthLetter="monthLetter"
             :currentEmail="currentEmail"
          />
-      </div>
-
-      <!-- Popular Event -->
-      <div class="container-slider-2">
-         <PopularEvent :filterPopularEvent="filterPopularEvent"
-         @openModal="openModal"/>
       </div>
 
       <div class="container-bar">
@@ -87,9 +93,6 @@ export default {
   components: {
     CurrentEvent: defineAsyncComponent(() =>
       import('../components/CurrentEvent.vue')
-    ),
-    PopularEvent: defineAsyncComponent(() =>
-      import('../components/PopularEvent.vue')
     ),
     BarBotton: defineAsyncComponent(() =>
       import('../components/BarBotton.vue')
@@ -302,11 +305,17 @@ i {
    }
 }
 
+.title {
+  font-size: 1.5em;
+}
+
+
 .eventlayout {
    width: 100vw;
    height: 100vh;
    display: flex;
    flex-direction: column;
+   align-items: center;
    justify-content: space-between;
 }
 
@@ -395,11 +404,11 @@ i {
 }
 
 @media screen and (min-width: 1800px) {
-   .container-search,
-   .container-logout {
-      width: 50px;
-      height: 50px;
-   }
+.container-search,
+.container-logout {
+  width: 50px;
+  height: 50px;
+  }
 }
 
 .container-search {
@@ -411,12 +420,14 @@ i {
 }
 
 .container-slider {
-   position: relative;
-   bottom: 1em;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
 }
 
 .container-bar {
-   width: 100%;
-   height: min-content;
+  width: 100%;
+  height: min-content;
 }
 </style>

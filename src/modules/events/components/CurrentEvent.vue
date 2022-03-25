@@ -1,8 +1,5 @@
 <template>
    <div class="container-next-event">
-         <h1 class="title">
-            Próximos Eventos en <span>{{ monthLetter }}</span>
-         </h1>
       <div class="container-slider">
          <div
             v-for="event in updateEvent"
@@ -11,7 +8,7 @@
             data-testid="container-event"
          >
             <div class="container-img">
-               <img v-if="event.photo" :src="event.photo" alt="" />
+               <img v-if="event.photo" :src="event.photo" alt=""/>
                <img
                   v-else
                   src="../../../assets/images/categoria-sin-nombre.jpg"
@@ -69,10 +66,15 @@ export default {
     filterMonthEvent: {
       type: Array
     },
-
+    styleCard: {
+       type: Object
+    },
     monthLetter: {
       type: String
     },
+    titleCurrent:{
+       type: String
+    }
    },
 
   methods: {
@@ -193,13 +195,6 @@ p {
    align-items: center;
 }
 
-.title {
-   font-size: 1.5em;
-   text-align: start;
-   width: 200px;
-   margin: 0 1em;
-}
-
 .container-slider::-webkit-scrollbar-track {
     height: 5px;
     background-color: #f2f2f2;
@@ -233,7 +228,7 @@ p {
       overflow-x: initial;
    }
    .container-slider {
-      top: 2em;
+      width: 100%;
       position: relative;
       display: flex;
       justify-content: center;
@@ -242,11 +237,15 @@ p {
 
 .container-card {
    display: flex;
-   width: min-content;
+   width: 350px;
+}
+
+.container-img{
+   width: 200px;
 }
 
 img {
-   width: 110px;
+   width: 100%;
    height: 100%;
    border-radius: 15px;
    object-fit: cover;
@@ -257,7 +256,6 @@ img {
    font-size: 1.2em;
    text-align: start;
    margin-left: 0.5em;
-   margin-top: 0;
 }
 
 .container-flex {
