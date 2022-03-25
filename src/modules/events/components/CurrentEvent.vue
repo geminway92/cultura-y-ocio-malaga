@@ -6,6 +6,7 @@
             :key="event"
             class="container-card"
             data-testid="container-event"
+            :style="styleBackground"
          >
             <div class="container-img">
                <img v-if="event.photo" :src="event.photo" alt=""/>
@@ -66,14 +67,14 @@ export default {
     filterMonthEvent: {
       type: Array
     },
-    styleCard: {
-       type: Object
-    },
     monthLetter: {
       type: String
     },
     titleCurrent:{
        type: String
+    },
+    styleBackground:{
+       type: Object
     }
    },
 
@@ -238,6 +239,7 @@ p {
 .container-card {
    display: flex;
    width: 350px;
+   border-radius: 1em;
 }
 
 .container-img{

@@ -69,6 +69,7 @@
             :filterMonthEvent="filterMonthEvent"
             :monthLetter="monthLetter"
             :currentEmail="currentEmail"
+            :styleBackground="styleBackground"
          />
       </div>
 
@@ -129,6 +130,9 @@ export default {
       eventFilter: [],
       myEvents: [],
       currentEmail: '',
+      styleBackground: {
+        backgroundColor: '#fffdea',
+      }
     }
   },
 
