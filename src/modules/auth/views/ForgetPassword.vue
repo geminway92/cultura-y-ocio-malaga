@@ -36,15 +36,13 @@ export default {
     async forgetPassword () {
       const resp = await this.changePassword(this.email)
 
-      if (resp.message === 'INVALID_EMAIL') {
+      if ('INVALID_EMAIL' === resp.message || 'EMAIL_NOT_FOUND' === resp.message) {
         resp.message = 'La dirección de correo electrónico no existe.'
-      } else if (resp.message === 'MISSING_EMAIL') {
+      } else if ( 'MISSING_EMAIL' === resp.message ) {
         resp.message = 'No has escrito ningún email'
-      } else if (resp.message === 'EMAIL_NOT_FOUND') {
-        resp.message = 'No hay ningún registro de usuario correspondiente a este identificador. El usuario puede haber sido eliminado.'
-      } else if (resp.message === 'RESET_PASSWORD_EXCEED_LIMIT') {
+      } else if ('RESET_PASSWORD_EXCEED_LIMIT' === resp.message ) {
         resp.message = 'Se ha excedido las peticiones de resetear contraseña, inténtelo más tarde'
-      } else if (resp.message === 'QUOTA_EXCEEDED : Email quota exceeded') {
+      } else if ('QUOTA_EXCEEDED : Email quota exceeded' === resp.message) {
         resp.message = 'Has excedido la cuota de peticiones'
       }
 
@@ -55,7 +53,7 @@ export default {
           confirmButtonColor: '#B128C3'
 
         })
-      } else {
+      }else{
         Swal.fire({
           position: 'center',
           icon: 'success',
@@ -63,9 +61,7 @@ export default {
           showConfirmButton: false,
           timer: 1500
         })
-      }
 
-      if (resp.ok) {
         this.email = ''
         this.$router.push({ name: 'login' })
       }

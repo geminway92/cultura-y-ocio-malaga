@@ -1,6 +1,6 @@
 import { screen, render } from '@testing-library/vue'
 import '@testing-library/jest-dom'
-import { getByRole, waitFor} from '@testing-library/dom'
+import { waitFor} from '@testing-library/dom'
 import userEvent from '@testing-library/user-event'
 
 import { createRouter, createWebHashHistory } from 'vue-router'
