@@ -11,41 +11,40 @@
       :openModalNewPassword="openModalNewPassword"
       @changePassword="changePassword"
    />
-   <header>
-      <div class="container-header">
-         <i
-            @click="this.goRouteCurrentEvent()"
-            class="fas fa-chevron-left icon-back"
-         ></i>
-         <h2>Ajustes</h2>
-      </div>
-   </header>
+   <div class="container-header">
+      <span
+         @click="this.goRouteCurrentEvent()"
+         class="fas fa-chevron-left icon-back"
+      ></span>
+      <h1>Ajustes</h1>
+   </div>
+
    <body>
       <div class="container-profile-user">
          <div class="container-top">
-            <h1 class="title-name">Hola {{ this.user.name || "Anónim@" }}</h1>
+            <h2 class="title-name">Hola {{ this.user.name || "Anónim@" }}</h2>
             <img v-if="this.user.profilePicture"
                class="profile-photo"
                :src="this.user.profilePicture"
                alt="foto de usuario"
             />
             <hr />
-            <h4>Perfil</h4>
+            <h3>Perfil</h3>
          </div>
 
          <div class="container-ul">
             <ul>
                <li @click="this.changeName()">
                   Cambiar nombre
-                  <i class="fas fa-chevron-right"></i>
+                  <span class="fas fa-chevron-right"></span>
                </li>
                <li @click="this.changePhoto()">
                   Cambiar foto
-                  <i class="fas fa-chevron-right"></i>
+                  <span class="fas fa-chevron-right"></span>
                </li>
                <li @click="this.changePassword()">
                   Cambiar contraseña
-                  <i class="fas fa-chevron-right"></i>
+                  <span class="fas fa-chevron-right"></span>
                </li>
             </ul>
          </div>
@@ -121,23 +120,12 @@ export default {
 </script>
 
 <style scoped>
-header {
-   background-color: #b128c3;
-   color: white;
-   height: 80px;
-   display: flex;
-   justify-content: flex-end;
-}
-
-h2 {
-   margin: auto;
-}
 
 hr {
    background-color: #b128c3;
    width: 80%;
 }
-h4{
+h3{
    padding: 1em;
    height: min-content;
 }
@@ -182,18 +170,32 @@ button:active {
 .container-header {
    display: flex;
    width: 100%;
-   flex-direction: row;
-   margin: auto;
+   color: white;
+   height: 80px;
+   justify-content: center;
+   align-items: center;
+   background: #b128c3;
+   position: relative;
 }
 
+
+
 .icon-back {
-   display: flex;
-   height: min-content;
+   position: absolute;
+   color: white;
+   margin-left: 10px;
+   left: 0;
    font-size: 1.5em;
-   position: relative;
-   left: 1em;
    cursor: pointer;
 }
+
+.container-header h1{
+   font-size: 1.6em;
+   font-weight: bold;
+
+}
+
+
 
 @media screen and (min-width: 700px) {
    .container-profile-user {
@@ -207,7 +209,7 @@ button:active {
       margin-bottom: 1em;
    }
 
-   .container-top h4 {
+   .container-top h3 {
       margin: 0;
    }
 }

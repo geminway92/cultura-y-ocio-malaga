@@ -20,16 +20,21 @@
                required
             />
 
+            <label for="date">Fecha</label>
             <input
+               id="date"
                type="date"
                min="2021"
                v-model="this.newEvent.date"
                required
             />
+            <label for="file">Imagen</label>
             <input
+               id="file"
                type="file"
                @change="onSelectedImage"
                accept="image/*"
+               title="archivo"
                required
             />
 
@@ -130,6 +135,11 @@ h1 {
    font-size: 1.1em;
 }
 
+label{
+   width: 70%;
+   text-align: start;
+   color: #6e6a6a;
+}
 textarea {
    resize: none;
    padding: 1em;
@@ -204,15 +214,16 @@ button {
 .form {
    display: flex;
    flex-direction: column;
+   justify-content: center;
+   align-items: center;
    width: 80%;
    margin: auto;
+
 }
 
 .form input {
    width: 70%;
-   margin: auto;
    margin-bottom: 1.5em;
-   /* border-radius: 15px; */
    border: none;
    border-bottom: 2px solid rgba(161, 153, 153, 0.178);
    padding: 0.5em 1em;

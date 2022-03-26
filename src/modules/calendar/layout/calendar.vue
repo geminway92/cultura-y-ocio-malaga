@@ -138,6 +138,10 @@ export default {
 .cv-header-days{
    background: #f0f0f0;
 }
+
+.theme-default .cv-header button {
+  color: rgba(0, 0, 0, 0.801);
+}
 .previousYear:hover,
 .previousPeriod:hover,
 .nextPeriod:hover,

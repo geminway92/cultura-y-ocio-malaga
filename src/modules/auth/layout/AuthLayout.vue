@@ -4,7 +4,7 @@
          <div class="logo-malaga-event">
             <h1><span>Málaga</span> Event</h1>
          </div>
-         <h1>{{ titleIntro }}<span>Málaga</span> Event</h1>
+         <h1>{{ titleIntro }}<span class="contrast">Málaga</span> Event</h1>
          <h2>{{ textIntro }}</h2>
       </div>
    </div>
@@ -37,6 +37,10 @@ export default {
 </script>
 
 <style scoped>
+span{
+   color: #d278dd;
+}
+
 h2 {
    font-size: 1em;
    font-weight: 500;
@@ -44,6 +48,10 @@ h2 {
    width: 80%;
 
 }
+.contrast{
+   color: #ce14e7;
+}
+
 
 .container-intro{
    display: flex;

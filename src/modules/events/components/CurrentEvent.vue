@@ -18,7 +18,7 @@
             </div>
             <div class="container-flex">
                <div class="container-h">
-                  <h5 class="subtitle-date">{{ event.date }}</h5>
+                  <h1 class="subtitle-date">{{ event.date }}</h1>
                   <h2>{{ event.name }}</h2>
                   <p>{{ event.description.substring(0, 30) + '...' }}</p>
                </div>
@@ -29,8 +29,8 @@
                      class="container-count-people"
                      data-testid="container-name-register"
                   >
-                     <h4>+{{ event.joined }}</h4>
-                     <h4>Inscritos</h4>
+                     <h3>+{{ event.joined }}</h3>
+                     <p>Inscritos</p>
                   </div>
                   <div class="container-buttons">
                      <button
@@ -294,8 +294,9 @@ img {
    background-color: #ffffff;
 }
 
-.container-count-people h4 {
+.container-count-people h3 {
    font-size: 0.8em;
+   font-weight: bold;
    margin: auto;
    left: 0.4em;
    position: relative;

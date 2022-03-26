@@ -120,7 +120,7 @@ input{
 .container-password label {
   display: flex;
   font-size: 18px;
-  color: #AAAAAC;
+  color: #000000;
   font-weight: 400;
   text-align: start;
   width: 80%;
@@ -174,7 +174,7 @@ input{
 }
 
 .link{
-  color: var(--colorPrimary);
+  color: #890f99;
   cursor: pointer;
 }
 
