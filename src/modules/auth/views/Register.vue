@@ -137,6 +137,7 @@ label{
   padding-left: 1em;
   width: 100%;
   font-size: 18px;
+  color: #4D4E56;
 }
 .register{
   width: 100%;

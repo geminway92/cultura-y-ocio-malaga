@@ -3,7 +3,9 @@
     <div class="container-form">
       <form @submit.prevent="forgetPassword" autocomplete="off">
         <h1 class="title-email">E-mail</h1>
+        <label for="email-input"></label>
         <input
+          id="email-input"
           type="email"
           placeholder="Escriba su email"
           v-model="email"

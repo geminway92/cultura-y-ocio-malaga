@@ -6,14 +6,17 @@
       <div class="modal">
          <form class="form" @submit.prevent="onSubmit(this.newEvent)">
             <h1>Crear evento</h1>
+            <label for="name-input">Nombre</label>
             <input
+               id="name-input"
                type="text"
                placeholder="Nombre del evento"
                v-model="this.newEvent.name"
                required
             />
-
+            <label for="time-input">Hora</label>
             <input
+               id="time-input"
                type="time"
                placeholder="Horario"
                v-model="this.newEvent.schedule"

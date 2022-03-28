@@ -174,7 +174,7 @@ input{
 }
 
 .link{
-  color: #890f99;
+  color: #A34DAE;
   cursor: pointer;
 }
 

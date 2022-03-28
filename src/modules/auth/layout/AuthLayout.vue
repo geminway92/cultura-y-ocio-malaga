@@ -42,14 +42,14 @@ span{
 }
 
 h2 {
-   font-size: 1em;
+   font-size: 18px;
    font-weight: 500;
-   opacity: 0.4;
    width: 80%;
+   color: #4D4E56;
 
 }
 .contrast{
-   color: #ce14e7;
+   color: #A34DAE;
 }
 
 
