@@ -4,8 +4,8 @@
          <button @click="this.$emit('openModalCreateEvent')">
             Crear evento
          </button>
-         <i @click="goRouteCalendar()" class="far fa-calendar-alt"></i>
-         <i v-if="userLogin.name" @click="openProfile()" class="fas fa-user"></i>
+         <div role="button" tabindex="0" @click="goRouteCalendar()" title="Calendario" class="far fa-calendar-alt button-icon"></div>
+         <div role="button" tabindex="0" v-if="userLogin.name" @click="openProfile()" title="Perfil" class="fas fa-user button-icon"></div>
       </div>
    </div>
 </template>
@@ -46,7 +46,7 @@ button {
    cursor: pointer;
 }
 
-i {
+.button-icon {
    margin: auto;
    font-size: 1.3em;
 }

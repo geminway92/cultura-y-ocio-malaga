@@ -1,14 +1,13 @@
-import { screen, render, cleanup } from '@testing-library/vue'
+import { screen, render } from '@testing-library/vue'
 import '@testing-library/jest-dom'
 import userEvent from '@testing-library/user-event'
-import { getByText, waitFor} from '@testing-library/dom'
+import { waitFor} from '@testing-library/dom'
 
 
 import CurrentEvent from '../../../../../src/modules/events/components/CurrentEvent.vue'
 
 import { createStore } from 'vuex'
-import { clear } from '@testing-library/user-event/dist/clear'
-import Swal from 'sweetalert2'
+
 
 describe('<CurrentEvent/>', () => {
 
