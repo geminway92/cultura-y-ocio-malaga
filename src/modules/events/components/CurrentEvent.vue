@@ -229,12 +229,6 @@ p {
       background-color: transparent;
       overflow-x: initial;
    }
-   .container-slider {
-      width: 100%;
-      position: relative;
-      display: flex;
-      justify-content: center;
-   }
 }
 
 .container-card {

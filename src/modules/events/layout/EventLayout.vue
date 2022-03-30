@@ -9,6 +9,7 @@
 
       <!-- Modal Create event -->
       <CreateEventModal
+          v-if="showCreateModal"
          @openModalCreateEvent="openModalCreateEvent"
          :showCreateModal="showCreateModal"
          @createNewEvent="createNewEvent"
