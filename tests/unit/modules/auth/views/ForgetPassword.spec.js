@@ -10,6 +10,11 @@ import ForgetPassword from '../../../../../src/modules/auth/views/ForgetPassword
 
 
 describe('<ForgetPassword/>', () => {
+
+  beforeEach(() => {
+    window.console.warn = jest.fn()
+  });
+
   test('debe renderizar bien', async () => {
 
     const storeInstance = createStore({

@@ -52,6 +52,10 @@ describe('<Login.vue/>', () => {
       router.options.history.push('/')
     })
 
+    beforeEach(() => {
+      window.console.warn = jest.fn()
+    });
+
     test('"Regístrate" debe ir a /register', async () => {
 
 

@@ -11,6 +11,10 @@ import Login from '../../../../../src/modules/auth/views/Login.vue'
 
 describe('<Register/>', () => {
 
+  beforeEach(() => {
+    window.console.warn = jest.fn()
+  });
+
   test('cuando haces click en "Inicia Sesion debe ir a /', async () => {
 
     const router = createRouter({
