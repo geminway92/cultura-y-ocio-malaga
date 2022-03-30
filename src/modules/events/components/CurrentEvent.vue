@@ -218,6 +218,7 @@ p {
 .container-slider {
    width: 90%;
    display: flex;
+   overflow: hidden;
    overflow-x: scroll;
    margin: auto ;
    gap: 1em;
