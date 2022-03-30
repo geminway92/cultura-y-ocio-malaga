@@ -1,10 +1,10 @@
 <template>
-   <div v-if="showCreateModal"
+   <div
       @click.self="this.$emit('openModalCreateEvent')"
       class="container-modal"
    >
       <div class="modal">
-         <form class="form" @submit.prevent="onSubmit(this.newEvent)">
+         <form class="form" @submit="onSubmit" @input="validateForm">
             <h1>Crear evento</h1>
             <label for="name-input">Nombre</label>
             <input
@@ -12,6 +12,7 @@
                type="text"
                placeholder="Nombre del evento"
                v-model="this.newEvent.name"
+               aria-required="true"
                required
             />
             <label for="time-input">Hora</label>
@@ -20,6 +21,7 @@
                type="time"
                placeholder="Horario"
                v-model="this.newEvent.schedule"
+               aria-required="true"
                required
             />
 
@@ -27,30 +29,33 @@
             <input
                id="date"
                type="date"
-               min="2021"
+               min="2022"
                v-model="this.newEvent.date"
+               aria-required="true"
                required
             />
-            <label for="file">Imagen</label>
+            <label for="file-input">Imagen</label>
             <input
-               id="file"
+               id="file-input"
                type="file"
                @change="onSelectedImage"
                accept="image/*"
-               title="archivo"
+               aria-required="true"
                required
             />
-
+            <label for="description-input">Descripción</label>
             <textarea
+               id="description-input"
                cols="30"
                rows="10"
                placeholder="Describe el evento..."
                v-model="this.newEvent.description"
-               required
+               aria-required="true"
                minlength="35"
+               required
             >
             </textarea>
-            <button type="submit">Crear</button>
+            <button :disabled="isDisabledButton"  type="submit">Crear</button>
          </form>
       </div>
    </div>
@@ -63,15 +68,13 @@ export default {
   data () {
     return {
       newEvent: {
-        id: '',
         name: '',
         schedule: '',
         date: '',
         description: '',
         photo: '',
-        joined: 0,
-        register: ['']
-      }
+      },
+      isDisabledButton: true
     }
   },
 
@@ -83,39 +86,42 @@ export default {
   },
 
   methods: {
+     validateForm(){
+      const {name, schedule, date, description,photo} = this.newEvent
+      if(name && schedule && date && description && photo){
+         this.isDisabledButton = false
+      }
+     },
+
     async onSubmit () {
       const date = new Date() /* Fecha actual */
       const id = date.getTime() /* se usa para crear una id única */
 
       this.newEvent.id = id
-      this.newEvent.photo = this.file /* Pasamos el valor de la url */
+      this.newEvent.photo = this.file
 
-      this.$emit(
-        'createNewEvent',
-        this.newEvent
-      ) /* Envia los datos del form a otro método  que dispara la acción */
+      this.$emit('createNewEvent',this.newEvent)
       this.$emit('openModalCreateEvent') /* Cierra modal */
 
       /* Resetea formulario */
       this.newEvent = {
-        id: '',
         name: '',
         schedule: '',
         date: '',
         description: '',
         photo: '',
-        joined: 0,
-        register: []
       }
+
+      this.isDisabledButton = true
     },
 
     async onSelectedImage (event) {
-      const file = event.target.files[0] /* Localiza la foto selecionada */
+       const file = event.target.files[0] /* Localiza la foto selecionada */
       if (!file) {
-        this.file = null
+         this.file = null
         return
       }
-
+      this.newEvent.photo = file
       this.file = file /* Cambiamos el valor de file de la data con la foto selecionada */
 
       const picture = await uploadImage(
@@ -123,6 +129,7 @@ export default {
       ) /* Petición para subir el archivo a cloudinary */
 
       this.file = picture /* Cambiamos el valor de file por el url que nos ha devuelto en el paso anterior */
+      return this.file
     }
   }
 }
@@ -144,11 +151,13 @@ label{
    color: #6e6a6a;
 }
 textarea {
+   width: 70%;
    resize: none;
    padding: 1em;
    border-radius: 15px;
    border: none;
    background-color: rgba(161, 153, 153, 0.178);
+   margin-top: 10px;
 }
 
 textarea:focus {
