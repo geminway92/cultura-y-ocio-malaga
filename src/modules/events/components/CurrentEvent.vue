@@ -229,6 +229,10 @@ p {
       background-color: transparent;
       overflow-x: initial;
    }
+
+   .container-slider{
+      width: 70%;
+   }
 }
 
 .container-card {
