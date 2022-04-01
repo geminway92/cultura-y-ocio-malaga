@@ -1,4 +1,4 @@
-import { screen, render, getByText, getByRole } from '@testing-library/vue'
+import { screen, render } from '@testing-library/vue'
 import '@testing-library/jest-dom'
 import { waitFor} from '@testing-library/dom'
 import userEvent from '@testing-library/user-event'
