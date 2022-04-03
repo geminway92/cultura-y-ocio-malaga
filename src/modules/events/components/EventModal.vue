@@ -8,7 +8,6 @@
                         <h5 class="description-item"><span>Fecha: </span>{{this.eventForModal.date}}</h5>
                         <h5 class="description-item"><span>Horario: </span>{{this.eventForModal.schedule}}</h5>
                     <p class="description-item">{{this.eventForModal.description}}</p>
-
                 </div>
         </div>
 
