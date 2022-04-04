@@ -7,7 +7,7 @@ import { waitFor} from '@testing-library/dom'
 import ListEventsModal from '../../../../../src/modules/events/components/ListEventsModal.vue';
 
 describe('<ListEventsModal/>', () => {
-  let emittedGlobal;
+
   let mockRouter;
   beforeEach(() =>{
     mockRouter = {

@@ -17,9 +17,10 @@
 
       <!-- Modal Ver Evento del mes -->
       <ModalNameRegister
-         @openModalName="openModalName"
-         :modalNameIsTrue="modalNameIsTrue"
-         :nameRegister="nameRegister"
+        v-if="modalNameIsTrue"
+        @openModalName="openModalName"
+        :modalNameIsTrue="modalNameIsTrue"
+        :nameRegister="nameRegister"
       />
       <!-- Header -->
       <div class="container-header">
@@ -33,6 +34,7 @@
           </form>
       <!-- Modal for search Events -->
          <ListEventsModal
+          v-if="this.searchEventFilter.length >= 1"
          class="listEventModal"
          :openModalSearch="openModalSearch"
          :eventFilter="eventFilter"

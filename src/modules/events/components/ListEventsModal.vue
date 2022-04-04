@@ -1,5 +1,5 @@
 <template>
-   <div v-if="this.searchEventFilter.length >= 1" class="container-modal">
+   <div class="container-modal">
       <div v-for="event in searchEventFilter" :key="event">
          <ul>
             <li class="container-li"  @click="this.openEvent(event)" data-testid="li-title">

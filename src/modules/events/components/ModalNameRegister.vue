@@ -1,5 +1,5 @@
 <template>
-    <div v-if="modalNameIsTrue" @click.self="this.$emit('openModalName')" class="container-modal">
+    <div @click.self="this.$emit('openModalName')" class="container-modal">
         <div class="modal">
                 <div class="container-description">
                     <h1>Inscritos en el evento</h1>
@@ -8,7 +8,6 @@
                     </ul>
                 </div>
         </div>
-
     </div>
 </template>
 
@@ -48,6 +47,8 @@ h1{
     height: 640px;
     z-index: 3;
     display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 @media screen and (min-width: 380px) {
@@ -58,9 +59,8 @@ h1{
 
 .modal{
     background-color: #ffffff;
-    width: 65%;
+    width: 300px;
     height: 300px;
-    margin: auto;
     border-radius: 15px;
     box-shadow: 4px 3px 4px #746f6f4b;
     overflow: scroll;
