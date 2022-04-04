@@ -291,6 +291,7 @@ img {
    gap: 1.5em;
    margin-left: 0.3em;
    background-color: #ffffff;
+   cursor: pointer;
 }
 
 .container-count-people h3 {
@@ -300,7 +301,6 @@ img {
    left: 0.4em;
    position: relative;
    width: min-content;
-   cursor: pointer;
 }
 
 .container-total-people button {
