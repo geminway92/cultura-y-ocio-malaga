@@ -22,32 +22,31 @@
          :nameRegister="nameRegister"
       />
       <!-- Header -->
-      <div v-if="!this.searchEvent" class="container-header">
+      <div class="container-header">
          <div @click="this.openSearchModal()" class="container-search">
             <i class="fas fa-search"></i>
          </div>
-         <img v-if="user.profilePicture" :src="user.profilePicture" alt="Foto perfil" />
-         <img v-else src="" alt="" />
-         <div class="container-logout">
-            <i @click="onLogout" class="fas fa-sign-out-alt"></i>
-         </div>
-      </div>
-      <div v-else class="container-header--search">
-         <div
-            @click="this.openSearchModal()"
-            class="container-search search-input"
-         >
-            <span class="fas fa-search search-icon"></span>
-         </div>
-         <input type="search" v-model="this.textSearch" />
-      </div>
-
+        <div class="container-img-logout">
+          <div v-if="this.searchEvent" class="container-form">
+          <form  class="search-input">
+            <input placeholder="Escribe el nombre del evento" type="search" v-model="this.textSearch" />
+          </form>
       <!-- Modal for search Events -->
-      <ListEventsModal
+         <ListEventsModal
+         class="listEventModal"
          :openModalSearch="openModalSearch"
          :eventFilter="eventFilter"
          :searchEventFilter="searchEventFilter"
-      />
+        />
+         </div>
+
+         <img :src="user.profilePicture" alt="Foto perfil" />
+         <div class="container-logout">
+            <span @click="onLogout" class="fas fa-sign-out-alt"></span>
+         </div>
+        </div>
+
+      </div>
 
       <!-- Slider -->
       <div class="container-slider">
@@ -133,7 +132,7 @@ export default {
       currentEmail: '',
       styleBackground: {
         backgroundColor: '#fffdea',
-      }
+      },
     }
   },
 
@@ -250,6 +249,7 @@ export default {
         return this.loadEventAnonimous(eventsLocalStorage)
       }
     },
+
     currentEmailUser () {
       if (this.user === null) {
         this.currentEmail = localStorage.getItem('currentUser')
@@ -292,20 +292,20 @@ export default {
       }
 
       return this.eventFilter
-    }
+    },
 
   }
 }
 </script>
 
 <style scoped>
-i {
+span {
    font-size: 1.3em;
    cursor: pointer;
 }
 
 @media screen and (min-width: 1800px) {
-   i {
+   span {
       font-size: 2em;
    }
 }
@@ -313,7 +313,6 @@ i {
 .title {
   font-size: 1.5em;
 }
-
 
 .eventlayout {
    width: 100vw;
@@ -325,13 +324,59 @@ i {
 }
 
 .container-header {
+  display: flex;
    width: 100vw;
-   display: flex;
-   top: 0;
    align-items: center;
    justify-content: space-between;
    padding: 0.3em 0;
    z-index: 3;
+   position: relative;
+}
+
+.container-form{
+  display: flex;
+  min-width: 300px;
+  flex-direction: column;
+  align-items: center;
+  position:absolute;
+}
+
+@media screen and (min-width: 320px){
+  .container-form{
+    top: 3.1em;
+    /* left: 10px; */
+    left: 0;
+    right: 0;
+  }
+
+  .search-input{
+    width: 100%;
+    left: 0;
+    right: 0;
+  }
+
+  .search-input input{
+    width: 100%;
+    border-radius: 5px;
+    border: 2px solid #a4a3a1;
+    padding: 0.5em;
+  }
+}
+
+@media screen and (min-width: 620px){
+  .container-form{
+    top: 3.1em;
+    width: 50%;
+    left: 0.5em;
+  }
+
+  .search-input input{
+    width: 100%;
+    border-radius: 5px;
+    border: 2px solid #a4a3a1;
+    padding: 0.5em;
+  }
+
 }
 
 @media screen and (min-width: 1800px) {
@@ -352,49 +397,21 @@ i {
    }
 }
 
-.container-header--search {
-   width: 100vw;
-   min-height: 40px;
-   display: flex;
-   z-index: 5;
-   margin: 0.5em 0;
+.search-input {
+  display: flex;
+  height: 40px;
 }
 
-.container-header--search input{
-  width: 300px;
-  height: 40px;
+.search-input input{
+  min-width: 300px;
   border-radius: 5px;
   border: 2px solid #a4a3a1;
   padding: 0.5em;
 }
 
-@media screen and (min-width: 500px) {
-   .container-header--search input{
-      width: 50%;
-   }
-}
 
-@media screen and (min-width: 700px) and (max-width: 900px) {
-   .container-header--search {
-     margin-bottom: 1em;
-      min-height: 70px;
-   }
-}
-
-.container-header--search input:focus {
+.search-input input:focus {
    outline: 1px solid #b128c3;
-}
-
-.search-icon {
-   margin: auto;
-   font-size: 1.2em;
-   cursor: pointer;
-}
-
-.search-input {
-   margin-right: 0.2em;
-   position: relative;
-   top: 0.1em;
 }
 
 .container-search,
@@ -406,6 +423,11 @@ i {
    display: flex;
    justify-content: center;
    flex-direction: column;
+}
+.container-img-logout{
+  display: flex;
+  width: 53%;
+  justify-content: space-between;
 }
 
 @media screen and (min-width: 1800px) {

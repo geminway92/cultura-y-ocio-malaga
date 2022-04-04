@@ -38,16 +38,14 @@ export default {
 
 <style scoped>
 .container-modal {
-   position: absolute;
-   width: 295px;
+   width: 100%;
+   min-width: 300px;
    min-height: min-content;
    max-height: 500px;
    overflow: scroll;
    overflow: hidden;
    background-color: #ffffff;
    box-shadow: 0px 0px 5px grey;
-   top: 3em;
-   left: 3.3em;
    z-index: 6;
 }
 
@@ -82,9 +80,4 @@ img {
    border-radius: 5px;
 }
 
-@media screen and (min-width: 500px) {
-   .container-modal{
-      width: 50%;
-   }
-}
 </style>
