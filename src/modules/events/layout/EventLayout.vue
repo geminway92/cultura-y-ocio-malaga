@@ -50,7 +50,7 @@
 
       <!-- Slider -->
       <div class="container-slider">
-      <h2 class="title">Próximos Eventos en <span>{{monthLetter}}</span></h2>
+      <h2 class="title">Próximos Eventos en <span class="purple">{{monthLetter}}</span></h2>
          <CurrentEvent
             @openModal="openModal"
             @openModalName="openModalName"
@@ -310,6 +310,9 @@ span {
    }
 }
 
+.purple{
+  color: #b128c3;
+}
 .title {
   font-size: 1.5em;
 }
