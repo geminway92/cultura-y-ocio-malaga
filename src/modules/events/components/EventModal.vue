@@ -10,7 +10,6 @@
                     <p class="description-item">{{this.eventForModal.description}}</p>
                 </div>
         </div>
-
     </div>
 </template>
 
