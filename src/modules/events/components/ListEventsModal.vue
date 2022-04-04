@@ -2,12 +2,11 @@
    <div v-if="this.searchEventFilter.length >= 1" class="container-modal">
       <div v-for="event in searchEventFilter" :key="event">
          <ul>
-            <div @click="this.openEvent(event)" class="container-li">
+            <li class="container-li"  @click="this.openEvent(event)" data-testid="li-title">
                <img :src="event.photo" alt="foto del evento" />
-               <li>
-                  {{ event.name }}
-               </li>
-            </div>
+               <h1>{{ event.name }}</h1>
+            </li>
+
          </ul>
       </div>
    </div>
@@ -70,12 +69,8 @@ ul {
 }
 
 li {
-   height: 50px;
-   font-size: 1.2em;
    display: flex;
-   justify-content: center;
    align-items: center;
-   text-align: start;
 }
 
 img {
