@@ -24,7 +24,7 @@
       <!-- Header -->
       <div class="container-header">
          <div @click="this.openSearchModal()" class="container-search">
-            <i class="fas fa-search"></i>
+            <span class="fas fa-search"></span>
          </div>
         <div class="container-img-logout">
           <div v-if="this.searchEvent" class="container-form">
@@ -344,7 +344,6 @@ span {
 @media screen and (min-width: 320px){
   .container-form{
     top: 3.1em;
-    /* left: 10px; */
     left: 0;
     right: 0;
   }
