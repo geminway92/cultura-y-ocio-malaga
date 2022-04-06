@@ -24,9 +24,9 @@
       />
       <!-- Header -->
       <div class="container-header">
-         <div @click="this.openSearchModal()" class="container-search">
+         <button @click="this.openSearchModal()" class="container-search" data-testid="lupa-icon">
             <span class="fas fa-search"></span>
-         </div>
+         </button>
         <div class="container-img-logout">
           <div v-if="this.searchEvent" class="container-form">
           <form  class="search-input">
@@ -42,9 +42,9 @@
          </div>
 
          <img :src="user.profilePicture" alt="Foto perfil" />
-         <div class="container-logout">
-            <span @click="onLogout" class="fas fa-sign-out-alt"></span>
-         </div>
+         <button @click="onLogout" class="container-logout">
+            <span class="fas fa-sign-out-alt"></span>
+         </button>
         </div>
 
       </div>
@@ -311,6 +311,12 @@ span {
    span {
       font-size: 2em;
    }
+}
+button{
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .purple{
