@@ -132,22 +132,8 @@ describe('<CurrentEvent/>', () => {
         // expect(emitted().joinEvent).not.toEqual([[filterMonthEvent[1]]])
     })
 
-    test.todo('debo no llamar a jointEvent')
-
   })
-   describe('al clickear el botón "Unir" si el usuario no está logueado', () =>{
-    test.todo('debe de recibir joinEvent el evento que he clickeado si mi nombre de usuario no está inscrito al evento')
 
-    test.todo('debe de no aparecer mi nombre en inscritos')
-
-    })
-
-  describe('al clickear el botón "Unir" si el usuario es Anonimo', () =>{
-    test.todo('debe de recibir joinEvent el evento que he clickeado si mi nombre de usuario no está inscrito al evento')
-
-    test.todo('debe de no aparecer mi nombre en inscritos')
-
-  })
 
 
 })

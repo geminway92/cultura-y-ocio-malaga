@@ -31,47 +31,55 @@ describe('<CurrentEvent/>', () => {
       photo: "https://res.cloudinary.com/ddn278n2q/image/upload/v1647812521/photoEvent/rhpqjlqth9m1gz4kmehh.jpg",
       register: ["", "Gema"]
     },
+    {
+      date: "2022-03-25",
+      description: 'Lorem ipsu',
+      id: "-MydGwuJccvFfrdUCJWc",
+      joined: 0,
+      name: "Feria",
+      photo: "https://res.cloudinary.com/ddn278n2q/image/upload/v1647812521/photoEvent/rhpqjlqth9m1gz4kmehh.jpg",
+      register: [""]
+    },
   ]
 
+  describe('al renderizar...', () => {
 
-  test('debe renderizar todos los eventos que recibe como props ', () => {
-    render(CurrentEvent, {
-      props: {
-        filterMonthEvent
-      },
-
-    })
-    const selectComponent = screen.getAllByTestId('container-event')
-    expect(selectComponent.length).toBe(2)
-  }),
-
-  test('al clickear el botón "Ver" debe recibir OpenModal el evento que di click', async () => {
-   const {emitted} = render(CurrentEvent, {
+    let emittedGlobal;
+    beforeEach(() => {
+      const {emitted} = render(CurrentEvent, {
         props: {
           filterMonthEvent
         },
 
       })
 
-    const buttonWatch = screen.getAllByRole('button', {name: 'Ver'})
-    await userEvent.click(buttonWatch[0])
-    expect(emitted().openModal).toEqual([[filterMonthEvent[0]]])
-    expect(emitted().openModal).not.toEqual([[filterMonthEvent[1]]])
-  })
+      emittedGlobal = emitted
+    })
 
-  test('al clickear el botón "Inscritos" debe recibir openModalName los usuarios registrados a ese evento', async () => {
-    const {emitted} = render(CurrentEvent, {
-         props: {
-           filterMonthEvent
-         },
+    test('debe renderizar todos los eventos que recibe como props ', () => {
 
-       })
+      const selectComponent = screen.getAllByTestId('container-event')
+      expect(selectComponent.length).toBe(3)
+    })
 
-     const join = screen.getAllByTestId('container-name-register')
 
-     await userEvent.click(join[0])
-     expect(emitted().openModalName).toEqual([[filterMonthEvent[0].register]])
-     expect(emitted().openModalName).not.toEqual([[filterMonthEvent[1].register]])
+    test('al clickear el botón "Ver" debe recibir OpenModal el evento que di click', async () => {
+
+      const buttonWatch = screen.getAllByRole('button', {name: 'Ver'})
+      await userEvent.click(buttonWatch[0])
+      expect(emittedGlobal().openModal).toEqual([[filterMonthEvent[0]]])
+      expect(emittedGlobal().openModal).not.toEqual([[filterMonthEvent[1]]])
+    })
+
+    test('al clickear el botón "Inscritos" debe recibir openModalName los usuarios registrados a ese evento', async () => {
+
+       const join = screen.getAllByTestId('container-name-register')
+
+       await userEvent.click(join[0])
+       expect(emittedGlobal().openModalName).toEqual([[filterMonthEvent[0].register]])
+       expect(emittedGlobal().openModalName).not.toEqual([[filterMonthEvent[1].register]])
+    })
+
   })
 
   describe('al clickear el botón "Unir" si el usuario está logueado', () =>{
@@ -163,6 +171,7 @@ describe('<CurrentEvent/>', () => {
     })
 
   })
+
    describe('al clickear el botón "Unir" si el usuario no está logueado', () =>{
     test('debe de abrise un modal-swal que diga "Añadido al calendario" si el usuario no está inscrito al evento', async () => {
       const storeInstance = createStore({
@@ -261,6 +270,17 @@ describe('<CurrentEvent/>', () => {
       })
     })
 
+  })
+
+  test('debe imprimir "No hay eventos" si no hay ninguno', async () => {
+    render(CurrentEvent, {
+      props: {
+        filterMonthEvent: []
+      }
+    })
+
+    const h1Select = await screen.getByText('No hay eventos')
+    expect(h1Select).toBeVisible()
   })
 
 })

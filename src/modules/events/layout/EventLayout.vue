@@ -34,7 +34,6 @@
           </form>
       <!-- Modal for search Events -->
          <ListEventsModal
-          v-if="this.searchEventFilter.length >= 1"
          class="listEventModal"
          :openModalSearch="openModalSearch"
          :eventFilter="eventFilter"
@@ -61,14 +60,14 @@
             :currentEmail="currentEmail"
          />
       </div>
-
+      <!-- Slider  -->
       <div class="container-slider">
       <h2 class="title">Eventos Populares</h2>
          <CurrentEvent
             @openModal="openModal"
             @openModalName="openModalName"
             :modalNameIsTrue="modalNameIsTrue"
-            :filterMonthEvent="filterMonthEvent"
+            :filterMonthEvent="filterPopularEvent"
             :monthLetter="monthLetter"
             :currentEmail="currentEmail"
             :styleBackground="styleBackground"
@@ -168,7 +167,7 @@ export default {
 
     openModalCreateEvent () {
       this.showCreateModal = !this.showCreateModal
-      this.searchEvent = true //* I strengthen the true to close and reset the input.
+      this.searchEvent = true
       this.openSearchModal()
     },
 
@@ -197,6 +196,7 @@ export default {
     },
 
     month () {
+
       const { monthCurrent, year, month } = getDayMonthYear()
       this.monthLetter = month
 
@@ -204,13 +204,16 @@ export default {
     },
 
     async loadEvents () {
+
       await this.loadEventAction()
+
+      this.month()
 
       this.filterForCurrentMonth()
     },
 
     filterForCurrentMonth () {
-      if (this.events === null) { return } /* Al estilo yoda así por error no se cambia de valor */
+      if (this.events === null) { return }
       const eventArray = Object.values(
         this.events
       ) /* Los paso array para eliminar el idToken que crea firebase */
@@ -218,10 +221,10 @@ export default {
       this.filterMonthEvent = eventArray.filter(e =>
         e.date.includes(this.currentMonth)
       )
-      this.filterForPopularEvent(this.filterMonthEvent)
+      this.sortEvents(this.filterMonthEvent)
     },
 
-    filterForPopularEvent (event) {
+    sortEvents(event) {
       /* Buscar los que tienen más de 0 joined */
       const filterEventJoined = event.filter(e => e.joined > 0)
       if (filterEventJoined.length > 0) {
@@ -234,7 +237,7 @@ export default {
       this.modalNameIsTrue = !this.modalNameIsTrue
       this.nameRegister = name
     },
-    loadEventFirebase () {
+    async loadEventFirebase () {
       if (this.eventRegister.length === 0) {
         if (this.user.email === undefined) {
 
@@ -242,7 +245,7 @@ export default {
           return
         }
 
-        this.loadEventUser(this.currentEmail)
+        await this.loadEventUser(this.currentEmail)
       }
     },
     checkLocalStorage () {
@@ -256,10 +259,8 @@ export default {
       if (this.user === null) {
         this.currentEmail = localStorage.getItem('currentUser')
       } else {
-        if (this.user.email === undefined) {
-          this.loadEventFirebase()
-          return
-        }
+
+
         const emailSplit = this.user.email.split('@').shift()
         localStorage.setItem('currentUser', emailSplit)
         this.currentEmail = emailSplit
@@ -270,7 +271,6 @@ export default {
 
   created () {
     this.loadEvents()
-    this.month()
     this.currentEmailUser()
   },
 
@@ -279,6 +279,7 @@ export default {
     ...mapState('event', ['events', 'eventRegister']),
 
     searchEventFilter () {
+
       if (this.textSearch.length >= 1) {
         this.openModalSearch = true
         const eventArray = Object.values(this.events) //* Convert to array to remove id

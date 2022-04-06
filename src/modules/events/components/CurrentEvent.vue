@@ -60,6 +60,7 @@ import Swal from 'sweetalert2'
 export default {
   data () {
     return {
+       currentEvents: []
     }
   },
 
@@ -75,7 +76,8 @@ export default {
     },
     styleBackground:{
        type: Object
-    }
+    },
+
    },
 
   methods: {
@@ -157,7 +159,10 @@ export default {
         this.joinEvent(event)
       }
     },
+
+
   },
+
 
   computed: {
     ...mapState('auth', ['user']),

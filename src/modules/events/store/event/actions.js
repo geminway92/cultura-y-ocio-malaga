@@ -32,10 +32,11 @@ export const createEvent = async ({ commit }, events) => {
 export const loadEventAction = async ({ commit }) => {
   try {
     const { data } = await eventApi.get('/events.json')
+
     if (data === null) {
       return
     } else {
-      commit('loadEventMutation', data)
+      commit('LOAD_EVENT_MUTATION', data)
     }
   } catch (error) {
     console.error(error.message)

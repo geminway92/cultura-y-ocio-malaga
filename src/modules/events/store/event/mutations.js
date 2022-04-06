@@ -3,7 +3,8 @@ export const createEventMutation = (state, events) => {
   state.events = [events, state.events]
 }
 
-export const loadEventMutation = (state, payload) => {
+export const LOAD_EVENT_MUTATION = (state, payload) => {
+
   state.events = payload
 }
 
